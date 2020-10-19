@@ -13,7 +13,7 @@ func main() {
 }
 
 // CalcFuelTotal ...
-func CalcFuelTotal() {
+func CalcFuelTotal() int64 {
 	input, err := os.Open("./input.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -27,12 +27,21 @@ func CalcFuelTotal() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		totalMass += calcFuelForModule(m)
+		fm := calcFuelForMass(m)
+		totalMass += fm
+
+		for fm > 0 {
+			fm = calcFuelForMass(fm)
+			if fm > 0 {
+				totalMass += fm
+			}
+		}
 	}
 	fmt.Printf("Total mass is: %v\n", totalMass)
+	return totalMass
 }
 
-// CalcFuelForModule - take its mass, divide by three, round down, and subtract 2
-func calcFuelForModule(m int64) int64 {
+// CalcFuelForMass - take its mass, divide by three, round down, and subtract 2
+func calcFuelForMass(m int64) int64 {
 	return m/3 - 2
 }
