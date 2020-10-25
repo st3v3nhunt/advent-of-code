@@ -20,22 +20,3 @@ func TestFuel(t *testing.T) {
 		}
 	}
 }
-
-// func TestFuelCorrect(t *testing.T) {
-// 	var tests = []struct {
-// 		input  int64
-// 		output int64
-// 	}{
-// 		{12, 2},
-// 		{14, 2},
-// 		{1969, 966},
-// 		{100756, 50346},
-// 	}
-
-// 	for _, test := range tests {
-// 		actual := calcFuelForModuleCorrect(test.input)
-// 		if actual != test.output {
-// 			t.Errorf("Test failed. Input: %v. Expected %v but got %v.", test.input, test.output, actual)
-// 		}
-// 	}
-// }
