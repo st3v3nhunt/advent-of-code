@@ -23,7 +23,7 @@ func TestProg(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		actual := Run(test.input)
+		actual := IntCodeComputer(test.input)
 		t.Logf("actual: %v, expected: %v", actual, test.output)
 		for k := range actual {
 			if actual[k] != test.output[k] {

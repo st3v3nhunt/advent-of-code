@@ -9,7 +9,8 @@ import (
 )
 
 // LoadInput ...
-func LoadInput() []string {
+// Returns an array, unchanged from the input file
+func LoadInput() (data []string) {
 	input, err := os.Open("./input.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -17,24 +18,22 @@ func LoadInput() []string {
 	defer input.Close()
 
 	scanner := bufio.NewScanner(input)
-	scanner.Scan()
-
-	var data []string
-	for _, v := range strings.Split(scanner.Text(), ",") {
-		data = append(data, v)
+	for scanner.Scan() {
+		data = append(data, scanner.Text())
 	}
 	return data
 }
 
 // StringsToInts ...
-func StringsToInts(data []string) []int64 {
-	ints := []int64{}
+func StringsToInts(data []string) (ints []int64) {
 	for _, v := range data {
-		i, err := strconv.ParseInt(v, 10, 64)
-		if err != nil {
-			log.Fatal(err)
+		for _, r := range strings.Split(v, ",") {
+			i, err := strconv.ParseInt(r, 10, 64)
+			if err != nil {
+				log.Fatal(err)
+			}
+			ints = append(ints, i)
 		}
-		ints = append(ints, i)
 	}
 	return ints
 }
