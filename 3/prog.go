@@ -11,28 +11,20 @@ import (
 
 var startingPos position = position{0, 0}
 
-func main() {
-	part1()
-	part2()
-}
-
-func part2() {
-}
-
-func part1() {
-	f.Println("Running part 1...")
-	data := utils.LoadInput()
-	output := ManhattanDistance(data)
-	f.Println("Answer to part 1:", output)
-}
-
 type position struct {
 	x int
 	y int
 }
 
+func main() {
+	data := utils.LoadInput()
+	manhattanDistance, fewestSteps := ManhattanDistance(data)
+	f.Println("Answer to part 1:", manhattanDistance)
+	f.Println("Answer to part 2:", fewestSteps)
+}
+
 // ManhattanDistance ...
-func ManhattanDistance(inputs []string) int {
+func ManhattanDistance(inputs []string) (int, int) {
 	wireMap1 := createWireMap(inputs[0])
 	wireMap2 := createWireMap(inputs[1])
 	// f.Println(wireMap1)
@@ -40,23 +32,30 @@ func ManhattanDistance(inputs []string) int {
 	intersections := findIntersections(wireMap1, wireMap2)
 	f.Println(intersections)
 
-	// go through the map and add x to y for each entry
-	var shortestDistance int = 1000000
-	for _, v := range intersections {
-		if v != startingPos {
-			distance := utils.AbsInt(v.x) + utils.AbsInt(v.y)
+	// go through the map and add x to y for each entry, taking into account
+	// the total number of steps
+	shortestDistance := 1000000 // bit of a hack
+	fewestSteps := 1000000      // moar hacks
+
+	for pos, totalSteps := range intersections {
+		if pos != startingPos {
+			distance := utils.AbsInt(pos.x) + utils.AbsInt(pos.y)
 			if distance < shortestDistance {
 				shortestDistance = distance
 			}
+			if totalSteps < fewestSteps {
+				fewestSteps = totalSteps
+			}
 		}
 	}
-	return shortestDistance
+	return shortestDistance, fewestSteps
 }
 
-func findIntersections(m1, m2 map[position]int) (intersections []position) {
-	for k := range m1 {
-		if _, present := m2[k]; present {
-			intersections = append(intersections, k)
+func findIntersections(m1, m2 map[position]int) map[position]int {
+	intersections := map[position]int{}
+	for k, m1v := range m1 {
+		if m2v, present := m2[k]; present {
+			intersections[k] = m1v + m2v
 		}
 	}
 	return intersections
