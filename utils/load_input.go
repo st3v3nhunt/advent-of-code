@@ -37,3 +37,11 @@ func StringsToInts(data []string) (ints []int64) {
 	}
 	return ints
 }
+
+// AbsInt ...
+func AbsInt(i int) int {
+	if i < 0 {
+		return i * -1
+	}
+	return i
+}
