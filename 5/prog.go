@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	// part1()
+	part1()
 	part2()
 }
 
