@@ -50,6 +50,7 @@ func Runner(data *[]int64, input int64) (outputs []int64) {
 }
 
 func debug(data *[]int64, address int, ins Instruction) {
+	// f.Printf("data: %v\n", *data)
 	f.Printf("address: %v, instruction: %+v\n", address, ins)
 	// maybe a loop to show all of the values based on the 'size' of the opcode
 	// f.Printf("values: %v\n", (*data)[address+1])
@@ -64,23 +65,59 @@ func IntCodeComputer(data *[]int64, input int64, address int) (int64, int, error
 		// f.Println("data", data)
 		debug(data, address, instruction)
 		switch instruction.opcode {
-		case 1:
+		case 1: // add 2 values
 			p1 := getVal(data, instruction.p1mode, address+1)
 			p2 := getVal(data, instruction.p2mode, address+2)
 			(*data)[(*data)[address+3]] = p1 + p2
 			address += 4
-		case 2:
+		case 2: // mulitply 2 values
 			p1 := getVal(data, instruction.p1mode, address+1)
 			p2 := getVal(data, instruction.p2mode, address+2)
 			(*data)[(*data)[address+3]] = p1 * p2
 			address += 4
-		case 3:
+		case 3: // update address with input
 			(*data)[(*data)[address+1]] = input
 			address += 2
-		case 4:
+		case 4: // return value
 			p1 := getVal(data, instruction.p1mode, address+1)
 			address += 2
 			return p1, address, nil
+		case 5:
+			p1 := getVal(data, instruction.p1mode, address+1)
+			if p1 != 0 {
+				p2 := getVal(data, instruction.p2mode, address+2)
+				(*data)[address] = p2
+				address = int(p2)
+			} else {
+				address += 3
+			}
+		case 6:
+			p1 := getVal(data, instruction.p1mode, address+1)
+			if p1 == 0 {
+				p2 := getVal(data, instruction.p2mode, address+2)
+				(*data)[address] = p2
+				address = int(p2)
+			} else {
+				address += 3
+			}
+		case 7:
+			p1 := getVal(data, instruction.p1mode, address+1)
+			p2 := getVal(data, instruction.p2mode, address+2)
+			if p1 < p2 {
+				(*data)[(*data)[address+3]] = 1
+			} else {
+				(*data)[(*data)[address+3]] = 0
+			}
+			address += 4
+		case 8:
+			p1 := getVal(data, instruction.p1mode, address+1)
+			p2 := getVal(data, instruction.p2mode, address+2)
+			if p1 == p2 {
+				(*data)[(*data)[address+3]] = 1
+			} else {
+				(*data)[(*data)[address+3]] = 0
+			}
+			address += 4
 		case 99:
 			address++
 			return 99, address, nil
