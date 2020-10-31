@@ -21,9 +21,9 @@ type Instruction struct {
 func processInstruction(input int64) Instruction {
 	return Instruction{
 		opcode: input % 100,
-		p1mode: mode(input % 1000 / 100),
-		p2mode: mode(input % 10000 / 1000),
-		p3mode: mode(input % 100000 / 10000),
+		p1mode: mode(input / 100 % 10),
+		p2mode: mode(input / 1000 % 10),
+		p3mode: mode(input / 10000 % 10),
 	}
 }
 
