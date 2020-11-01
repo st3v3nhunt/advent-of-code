@@ -34,13 +34,20 @@ func getVal(d []int64, m mode, address int) int64 {
 	return d[address]
 }
 
+func debug(data []int64, address int, ins Instruction) {
+	fmt.Printf("data: %v\n", data)
+	fmt.Printf("address: %v, instruction: %+v\n", address, ins)
+	// maybe a loop to show all of the values based on the 'size' of the opcode
+	// fmt.Printf("values: %v\n", (data)[address+1])
+}
+
 // Runner ..
-func Runner(data []int64, input int64) (outputs []int64) {
+func Runner(data, inputs []int64) (outputs []int64) {
 	address, output := 0, int64(0)
 	var err error
 
 	for output == 0 {
-		output, address, err = IntCodeComputer(data, input, address)
+		output, address, err = IntCodeComputer(data, inputs, address)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -49,15 +56,8 @@ func Runner(data []int64, input int64) (outputs []int64) {
 	return outputs
 }
 
-func debug(data []int64, address int, ins Instruction) {
-	fmt.Printf("data: %v\n", data)
-	fmt.Printf("address: %v, instruction: %+v\n", address, ins)
-	// maybe a loop to show all of the values based on the 'size' of the opcode
-	// fmt.Printf("values: %v\n", (data)[address+1])
-}
-
 // IntCodeComputer ...
-func IntCodeComputer(data []int64, input int64, address int) (int64, int, error) {
+func IntCodeComputer(data, inputs []int64, address int) (int64, int, error) {
 	for address < len(data) {
 		rawInstruction := data[address]
 		instruction := processInstruction(rawInstruction)
@@ -73,6 +73,8 @@ func IntCodeComputer(data []int64, input int64, address int) (int64, int, error)
 			data[data[address+3]] = p1 * p2
 			address += 4
 		case 3: // update address with input
+			input := inputs[0]
+			inputs = inputs[1:]
 			data[data[address+1]] = input
 			address += 2
 		case 4: // return value

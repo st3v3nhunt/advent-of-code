@@ -21,7 +21,7 @@ func part2() {
 	// data := []string{"3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"}
 	ints := utils.StringsToInts(data)
 
-	outputs := utils.Runner(ints, int64(5))
+	outputs := utils.Runner(ints, []int64{int64(5)})
 
 	fmt.Println("output:", outputs)
 	fmt.Println("Answer to part 2 should be 14110739. Has been calculated to be", outputs[len(outputs)-1])
@@ -32,7 +32,7 @@ func part1() {
 	data := utils.LoadInput()
 	ints := utils.StringsToInts(data)
 
-	outputs := utils.Runner(ints, int64(1))
+	outputs := utils.Runner(ints, []int64{int64(1)})
 
 	fmt.Println("output:", outputs)
 	fmt.Println("Answer to part 1 should be 13087969. Has been calculated to be", outputs[len(outputs)-1])
