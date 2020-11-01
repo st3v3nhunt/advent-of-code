@@ -41,19 +41,25 @@ func debug(data []int64, address int, ins Instruction) {
 	// fmt.Printf("values: %v\n", (data)[address+1])
 }
 
-// Runner ..
-func Runner(data, inputs []int64) (outputs []int64) {
-	address, output := 0, int64(0)
+// Run ..
+func (c *Computer) Run() (outputs []int64) {
+	output := int64(0)
 	var err error
 
 	for output == 0 {
-		output, address, err = intCodeComputer(data, inputs, address)
+		output, c.address, err = intCodeComputer(c.Program, c.Inputs, c.address)
 		if err != nil {
 			log.Fatal(err)
 		}
 		outputs = append(outputs, output)
 	}
 	return outputs
+}
+
+// Computer ...
+type Computer struct {
+	address         int
+	Inputs, Program []int64
 }
 
 func intCodeComputer(data, inputs []int64, address int) (int64, int, error) {
