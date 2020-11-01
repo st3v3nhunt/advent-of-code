@@ -1,4 +1,4 @@
-package utils
+package comp
 
 import (
 	"fmt"
@@ -47,7 +47,7 @@ func Runner(data, inputs []int64) (outputs []int64) {
 	var err error
 
 	for output == 0 {
-		output, address, err = IntCodeComputer(data, inputs, address)
+		output, address, err = intCodeComputer(data, inputs, address)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -56,8 +56,7 @@ func Runner(data, inputs []int64) (outputs []int64) {
 	return outputs
 }
 
-// IntCodeComputer ...
-func IntCodeComputer(data, inputs []int64, address int) (int64, int, error) {
+func intCodeComputer(data, inputs []int64, address int) (int64, int, error) {
 	for address < len(data) {
 		rawInstruction := data[address]
 		instruction := processInstruction(rawInstruction)

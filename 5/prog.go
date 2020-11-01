@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/st3v3nhunt/aoc-2019-go/comp"
 	"github.com/st3v3nhunt/aoc-2019-go/utils"
 )
 
@@ -21,7 +22,7 @@ func part2() {
 	// data := []string{"3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"}
 	ints := utils.StringsToInts(data)
 
-	outputs := utils.Runner(ints, []int64{int64(5)})
+	outputs := comp.Runner(ints, []int64{int64(5)})
 
 	fmt.Println("output:", outputs)
 	fmt.Println("Answer to part 2 should be 14110739. Has been calculated to be", outputs[len(outputs)-1])
@@ -32,7 +33,7 @@ func part1() {
 	data := utils.LoadInput()
 	ints := utils.StringsToInts(data)
 
-	outputs := utils.Runner(ints, []int64{int64(1)})
+	outputs := comp.Runner(ints, []int64{int64(1)})
 
 	fmt.Println("output:", outputs)
 	fmt.Println("Answer to part 1 should be 13087969. Has been calculated to be", outputs[len(outputs)-1])
