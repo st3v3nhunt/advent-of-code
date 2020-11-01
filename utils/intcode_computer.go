@@ -1,7 +1,7 @@
 package utils
 
 import (
-	f "fmt"
+	"fmt"
 	"log"
 )
 
@@ -50,10 +50,10 @@ func Runner(data []int64, input int64) (outputs []int64) {
 }
 
 func debug(data []int64, address int, ins Instruction) {
-	f.Printf("data: %v\n", data)
-	f.Printf("address: %v, instruction: %+v\n", address, ins)
+	fmt.Printf("data: %v\n", data)
+	fmt.Printf("address: %v, instruction: %+v\n", address, ins)
 	// maybe a loop to show all of the values based on the 'size' of the opcode
-	// f.Printf("values: %v\n", (data)[address+1])
+	// fmt.Printf("values: %v\n", (data)[address+1])
 }
 
 // IntCodeComputer ...
@@ -115,7 +115,7 @@ func IntCodeComputer(data []int64, input int64, address int) (int64, int, error)
 			return 99, address, nil
 			// break
 		default:
-			return -1, address, f.Errorf("Unknown opcode: %+v", instruction)
+			return -1, address, fmt.Errorf("Unknown opcode: %+v", instruction)
 		}
 		// rawInstruction = data[address]
 		// instruction = processInstruction(rawInstruction)
