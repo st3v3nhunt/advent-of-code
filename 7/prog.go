@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	part1()
-	// part2()
+	// part1()
+	part2()
 }
 
 func copySlice(s1 []int64) []int64 {
@@ -32,20 +32,17 @@ func part1() {
 	fmt.Println("Running part 1...")
 	data := utils.LoadInput()
 	program := utils.StringsToInts(data)
-
 	psCombinations := utils.Permutations([]int64{0, 1, 2, 3, 4})
-
 	runOutputs := []int64{}
 
 	for _, phaseSignal := range psCombinations {
-		var input int64 = 0
+		var output int64 = 0
 		for _, s := range phaseSignal {
-			computer := comp.Computer{Program: (copySlice(program)), Inputs: []int64{s, input}}
-			outputs := computer.Run()
-			input = outputs[0]
+			computer := comp.Computer{Program: (copySlice(program)), Inputs: []int64{s}}
+			output = computer.Run(output)
 		}
-		fmt.Printf("phase signal %v produced output signal %v\n", phaseSignal, input)
-		runOutputs = append(runOutputs, input)
+		fmt.Printf("phase signal %v produced output signal %v\n", phaseSignal, output)
+		runOutputs = append(runOutputs, output)
 	}
 	fmt.Println("All outputs:", runOutputs)
 	max := max(runOutputs)
@@ -54,73 +51,55 @@ func part1() {
 }
 
 func part2() {
-	// 	fmt.Println("Running part 2...")
-	// 	data := utils.LoadInput()
-	// 	program := utils.StringsToInts(data)
+	fmt.Println("Running part 2...")
+	data := utils.LoadInput()
+	program := utils.StringsToInts(data)
+	psCombinations := utils.Permutations([]int64{5, 6, 7, 8, 9})
 
-	// 	psCombinations := utils.Permutations([]int64{5, 6, 7, 8, 9})
+	// psCombinations := [][]int64{{9, 8, 7, 6, 5}}
+	// program := []int64{3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27, 26, 27, 4, 27, 1001, 28, -1, 28, 1005, 28, 6, 99, 0, 0, 5}
+	// program := []int64{3, 52, 1001, 52, -5, 52, 3, 53, 1, 52, 56, 54, 1007, 54, 5, 55, 1005, 55, 26, 1001, 54, -5, 54, 1105, 1, 12, 1, 53, 54, 53, 1008, 54, 0, 55, 1001, 55, 1, 55, 2, 53, 55, 53, 4, 53, 1001, 56, -1, 56, 1005, 56, 6, 99, 0, 0, 0, 0, 10}
+	// psCombinations := [][]int64{{9, 7, 8, 5, 6}}
 
-	// 	runOutputs := []int64{}
+	runOutputs := []int64{}
 
-	// 	for _, phaseSignal := range psCombinations {
-	// 		// var input int64 = 0
-	// 		i1, i2, i3, i4, i5 := []int64{phaseSignal[0], int64(0)}, []int64{phaseSignal[1]}, []int64{phaseSignal[2]}, []int64{phaseSignal[3]}, []int64{phaseSignal[4]}
+	for _, phaseSignal := range psCombinations {
+		i1, i2, i3, i4, i5 := []int64{phaseSignal[0]}, []int64{phaseSignal[1]}, []int64{phaseSignal[2]}, []int64{phaseSignal[3]}, []int64{phaseSignal[4]}
+		p1, p2, p3, p4, p5 := copySlice(program), copySlice(program), copySlice(program), copySlice(program), copySlice(program)
+		c1, c2, c3, c4, c5 := comp.Computer{Program: p1, Inputs: i1}, comp.Computer{Program: p2, Inputs: i2}, comp.Computer{Program: p3, Inputs: i3}, comp.Computer{Program: p4, Inputs: i4}, comp.Computer{Program: p5, Inputs: i5}
 
-	// 		p1, p2, p3, p4, p5 := copySlice(program), copySlice(program), copySlice(program), copySlice(program), copySlice(program)
+		output := int64(0)
 
-	// 		outputs := []int64{}
-	// 		looper := int64(0)
+		for output != 99 {
+			fmt.Println("starting iteration")
+			// fmt.Printf("comp1 %+v\n", c1)
+			output = c1.Run(output)
+			// fmt.Printf("comp1 %+v\n", c1)
+			// fmt.Println("outputs", output)
 
-	// 		for looper != 99 {
-	// 			fmt.Println("starting iteration")
-	// 			c := comp.Computer{Program: p1, Inputs: i1}
-	// 			c.Run()
-	// 			outputs = comp.Runner(p1, i1)
-	// 			i1 = []int64{}
-	// 			i2 = append(i2, outputs[0])
-	// 			fmt.Printf("outputs %v, inputs 2 %v\n", outputs, i2)
+			// fmt.Printf("comp %+v\n", c2)
+			output = c2.Run(output)
+			// fmt.Println("outputs", output)
 
-	// 			outputs = comp.Runner(p2, i2)
-	// 			i2 = []int64{}
-	// 			i3 = append(i3, outputs[0])
-	// 			fmt.Printf("outputs %v, inputs 3 %v\n", outputs, i3)
+			// fmt.Printf("comp %+v\n", c3)
+			output = c3.Run(output)
+			// fmt.Println("output", output)
 
-	// 			outputs = comp.Runner(p3, i3)
-	// 			i3 = []int64{}
-	// 			i4 = append(i4, outputs[0])
-	// 			fmt.Printf("outputs %v, inputs 4 %v\n", outputs, i4)
+			// fmt.Printf("comp %+v\n", c4)
+			output = c4.Run(output)
+			// fmt.Println("output", output)
 
-	// 			outputs = comp.Runner(p4, i4)
-	// 			i4 = []int64{}
-	// 			i5 = append(i5, outputs[0])
-	// 			fmt.Printf("outputs %v, inputs 5 %v\n", outputs, i5)
+			// fmt.Printf("comp %+v\n", c5)
+			output = c5.Run(output)
+			// fmt.Println("output", output)
+			runOutputs = append(runOutputs, output)
+			fmt.Println("completed iteration")
+		}
 
-	// 			outputs = comp.Runner(p5, i5)
-	// 			fmt.Println("output from 5", outputs)
-	// 			looper = outputs[0]
-	// 			i5 = []int64{}
-	// 			// this append could just be i1 = outputs
-	// 			i1 = append(i1, outputs[0])
-	// 			fmt.Printf("outputs %v, inputs 1 %v\n", outputs, i1)
-	// 			fmt.Println("completed iteration")
-	// 		}
+		fmt.Printf("phase signal %v produced outputs %v\n", phaseSignal, output)
+	}
+	fmt.Println("All outputs:", runOutputs)
 
-	// 		fmt.Printf("phase signal %v produced outputs %v\n", phaseSignal, outputs)
-	// 		// outputs := []int64{}
-	// 		// for k, s := range phaseSignal {
-	// 		// 	switch k {
-	// 		// 	case 0:
-	// 		// 		outputs = append(outputs, comp.Runner(p1, []int64{s, input})[0])
-
-	// 		// 	}
-	// 		// 	outputs := comp.Runner(copySlice(program), []int64{s, input})
-	// 		// 	input = outputs[0]
-	// 		// }
-	// 		// fmt.Printf("phase signal %v produced output signal %v\n", phaseSignal, input)
-	// 		// runOutputs = append(runOutputs, input)
-	// 	}
-	// 	fmt.Println("All outputs:", runOutputs)
-
-	// 	max := max(runOutputs)
-	// 	fmt.Println("Answer to part 2 should be 2645740. Has been calculated to be", max)
+	max := max(runOutputs)
+	fmt.Println("Answer to part 2 should be 2645740. Has been calculated to be", max)
 }

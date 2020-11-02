@@ -42,18 +42,15 @@ func debug(data []int64, address int, ins Instruction) {
 }
 
 // Run ..
-func (c *Computer) Run() (outputs []int64) {
-	output := int64(0)
-	var err error
+func (c *Computer) Run(input ...int64) int64 {
+	c.Inputs = append(c.Inputs, input...)
 
-	for output == 0 {
-		output, c.address, err = intCodeComputer(c.Program, c.Inputs, c.address)
-		if err != nil {
-			log.Fatal(err)
-		}
-		outputs = append(outputs, output)
+	output, err := intCodeComputer(c)
+	// fmt.Printf("c %+v\n", c)
+	if err != nil {
+		log.Fatal(err)
 	}
-	return outputs
+	return output
 }
 
 // Computer ...
@@ -62,70 +59,72 @@ type Computer struct {
 	Inputs, Program []int64
 }
 
-func intCodeComputer(data, inputs []int64, address int) (int64, int, error) {
-	for address < len(data) {
-		rawInstruction := data[address]
-		instruction := processInstruction(rawInstruction)
-		// debug(data, address, instruction)
-		p1 := getVal(data, instruction.p1mode, address+1)
+// func intCodeComputer(program, inputs []int64, address int) (int64, int, error) {
+func intCodeComputer(c *Computer) (int64, error) {
+	fmt.Printf("c.Inputs (%v) IN COMPTER\n", c.Inputs)
+	for c.address < len(c.Program) {
+		instruction := processInstruction(c.Program[c.address])
+		// debug(c.Program, c.address, instruction)
+
 		switch instruction.opcode {
 		case 1: // add 2 values
-			p2 := getVal(data, instruction.p2mode, address+2)
-			data[data[address+3]] = p1 + p2
-			address += 4
-		case 2: // mulitply 2 values
-			p2 := getVal(data, instruction.p2mode, address+2)
-			data[data[address+3]] = p1 * p2
-			address += 4
+			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
+			p2 := getVal(c.Program, instruction.p2mode, c.address+2)
+			c.Program[c.Program[c.address+3]] = p1 + p2
+			c.address += 4
+		case 2: // multiply 2 values
+			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
+			p2 := getVal(c.Program, instruction.p2mode, c.address+2)
+			c.Program[c.Program[c.address+3]] = p1 * p2
+			c.address += 4
 		case 3: // update address with input
-			input := inputs[0]
-			inputs = inputs[1:]
-			data[data[address+1]] = input
-			address += 2
+			c.Program[c.Program[c.address+1]] = c.Inputs[0]
+			c.Inputs = c.Inputs[1:]
+			c.address += 2
 		case 4: // return value
-			address += 2
-			return p1, address, nil
+			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
+			c.address += 2
+			return p1, nil
 		case 5:
+			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
 			if p1 != 0 {
-				p2 := getVal(data, instruction.p2mode, address+2)
-				data[address] = p2
-				address = int(p2)
+				p2 := getVal(c.Program, instruction.p2mode, c.address+2)
+				c.address = int(p2)
 			} else {
-				address += 3
+				c.address += 3
 			}
 		case 6:
+			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
 			if p1 == 0 {
-				p2 := getVal(data, instruction.p2mode, address+2)
-				data[address] = p2
-				address = int(p2)
+				p2 := getVal(c.Program, instruction.p2mode, c.address+2)
+				c.address = int(p2)
 			} else {
-				address += 3
+				c.address += 3
 			}
 		case 7:
-			p2 := getVal(data, instruction.p2mode, address+2)
+			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
+			p2 := getVal(c.Program, instruction.p2mode, c.address+2)
 			if p1 < p2 {
-				data[data[address+3]] = 1
+				c.Program[c.Program[c.address+3]] = 1
 			} else {
-				data[data[address+3]] = 0
+				c.Program[c.Program[c.address+3]] = 0
 			}
-			address += 4
+			c.address += 4
 		case 8:
-			p2 := getVal(data, instruction.p2mode, address+2)
+			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
+			p2 := getVal(c.Program, instruction.p2mode, c.address+2)
 			if p1 == p2 {
-				data[data[address+3]] = 1
+				c.Program[c.Program[c.address+3]] = 1
 			} else {
-				data[data[address+3]] = 0
+				c.Program[c.Program[c.address+3]] = 0
 			}
-			address += 4
+			c.address += 4
 		case 99:
-			address++
-			return 99, address, nil
-			// break
+			c.address++
+			return 99, nil
 		default:
-			return -1, address, fmt.Errorf("Unknown opcode: %+v", instruction)
+			return -1, fmt.Errorf("Unknown opcode: %+v. Computer %+v", instruction, c)
 		}
-		// rawInstruction = data[address]
-		// instruction = processInstruction(rawInstruction)
 	}
-	return -1, address, nil
+	return -1, fmt.Errorf("Address pointer (%v) is greater than length of program (%v)", c.address, len(c.Program))
 }
