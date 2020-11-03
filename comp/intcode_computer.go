@@ -46,7 +46,6 @@ func (c *Computer) Run(input ...int64) int64 {
 	c.Inputs = append(c.Inputs, input...)
 
 	output, err := intCodeComputer(c)
-	// fmt.Printf("c %+v\n", c)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -61,7 +60,6 @@ type Computer struct {
 
 // func intCodeComputer(program, inputs []int64, address int) (int64, int, error) {
 func intCodeComputer(c *Computer) (int64, error) {
-	fmt.Printf("c.Inputs (%v) IN COMPTER\n", c.Inputs)
 	for c.address < len(c.Program) {
 		instruction := processInstruction(c.Program[c.address])
 		// debug(c.Program, c.address, instruction)
@@ -85,7 +83,7 @@ func intCodeComputer(c *Computer) (int64, error) {
 			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
 			c.address += 2
 			return p1, nil
-		case 5:
+		case 5: // jump-if-true - if p1 != 0, set address to p2
 			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
 			if p1 != 0 {
 				p2 := getVal(c.Program, instruction.p2mode, c.address+2)
@@ -93,7 +91,7 @@ func intCodeComputer(c *Computer) (int64, error) {
 			} else {
 				c.address += 3
 			}
-		case 6:
+		case 6: // jump-if-false - if p1 == 0, set address to p2
 			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
 			if p1 == 0 {
 				p2 := getVal(c.Program, instruction.p2mode, c.address+2)
@@ -101,7 +99,7 @@ func intCodeComputer(c *Computer) (int64, error) {
 			} else {
 				c.address += 3
 			}
-		case 7:
+		case 7: // less than - if p1 < p2 set p3 = 1 else p3 = 1
 			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
 			p2 := getVal(c.Program, instruction.p2mode, c.address+2)
 			if p1 < p2 {
@@ -110,7 +108,7 @@ func intCodeComputer(c *Computer) (int64, error) {
 				c.Program[c.Program[c.address+3]] = 0
 			}
 			c.address += 4
-		case 8:
+		case 8: // equals - if p1 == p2 set p3 = 1 else p3 = 1
 			p1 := getVal(c.Program, instruction.p1mode, c.address+1)
 			p2 := getVal(c.Program, instruction.p2mode, c.address+2)
 			if p1 == p2 {
@@ -119,7 +117,7 @@ func intCodeComputer(c *Computer) (int64, error) {
 				c.Program[c.Program[c.address+3]] = 0
 			}
 			c.address += 4
-		case 99:
+		case 99: // halt
 			c.address++
 			return 99, nil
 		default:
