@@ -20,7 +20,7 @@ func part2() {
 	// data := []string{"3,3,1108,-1,8,3,4,3,99"}
 	// data := []string{"3,3,1107,-1,8,3,4,3,99"}
 	// data := []string{"3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"}
-	program := utils.StringsToInts(data)
+	program := utils.StringsToInt64s(data)
 
 	computer := comp.Computer{Program: program, Inputs: []int64{int64(5)}}
 	outputs := computer.Run()
@@ -32,7 +32,7 @@ func part2() {
 func part1() {
 	fmt.Println("Running part 1...")
 	data := utils.LoadInput()
-	program := utils.StringsToInts(data)
+	program := utils.StringsToInt64s(data)
 
 	computer := comp.Computer{Program: program, Inputs: []int64{int64(5)}}
 	outputs := computer.Run()

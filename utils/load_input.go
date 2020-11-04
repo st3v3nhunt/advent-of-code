@@ -24,8 +24,8 @@ func LoadInput() (data []string) {
 	return data
 }
 
-// StringsToInts ...
-func StringsToInts(data []string) (ints []int64) {
+// StringsToInt64s ...
+func StringsToInt64s(data []string) (ints []int64) {
 	for _, v := range data {
 		for _, r := range strings.Split(v, ",") {
 			i, err := strconv.ParseInt(r, 10, 64)

@@ -19,7 +19,7 @@ func main() {
 	// const height int = 2
 
 	pixelString := strings.Split(input[0], "")
-	pixels := utils.StringsToInts(pixelString)
+	pixels := utils.StringsToInt64s(pixelString)
 
 	layer, rowSize := int64(0), 0
 

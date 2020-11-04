@@ -13,7 +13,7 @@ func main() {
 
 func part2() {
 	data := utils.LoadInput()
-	ints := utils.StringsToInts(data)
+	ints := utils.StringsToInt64s(data)
 	f.Printf("input: %v\n", ints)
 	for noun := 0; noun < 100; noun++ {
 		for verb := 0; verb < 100; verb++ {
@@ -32,7 +32,7 @@ func part2() {
 func part1() {
 	f.Println("Running part 1...")
 	data := utils.LoadInput()
-	ints := utils.StringsToInts(data)
+	ints := utils.StringsToInt64s(data)
 	// f.Printf("input: %v\n", ints)
 	ints[1] = 12 // noun
 	ints[2] = 2  // verb
