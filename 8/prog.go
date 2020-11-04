@@ -8,53 +8,45 @@ import (
 )
 
 func main() {
-	part1()
-	part2()
-}
-
-func part1() {
 	fmt.Println("Running part 1...")
 	input := utils.LoadInput()
-	width, height := 25, 6
+	const width int = 25
+	const height int = 6
 
 	// TEST
 	// input := []string{"123456789012"}
-	// width, height := 3, 2
+	// const width int = 3
+	// const height int = 2
 
 	pixelString := strings.Split(input[0], "")
 	pixels := utils.StringsToInts(pixelString)
-	// fmt.Println(pixels)
 
 	layer, rowSize := int64(0), 0
 
 	row := []int64{}
 	rows := [][]int64{}
 	layers := [][][]int64{}
-	// zeroCount := 0
 	pixelCounter := map[int64][3]int{int64(0): {0, 0, 0}}
 
 	for i, p := range pixels {
-		// fmt.Printf("k - %v, rowSize - %v, layer - %v, pixelCounter - %v\n", i, rowSize, layer, pixelCounter)
 		row = append(row, p)
 
 		// record number of different pixels
-		a := pixelCounter[layer]
+		counter := pixelCounter[layer]
 		switch p {
 		case 0:
-			a[0] = a[0] + 1
+			counter[0] = counter[0] + 1
 		case 1:
-			a[1] = a[1] + 1
+			counter[1] = counter[1] + 1
 		case 2:
-			a[2] = a[2] + 1
+			counter[2] = counter[2] + 1
 		}
-		pixelCounter[layer] = a
+		pixelCounter[layer] = counter
 
-		// fmt.Println(row)
 		// new row
 		if (i+1)%width == 0 {
 			rowSize++
 			rows = append(rows, row)
-			// fmt.Println(rows)
 			row = []int64{}
 		}
 		// new layer
@@ -65,7 +57,6 @@ func part1() {
 			rowSize = 0
 		}
 	}
-	// fmt.Println(layers)
 
 	maxPossibleZero := width * height
 	leastZero, leastZeroLayer := maxPossibleZero, int64(0)
@@ -82,7 +73,35 @@ func part1() {
 	fmt.Printf("The least zeros (%v) were found on layer %v\n", leastZero, leastZeroLayer)
 	fmt.Printf("There were %v ones and %v twos for an answer of %v\n", ones, twos, answer)
 	fmt.Println("The expected answer is 1206")
-}
 
-func part2() {
+	// calculate the display based on the layers
+	image := [height][width]string{} // need to be created with all pixels set to transparent so they can be overwritten
+	for i, r := range image {
+		for j := range r {
+			image[i][j] = "."
+		}
+	}
+	// fmt.Println(image)
+
+	for _, layer := range layers {
+		// fmt.Println("layer", i, layer)
+		for l, layerRow := range layer {
+			// fmt.Println("layer, layerrow", i, l, layerRow)
+			for p, pixel := range layerRow {
+				// transparent, can be over written
+				if image[l][p] == "." {
+					if pixel == 1 {
+						image[l][p] = " "
+					} else if pixel == 0 {
+						image[l][p] = "#"
+					}
+				}
+			}
+		}
+	}
+	fmt.Println("Running part 2...")
+	for _, r := range image {
+		fmt.Println(r)
+	}
+	fmt.Println("The image above should have printed out 'EJRGP'")
 }
