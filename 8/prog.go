@@ -19,14 +19,14 @@ func main() {
 	// const height int = 2
 
 	pixelString := strings.Split(input[0], "")
-	pixels := utils.StringsToInt64s(pixelString)
+	pixels := utils.StringsToInts(pixelString)
 
-	layer, rowSize := int64(0), 0
+	layer, rowSize := 0, 0
 
-	row := []int64{}
-	rows := [][]int64{}
-	layers := [][][]int64{}
-	pixelCounter := map[int64][3]int{int64(0): {0, 0, 0}}
+	row := []int{}
+	rows := [][]int{}
+	layers := [][][]int{}
+	pixelCounter := map[int][3]int{0: {0, 0, 0}}
 
 	for i, p := range pixels {
 		row = append(row, p)
@@ -47,19 +47,19 @@ func main() {
 		if (i+1)%width == 0 {
 			rowSize++
 			rows = append(rows, row)
-			row = []int64{}
+			row = []int{}
 		}
 		// new layer
 		if (i+1)%(width*height) == 0 {
 			layer++
 			layers = append(layers, rows)
-			rows = [][]int64{}
+			rows = [][]int{}
 			rowSize = 0
 		}
 	}
 
 	maxPossibleZero := width * height
-	leastZero, leastZeroLayer := maxPossibleZero, int64(0)
+	leastZero, leastZeroLayer := maxPossibleZero, 0
 	// find layer with most 0s
 	for k, v := range pixelCounter {
 		if v[0] < leastZero {

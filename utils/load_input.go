@@ -38,6 +38,20 @@ func StringsToInt64s(data []string) (ints []int64) {
 	return ints
 }
 
+// StringsToInts ...
+func StringsToInts(data []string) (ints []int) {
+	for _, v := range data {
+		for _, r := range strings.Split(v, ",") {
+			i, err := strconv.ParseInt(r, 10, 32)
+			if err != nil {
+				log.Fatal(err)
+			}
+			ints = append(ints, int(i))
+		}
+	}
+	return ints
+}
+
 // AbsInt ...
 // Return absolute val for an int
 func AbsInt(i int) int {
