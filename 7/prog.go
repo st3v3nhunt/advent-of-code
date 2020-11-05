@@ -44,7 +44,7 @@ func part1() {
 		// fmt.Printf("phase signal %v produced output signal %v\n", phaseSignal, output)
 		runOutputs = append(runOutputs, output)
 	}
-	fmt.Println("All outputs:", runOutputs)
+	// fmt.Println("All outputs:", runOutputs)
 	max := max(runOutputs)
 
 	fmt.Println("Answer to part 1 should be 21860. Has been calculated to be", max)
@@ -86,7 +86,7 @@ func part2() {
 
 		// fmt.Printf("phase signal %v produced outputs %v\n", phaseSignal, runOutputs[int64(len(runOutputs)-1)])
 	}
-	fmt.Println("All outputs:", runOutputs)
+	// fmt.Println("All outputs:", runOutputs)
 
 	max := max(runOutputs)
 	fmt.Println("Answer to part 2 should be 2645740. Has been calculated to be", max)
