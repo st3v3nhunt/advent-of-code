@@ -21,19 +21,19 @@ func main() {
 	pixelString := strings.Split(input[0], "")
 	pixels := utils.StringsToInts(pixelString)
 
-	layer, rowSize := 0, 0
+	layer, row := 0, 0
 
-	row := []int{}
-	rows := [][]int{}
-	layers := [][][]int{}
+	rows := [height][width]int{}
+	layers := [][height][width]int{}
 	pixelCounter := map[int][3]int{0: {0, 0, 0}}
 
-	for i, p := range pixels {
-		row = append(row, p)
+	for i, pixel := range pixels {
+		// add pixel to map
+		rows[row][(i+1)%width] = pixel
 
 		// record number of different pixels
 		counter := pixelCounter[layer]
-		switch p {
+		switch pixel {
 		case 0:
 			counter[0] = counter[0] + 1
 		case 1:
@@ -45,22 +45,20 @@ func main() {
 
 		// new row
 		if (i+1)%width == 0 {
-			rowSize++
-			rows = append(rows, row)
-			row = []int{}
+			row++
 		}
 		// new layer
 		if (i+1)%(width*height) == 0 {
-			layer++
 			layers = append(layers, rows)
-			rows = [][]int{}
-			rowSize = 0
+			layers[layer] = rows
+			layer++
+			row = 0
 		}
 	}
 
+	// find layer with most 0s
 	maxPossibleZero := width * height
 	leastZero, leastZeroLayer := maxPossibleZero, 0
-	// find layer with most 0s
 	for k, v := range pixelCounter {
 		if v[0] < leastZero {
 			leastZero = v[0]
@@ -72,27 +70,27 @@ func main() {
 
 	fmt.Printf("The least zeros (%v) were found on layer %v\n", leastZero, leastZeroLayer)
 	fmt.Printf("There were %v ones and %v twos for an answer of %v\n", ones, twos, answer)
-	fmt.Println("The expected answer is 1206")
+	fmt.Printf("The expected answer is 1206\n\n")
 
 	// calculate the display based on the layers
-	image := [height][width]string{} // need to be created with all pixels set to transparent so they can be overwritten
+	// set all pixels to transparent so they can be overwritten
+	transparent := "."
+	image := [height][width]string{}
 	for i, r := range image {
 		for j := range r {
-			image[i][j] = "."
+			image[i][j] = transparent
 		}
 	}
-	// fmt.Println(image)
 
 	for _, layer := range layers {
-		// fmt.Println("layer", i, layer)
 		for l, layerRow := range layer {
-			// fmt.Println("layer, layerrow", i, l, layerRow)
 			for p, pixel := range layerRow {
-				// transparent, can be over written
-				if image[l][p] == "." {
+				if image[l][p] == transparent {
 					if pixel == 1 {
+						// white pixel
 						image[l][p] = " "
 					} else if pixel == 0 {
+						// black pixel
 						image[l][p] = "#"
 					}
 				}
