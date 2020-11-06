@@ -23,10 +23,10 @@ func part2() {
 	program := utils.StringsToInt64s(data)
 
 	computer := comp.Computer{Program: program, Inputs: []int64{int64(5)}}
-	outputs := computer.Run()
+	output := computer.Run()
 
-	fmt.Println("output:", outputs)
-	fmt.Println("Answer to part 2 should be 14110739. Has been calculated to be", outputs[len(outputs)-1])
+	fmt.Println("output:", output)
+	fmt.Println("Answer to part 2 should be 14110739. Has been calculated to be", output)
 }
 
 func part1() {
@@ -35,8 +35,8 @@ func part1() {
 	program := utils.StringsToInt64s(data)
 
 	computer := comp.Computer{Program: program, Inputs: []int64{int64(5)}}
-	outputs := computer.Run()
+	output := computer.Run()
 
-	fmt.Println("output:", outputs)
-	fmt.Println("Answer to part 1 should be 13087969. Has been calculated to be", outputs[len(outputs)-1])
+	fmt.Println("output:", output)
+	fmt.Println("Answer to part 1 should be 13087969. Has been calculated to be", output)
 }

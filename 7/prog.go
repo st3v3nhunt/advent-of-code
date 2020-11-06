@@ -12,22 +12,6 @@ func main() {
 	part2()
 }
 
-func copySlice(s1 []int64) []int64 {
-	s2 := make([]int64, len(s1))
-	copy(s2, s1)
-	return s2
-}
-
-func max(s []int64) int64 {
-	max := int64(0)
-	for _, v := range s {
-		if v > max {
-			max = v
-		}
-	}
-	return max
-}
-
 func part1() {
 	fmt.Println("Running part 1...")
 	data := utils.LoadInput()
@@ -38,14 +22,14 @@ func part1() {
 	for _, phaseSignal := range psCombinations {
 		var output int64 = 0
 		for _, s := range phaseSignal {
-			computer := comp.Computer{Program: (copySlice(program)), Inputs: []int64{s}}
+			computer := comp.Computer{Program: utils.CopyMap(program), Inputs: []int64{s}}
 			output = computer.Run(output)
 		}
 		// fmt.Printf("phase signal %v produced output signal %v\n", phaseSignal, output)
 		runOutputs = append(runOutputs, output)
 	}
 	// fmt.Println("All outputs:", runOutputs)
-	max := max(runOutputs)
+	max := utils.Max(runOutputs)
 
 	fmt.Println("Answer to part 1 should be 21860. Has been calculated to be", max)
 }
@@ -70,7 +54,7 @@ func part2() {
 		// create computers
 		comps := [5]comp.Computer{}
 		for k, phase := range phaseSignal {
-			comps[k] = comp.Computer{Program: copySlice(program), Inputs: []int64{phase}}
+			comps[k] = comp.Computer{Program: utils.CopyMap(program), Inputs: []int64{phase}}
 		}
 
 		// run computers. Can not use value from comp because value is a copy
@@ -88,6 +72,6 @@ func part2() {
 	}
 	// fmt.Println("All outputs:", runOutputs)
 
-	max := max(runOutputs)
+	max := utils.Max(runOutputs)
 	fmt.Println("Answer to part 2 should be 2645740. Has been calculated to be", max)
 }
