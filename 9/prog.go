@@ -32,7 +32,7 @@ func part1() {
 	fmt.Println("Running part 1...")
 	data := utils.LoadInput()
 	program := utils.StringsToInt64s(data)
-	fmt.Println(program)
+	// fmt.Println(program)
 	// program := map[int64]int64{0: 109, 1: 1, 2: 204, 3: -1, 4: 1001, 5: 100, 6: 1, 7: 100, 8: 1008, 9: 100, 10: 16, 11: 101, 12: 1006, 13: 101, 14: 0, 15: 99}
 	// program := map[int64]int64{0: 1102, 1: 34915192, 2: 34915192, 3: 7, 4: 4, 5: 7, 6: 99, 7: 0}
 	// program := map[int64]int64{0: 104, 1: 1125899906842624, 2: 99}
@@ -42,7 +42,7 @@ func part1() {
 	output := int64(0)
 	for output != 99 {
 		output = computer.Run()
-		fmt.Println("output:", output)
+		// fmt.Println("output:", output)
 		outputs = append(outputs, output)
 	}
 	fmt.Println("all outputs:", outputs)

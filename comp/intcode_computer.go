@@ -53,26 +53,31 @@ type Computer struct {
 	Program               map[int64]int64
 }
 
-func getVal(program map[int64]int64, m Mode, address, relativeBase int64) int64 {
+func getVal(c *Computer, m Mode, offset int64) int64 {
 	switch m {
 	case Position:
-		return program[program[address]]
+		return c.Program[c.Program[c.address+offset]]
 	case Immediate:
-		return program[address]
+		return c.Program[c.address+offset]
 	case Relative:
-		return program[program[address]+relativeBase]
+		return c.Program[c.Program[c.address+offset]+c.relativeBase]
 	default:
 		panic("Mode not recognised when GETTING value")
 	}
 }
 
+func getVals(c *Computer, ins Instruction, offsets []int64) (p1 int64, p2 int64) {
+	p1 = getVal(c, ins.p1mode, offsets[0])
+	p2 = getVal(c, ins.p2mode, offsets[1])
+	return p1, p2
+}
+
 func setVal(c *Computer, m Mode, offset, input int64) {
-	// set the value based on the mode
 	switch m {
 	case Position:
 		c.Program[c.Program[c.address+offset]] = input
 	case Immediate:
-		c.Program[c.address] = input
+		c.Program[c.address+offset] = input
 	case Relative:
 		c.Program[c.Program[c.address+offset]+c.relativeBase] = input
 	default:
@@ -86,15 +91,12 @@ func intCodeComputer(c *Computer) (int64, error) {
 		instruction := processInstruction(c.Program[c.address])
 		// debug(c, instruction)
 
+		p1, p2 := getVals(c, instruction, []int64{1, 2})
 		switch instruction.opcode {
 		case 1: // add 2 values
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
-			p2 := getVal(c.Program, instruction.p2mode, c.address+2, c.relativeBase)
 			setVal(c, instruction.p3mode, 3, p1+p2)
 			c.address += 4
 		case 2: // multiply 2 values
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
-			p2 := getVal(c.Program, instruction.p2mode, c.address+2, c.relativeBase)
 			setVal(c, instruction.p3mode, 3, p1*p2)
 			c.address += 4
 		case 3: // update address with input
@@ -102,29 +104,21 @@ func intCodeComputer(c *Computer) (int64, error) {
 			c.Inputs = c.Inputs[1:]
 			c.address += 2
 		case 4: // return value
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
 			c.address += 2
-			fmt.Println("case 4. p1, relativeBase:", p1, c.relativeBase)
 			return p1, nil
 		case 5: // jump-if-true - if p1 != 0, set address to p2
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
 			if p1 != 0 {
-				p2 := getVal(c.Program, instruction.p2mode, c.address+2, c.relativeBase)
 				c.address = p2
 			} else {
 				c.address += 3
 			}
 		case 6: // jump-if-false - if p1 == 0, set address to p2
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
 			if p1 == 0 {
-				p2 := getVal(c.Program, instruction.p2mode, c.address+2, c.relativeBase)
 				c.address = p2
 			} else {
 				c.address += 3
 			}
 		case 7: // less than - if p1 < p2 set p3 = 1 else p3 = 1
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
-			p2 := getVal(c.Program, instruction.p2mode, c.address+2, c.relativeBase)
 			if p1 < p2 {
 				setVal(c, instruction.p3mode, 3, 1)
 			} else {
@@ -132,8 +126,6 @@ func intCodeComputer(c *Computer) (int64, error) {
 			}
 			c.address += 4
 		case 8: // equals - if p1 == p2 set p3 = 1 else p3 = 1
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
-			p2 := getVal(c.Program, instruction.p2mode, c.address+2, c.relativeBase)
 			if p1 == p2 {
 				setVal(c, instruction.p3mode, 3, 1)
 			} else {
@@ -141,7 +133,7 @@ func intCodeComputer(c *Computer) (int64, error) {
 			}
 			c.address += 4
 		case 9: // adjust relative base by value of p1
-			p1 := getVal(c.Program, instruction.p1mode, c.address+1, c.relativeBase)
+			p1 := getVal(c, instruction.p1mode, 1)
 			c.relativeBase += p1
 			c.address += 2
 		case 99: // halt
