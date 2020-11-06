@@ -25,14 +25,15 @@ func LoadInput() (data []string) {
 }
 
 // StringsToInt64s ...
-func StringsToInt64s(data []string) (ints []int64) {
-	for _, v := range data {
-		for _, r := range strings.Split(v, ",") {
-			i, err := strconv.ParseInt(r, 10, 64)
+func StringsToInt64s(data []string) map[int64]int64 {
+	ints := map[int64]int64{}
+	for _, line := range data {
+		for i, r := range strings.Split(line, ",") {
+			val, err := strconv.ParseInt(r, 10, 64)
 			if err != nil {
 				log.Fatal(err)
 			}
-			ints = append(ints, i)
+			ints[int64(i)] = int64(val)
 		}
 	}
 	return ints
