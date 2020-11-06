@@ -91,3 +91,30 @@ func Permutations(arr []int64) [][]int64 {
 	helper(arr, int64(len(arr)))
 	return res
 }
+
+// CopyMap ...
+func CopyMap(m1 map[int64]int64) map[int64]int64 {
+	m2 := map[int64]int64{}
+	for k, v := range m1 {
+		m2[k] = v
+	}
+	return m2
+}
+
+// CopySlice ...
+func CopySlice(s1 []int64) []int64 {
+	s2 := make([]int64, len(s1))
+	copy(s2, s1)
+	return s2
+}
+
+// Max ...
+func Max(s []int64) int64 {
+	max := int64(0)
+	for _, v := range s {
+		if v > max {
+			max = v
+		}
+	}
+	return max
+}
