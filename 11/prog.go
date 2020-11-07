@@ -15,6 +15,19 @@ func main() {
 
 func part1() {
 	fmt.Println("Running part 1...")
+	startingTile := int64(0)
+	panelPaintRecord := robot(startingTile)
+	fmt.Println("number of panels painted at least once should be '2238'. It has been calculated as", len(panelPaintRecord))
+}
+
+func part2() {
+	fmt.Println("Running part 2...")
+	startingTile := int64(1)
+	robot(startingTile)
+	fmt.Println("Screen output should include registration of 'PKFPAZRP'")
+}
+
+func robot(initialInput int64) map[string]bool {
 	data := utils.LoadInput()
 	program := utils.StringsToInt64s(data)
 
@@ -23,14 +36,14 @@ func part1() {
 	}
 
 	// start off with a large 'hull' where all tiles are black
-	hull := [80][100]int64{}
+	hull := [105][100]int64{}
 	// robot is arbitarily in the middle(ish) area and facing up
 	pos := []int{60, 40}
 	direction := "A" // up
 
 	computer := comp.Computer{Program: program, Inputs: []int64{}}
 	outputs := []int64{}
-	inputs := []int64{0} // initial input is the colour of the starting tile - black
+	inputs := []int64{initialInput} // initial input is the colour of the starting tile - black
 	panelPaintRecord := map[string]bool{}
 	for true {
 		output := computer.Run(inputs...)
@@ -60,8 +73,7 @@ func part1() {
 	for _, v := range hull {
 		fmt.Println(v)
 	}
-
-	fmt.Println("number of panels painted at least once should be '2238'. It has been calculated as", len(panelPaintRecord))
+	return panelPaintRecord
 }
 
 func updatePos(pos []int, direction string) {
@@ -108,7 +120,4 @@ func updateDirection(direction string, change int64) string {
 		panic("Unkown direction")
 	}
 	return newDirection
-}
-
-func part2() {
 }
