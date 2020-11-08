@@ -14,7 +14,7 @@ func main() {
 
 func part2() {
 	fmt.Println("Running part 2...")
-	data := utils.LoadInput()
+	data := utils.LoadInput(5)
 	// data := []string{"3,9,8,9,10,9,4,9,99,-1,8"}
 	// data := []string{"3,9,7,9,10,9,4,9,99,-1,8"}
 	// data := []string{"3,3,1108,-1,8,3,4,3,99"}
@@ -31,7 +31,7 @@ func part2() {
 
 func part1() {
 	fmt.Println("Running part 1...")
-	data := utils.LoadInput()
+	data := utils.LoadInput(5)
 	program := utils.StringsToInt64s(data)
 
 	computer := comp.Computer{Program: program, Inputs: []int64{int64(5)}}

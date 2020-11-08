@@ -14,7 +14,7 @@ func main() {
 
 // CalcFuelTotal ...
 func CalcFuelTotal() int64 {
-	input, err := os.Open("./input.txt")
+	input, err := os.Open("../../input/1.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

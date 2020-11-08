@@ -14,7 +14,7 @@ func main() {
 
 func part1() {
 	fmt.Println("Running part 1...")
-	data := utils.LoadInput()
+	data := utils.LoadInput(9)
 	program := utils.StringsToInt64s(data)
 	part2Prog := utils.CopyMap(program)
 	// fmt.Println(program)

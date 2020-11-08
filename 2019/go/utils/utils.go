@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -10,8 +11,8 @@ import (
 
 // LoadInput ...
 // Returns an array, unchanged from the input file
-func LoadInput() (data []string) {
-	input, err := os.Open("./input.txt")
+func LoadInput(day int) (data []string) {
+	input, err := os.Open(fmt.Sprintf("../../input/%v.txt", day))
 	if err != nil {
 		log.Fatal(err)
 	}

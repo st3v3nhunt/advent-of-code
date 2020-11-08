@@ -25,7 +25,7 @@ func mapOrbits(data []string) map[string]string {
 
 func part1() {
 	fmt.Println("Running part 1...")
-	data := utils.LoadInput()
+	data := utils.LoadInput(6)
 
 	orbits := mapOrbits(data)
 
@@ -42,7 +42,7 @@ func part1() {
 
 func part2() {
 	fmt.Println("Running part 2...")
-	data := utils.LoadInput()
+	data := utils.LoadInput(6)
 
 	orbits := mapOrbits(data)
 

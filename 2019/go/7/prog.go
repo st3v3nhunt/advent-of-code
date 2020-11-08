@@ -14,7 +14,7 @@ func main() {
 
 func part1() {
 	fmt.Println("Running part 1...")
-	data := utils.LoadInput()
+	data := utils.LoadInput(7)
 	program := utils.StringsToInt64s(data)
 	psCombinations := utils.Permutations([]int64{0, 1, 2, 3, 4})
 	runOutputs := []int64{}
@@ -36,7 +36,7 @@ func part1() {
 
 func part2() {
 	fmt.Println("Running part 2...")
-	data := utils.LoadInput()
+	data := utils.LoadInput(7)
 	program := utils.StringsToInt64s(data)
 	psCombinations := utils.Permutations([]int64{5, 6, 7, 8, 9})
 

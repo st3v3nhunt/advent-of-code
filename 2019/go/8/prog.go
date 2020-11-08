@@ -9,7 +9,7 @@ import (
 
 func main() {
 	fmt.Println("Running part 1...")
-	input := utils.LoadInput()
+	input := utils.LoadInput(8)
 	const width int = 25
 	const height int = 6
 

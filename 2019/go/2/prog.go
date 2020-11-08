@@ -3,6 +3,7 @@ package main
 import (
 	f "fmt"
 
+	"github.com/st3v3nhunt/aoc-2019-go/comp"
 	"github.com/st3v3nhunt/aoc-2019-go/utils"
 )
 
@@ -12,15 +13,18 @@ func main() {
 }
 
 func part2() {
-	data := utils.LoadInput()
-	ints := utils.StringsToInt64s(data)
-	f.Printf("input: %v\n", ints)
+	data := utils.LoadInput(2)
+	program := utils.StringsToInt64s(data)
+	f.Printf("input: %v\n", program)
 	for noun := 0; noun < 100; noun++ {
 		for verb := 0; verb < 100; verb++ {
-			ints[1] = int64(noun)
-			ints[2] = int64(verb)
-			output := IntCodeComputer(ints)
-			if output[0] == 19690720 {
+			program[1] = int64(noun)
+			program[2] = int64(verb)
+			// output := IntCodeComputer(program)
+			computer := comp.Computer{Program: program, Inputs: []int64{int64(5)}}
+
+			output := computer.Run()
+			if output == 19690720 {
 				f.Printf("noun: %v, verb: %v\n", noun, verb)
 				f.Println("Answer to part 2:", 100*noun+verb)
 				break
@@ -31,15 +35,17 @@ func part2() {
 
 func part1() {
 	f.Println("Running part 1...")
-	data := utils.LoadInput()
-	ints := utils.StringsToInt64s(data)
+	data := utils.LoadInput(2)
+	program := utils.StringsToInt64s(data)
 	// f.Printf("input: %v\n", ints)
-	ints[1] = 12 // noun
-	ints[2] = 2  // verb
-	output := IntCodeComputer(ints)
+	program[1] = 12 // noun
+	program[2] = 2  // verb
+	// output := IntCodeComputer(ints)
+	computer := comp.Computer{Program: program, Inputs: []int64{int64(5)}}
+	output := computer.Run()
 	// f.Printf("input: %v\n", ints)
 	// f.Printf("output: %v\n", output)
-	f.Println("Answer to part 1:", output[0])
+	f.Println("Answer to part 1:", output)
 }
 
 // IntCodeComputer ...

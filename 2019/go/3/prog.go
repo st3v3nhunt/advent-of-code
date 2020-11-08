@@ -17,7 +17,7 @@ type position struct {
 }
 
 func main() {
-	data := utils.LoadInput()
+	data := utils.LoadInput(3)
 	manhattanDistance, fewestSteps := ManhattanDistance(data)
 	f.Println("Answer to part 1:", manhattanDistance)
 	f.Println("Answer to part 2:", fewestSteps)
