@@ -1,0 +1,32 @@
+{
+  "name": "adventofcode-2019",
+  "version": "1.0.0",
+  "description": "Advent of code",
+  "main": "index.js",
+  "scripts": {
+    "day": "node run.js",
+    "day-watch": "nodemon run.js",
+    "day-watch-debug": "nodemon --inspect-brk run.js",
+    "lint": "standard .",
+    "test-watch": "nodemon runTest.js",
+    "test-watch-debug": "nodemon --inspect-brk runTest.js"
+  },
+  "keywords": [
+    "adventofcode"
+  ],
+  "author": "Steven Hunt",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "bresenham": "0.0.4",
+    "draftlog": "^1.0.12",
+    "standard": "^16.0.1"
+  },
+  "standard": {
+    "globals": [
+      "BigInt"
+    ]
+  }
+}
