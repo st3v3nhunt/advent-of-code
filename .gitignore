@@ -48,3 +48,6 @@ __pycache__/
 .nyc_output/
 coverage/
 test-results.xml
+
+# Rust
+/target
