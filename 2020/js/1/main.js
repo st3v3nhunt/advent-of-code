@@ -7,24 +7,27 @@ async function getInput () {
 async function answers () {
   const input = await getInput()
 
-  input.forEach((x) => {
-    input.forEach((y) => {
-      if (parseInt(x, 10) + parseInt(y, 10) === 2020) {
-        console.log(`x: ${x}, y: ${y}. x*y = ${x * y}`)
-        return x * y
+  outer:
+  for (const i of input) {
+    for (const j of input) {
+      if (parseInt(i, 10) + parseInt(j, 10) === 2020) {
+        console.log(`i: ${i}, j: ${j}. i * j = ${i * j}`)
+        break outer
       }
-    })
-  })
-  input.forEach((x) => {
-    input.forEach((y) => {
-      input.forEach((z) => {
-        if (parseInt(x, 10) + parseInt(y, 10) + parseInt(z, 10) === 2020) {
-          console.log(`x: ${x}, y: ${y}, z: ${z}. x*y*z = ${x * y * z}`)
-          return x * y * z
+    }
+  }
+
+  outer:
+  for (const i of input) {
+    for (const j of input) {
+      for (const k of input) {
+        if (parseInt(i, 10) + parseInt(j, 10) + parseInt(k, 10) === 2020) {
+          console.log(`i: ${i}, j: ${j}, k: ${k}. i * j * k = ${i * j * k}`)
+          break outer
         }
-      })
-    })
-  })
+      }
+    }
+  }
 }
 
 (async function run () {
