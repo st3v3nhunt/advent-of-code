@@ -13,7 +13,7 @@ language solutions.
 
 | Day                                        | Part 1 (languages) | Part 2 (languages) |
 | ---                                        | ------------------ | ------------------ |
-| [1](https://adventofcode.com/2020/day/1)   |                    |                    |
+| [1](https://adventofcode.com/2020/day/1)   | 1013211 (JS)       | 13891280 (JS)      |
 | [2](https://adventofcode.com/2020/day/2)   |                    |                    |
 | [3](https://adventofcode.com/2020/day/3)   |                    |                    |
 | [4](https://adventofcode.com/2020/day/4)   |                    |                    |
