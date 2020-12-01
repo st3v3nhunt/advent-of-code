@@ -6,14 +6,21 @@ fn main() {
         .map(|x| x.parse::<u32>().unwrap())
         .collect::<Vec<_>>();
 
-    for i in &input {
+    'ij: for i in &input {
         for j in &input {
             if i + j == 2020 {
                 println!("i: {}, j: {}. i*j: {}", i, j, i * j);
+                break 'ij;
             }
+        }
+    }
+
+    'ijk: for i in &input {
+        for j in &input {
             for k in &input {
                 if i + j + k == 2020 {
                     println!("i: {}, j: {}, k: {}. i * j * k: {}", i, j, k, i * j * k);
+                    break 'ijk;
                 }
             }
         }
