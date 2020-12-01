@@ -6,42 +6,34 @@ fn main() {
         .map(|x| x.parse::<u32>().unwrap())
         .collect::<Vec<_>>();
 
-    'ij: for i in &input {
-        for j in &input {
-            if i + j == 2020 {
-                println!("i: {}, j: {}. i*j: {}", i, j, i * j);
-                break 'ij;
-            }
-        }
-    }
+    let ans_one = part_one(&input).unwrap();
+    let ans_two = part_two(&input).unwrap();
 
-    'ijk: for i in &input {
-        for j in &input {
-            for k in &input {
+    println!("Answers. Part one: {}, part two: {}", ans_one, ans_two);
+}
+
+fn part_two(input: &Vec<u32>) -> Option<u32> {
+    for i in input {
+        for j in input {
+            for k in input {
                 if i + j + k == 2020 {
                     println!("i: {}, j: {}, k: {}. i * j * k: {}", i, j, k, i * j * k);
-                    break 'ijk;
+                    return Some(i * j * k);
                 }
             }
         }
     }
-    println!("done");
-
-    // let input = read_all::<String>("../../../input/1.txt");
-    // println!("{}", input);
-    // let a = input
-    //     .lines()
-    //     .map(calc_fuel)
-    //     .map(|x| {
-    //         let c = x / 2;
-    //         c
-    //     })
-    //     .collect::<Vec<_>>();
-
-    // a.iter().for_each(|x| println!("{}", x));
-    // println!("{}", a);
+    None
 }
 
-// fn calc_fuel(input: &str) -> i32 {
-//     input.parse().unwrap()
-// }
+fn part_one(input: &Vec<u32>) -> Option<u32> {
+    for i in input {
+        for j in input {
+            if i + j == 2020 {
+                println!("i: {}, j: {}. i*j: {}", i, j, i * j);
+                return Some(i * j);
+            }
+        }
+    }
+    None
+}
