@@ -14,7 +14,7 @@ language solutions.
 | Day                                        | Part 1 (languages) | Part 2 (languages)  |
 | ---                                        | ------------------ | ------------------  |
 | [1](https://adventofcode.com/2020/day/1)   | 1013211 (JS, Rust) | 13891280 (JS, Rust) |
-| [2](https://adventofcode.com/2020/day/2)   | 454 (JS, Rust)     | 649 (JS)            |
+| [2](https://adventofcode.com/2020/day/2)   | 454 (JS, Rust)     | 649 (JS, Rust)      |
 | [3](https://adventofcode.com/2020/day/3)   | 282 (JS)           | 958815792 (JS)      |
 | [4](https://adventofcode.com/2020/day/4)   |                    |                     |
 | [5](https://adventofcode.com/2020/day/5)   |                    |                     |
