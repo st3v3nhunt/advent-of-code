@@ -13,19 +13,15 @@ async function partOne () {
 }
 
 function createForest (input, xMove) {
-  const numLines = input.length
+  const currentLength = input.length
   const currentWidth = input[0].length
-  const requiredWidth = Math.ceil(numLines / currentWidth) * xMove
-  const forest = []
-  // for (let i = 0; i < numLines; i++) {
-  //   forest[i] = input[i].repeat(requiredWidth)
-  // }
-  for (const line of input) {
-    forest.push(line.repeat(requiredWidth))
-  }
-  return forest
+  const requiredWidth = Math.ceil(currentLength / currentWidth) * xMove
+
+  return input.map(line => line.repeat(requiredWidth))
 }
 
+// returns the number of trees ('#') encountered whilst traversing the given
+// forest with the given x, y movement
 function traverseForest (forest, xMove, yMove) {
   let x = 0
   let y = 0
