@@ -31,15 +31,15 @@ async function partOne () {
 
   let valid = 0
   passports.forEach((passport) => {
-    const fields = passport.split(' ')
-    let fieldCount = 0
-    fields.forEach((field) => {
+    const fieldCount = passport.split(' ').reduce((acc, field) => {
       const fieldData = field.split(':')
       const key = fieldData[0]
       if (requiredFields.includes(key)) {
-        fieldCount++
+        return acc + 1
+      } else {
+        return acc
       }
-    })
+    }, 0)
     if (fieldCount === requiredFields.length) {
       valid++
     }
