@@ -10,6 +10,8 @@ fn main() {
     let ans_two = part_two(&input).unwrap();
 
     println!("Answers. Part one: {}, part two: {}", ans_one, ans_two);
+    assert_eq!(ans_one, 1013211);
+    assert_eq!(ans_two, 13891280);
 }
 
 fn part_two(input: &Vec<u32>) -> Option<u32> {
