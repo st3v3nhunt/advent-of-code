@@ -2,10 +2,12 @@ fn main() {
     let file_contents = include_str!("../../../input/2.txt");
 
     let ans_one = part_one(file_contents);
-    println!("Part one answer: {}", ans_one); // 454
+    println!("Part one answer: {}", ans_one);
+    assert_eq!(ans_one, 454);
 
     let ans_two = part_two(file_contents);
-    println!("Part two answer: {}", ans_two); // 649
+    println!("Part two answer: {}", ans_two.);
+    assert_eq!(ans_two, 649);
 }
 
 fn part_one(file_contents: &str) -> u32 {
