@@ -1,3 +1,4 @@
+const assert = require('assert')
 const { getDayInputAsLines } = require('../lib/utils')
 
 async function getInput () {
@@ -10,6 +11,7 @@ async function partOne () {
   const _31 = traverseForest(input, 3, 1)
 
   console.log('part 1 answer:', _31)
+  assert.equal(_31, 282)
 }
 
 // returns the number of trees ('#') encountered whilst traversing
@@ -38,10 +40,13 @@ async function partTwo () {
   const _71 = traverseForest(input, 7, 1)
   const _12 = traverseForest(input, 1, 2)
 
-  console.log('part 2 answer:', _11 * _31 * _51 * _71 * _12)
+  const answer = _11 * _31 * _51 * _71 * _12
+
+  console.log('part 2 answer:', answer)
+  assert.equal(answer, 958815792)
 }
 
 (async function run () {
-  await partOne() // 282
-  await partTwo() // 958815792
+  await partOne()
+  await partTwo()
 }())
