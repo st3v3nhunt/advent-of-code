@@ -9,6 +9,7 @@ async function getInput () {
 }
 
 function createPassports (input) {
+  input.push('')
   let passport = ''
   const passports = []
 
@@ -20,8 +21,6 @@ function createPassports (input) {
       passport = ''
     }
   })
-  // include the last line
-  passports.push(passport.trim())
   return passports
 }
 
