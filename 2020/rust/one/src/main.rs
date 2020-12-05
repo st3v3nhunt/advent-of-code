@@ -14,12 +14,12 @@ fn main() {
     assert_eq!(ans_two, 13891280);
 }
 
-fn part_two(input: &Vec<u32>) -> Option<u32> {
+fn part_two(input: &[u32]) -> Option<u32> {
     for i in input {
         for j in input {
             for k in input {
                 if i + j + k == 2020 {
-                    println!("i: {}, j: {}, k: {}. i * j * k: {}", i, j, k, i * j * k);
+                    // println!("i: {}, j: {}, k: {}. i * j * k: {}", i, j, k, i * j * k);
                     return Some(i * j * k);
                 }
             }
@@ -28,11 +28,11 @@ fn part_two(input: &Vec<u32>) -> Option<u32> {
     None
 }
 
-fn part_one(input: &Vec<u32>) -> Option<u32> {
+fn part_one(input: &[u32]) -> Option<u32> {
     for i in input {
         for j in input {
             if i + j == 2020 {
-                println!("i: {}, j: {}. i*j: {}", i, j, i * j);
+                // println!("i: {}, j: {}. i*j: {}", i, j, i * j);
                 return Some(i * j);
             }
         }
