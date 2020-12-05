@@ -6,7 +6,7 @@ fn main() {
     assert_eq!(ans_one, 454);
 
     let ans_two = part_two(file_contents);
-    println!("Part two answer: {}", ans_two.);
+    println!("Part two answer: {}", ans_two);
     assert_eq!(ans_two, 649);
 }
 
@@ -14,10 +14,10 @@ fn part_one(file_contents: &str) -> u32 {
     file_contents.lines().fold(0, |acc, line| {
         let line_split = line.split(": ").collect::<Vec<_>>();
         let password = line_split[1];
-        let reqs = line_split[0].split(" ").collect::<Vec<_>>();
+        let reqs = line_split[0].split(' ').collect::<Vec<_>>();
         let [req_range, c] = [reqs[0], reqs[1]];
         let range = req_range
-            .split("-")
+            .split('-')
             .map(|x| x.parse().unwrap())
             .collect::<Vec<u32>>();
         let [min, max] = [range[0], range[1]];
@@ -34,10 +34,10 @@ fn part_two(file_contents: &str) -> u32 {
     file_contents.lines().fold(0, |acc, line| {
         let line_split = line.split(": ").collect::<Vec<_>>();
         let password = line_split[1];
-        let reqs = line_split[0].split(" ").collect::<Vec<_>>();
+        let reqs = line_split[0].split(' ').collect::<Vec<_>>();
         let [req_range, c] = [reqs[0], reqs[1]];
         let positions = req_range
-            .split("-")
+            .split('-')
             .map(|x| x.parse().unwrap())
             .collect::<Vec<usize>>();
         let [pos_one, pos_two] = [positions[0] - 1, positions[1] - 1];
