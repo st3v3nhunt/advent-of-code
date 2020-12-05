@@ -61,6 +61,7 @@ async function partTwo () {
     const next = sortedSeats[i + 1]
     if (cur + 1 !== next) {
       seatId = cur + 1
+      break
     }
   }
 
