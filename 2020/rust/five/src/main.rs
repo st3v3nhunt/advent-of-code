@@ -43,16 +43,13 @@ fn part_two(file_contents: &str) -> u32 {
     let mut passes = boarding_passes(file_contents);
     passes.sort();
     let mut seat_id = 0;
-    passes.iter().fold(0_u32, |prev, cur| {
-        if prev == 0 {
-            *cur
-        } else if *cur == prev + 1 {
-            *cur
-        } else {
-            seat_id = prev + 1;
-            println!("seat_id: {}", seat_id);
-            *cur
+    let mut i = 1;
+    while i < passes.len() - 1 {
+        if passes[i - 1] != passes[i] - 1 {
+            seat_id = passes[i - 1] + 1;
+            break;
         }
-    });
+        i += 1;
+    }
     seat_id
 }
