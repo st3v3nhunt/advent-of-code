@@ -27,7 +27,6 @@ fn part_one(file_contents: &str) -> u32 {
             group_count += 1;
             line.chars().for_each(|c| {
                 yes_group_tracker.insert(c, 1);
-                ()
             });
         }
     });
@@ -53,12 +52,7 @@ fn part_two(file_contents: &str) -> u32 {
         } else {
             group_count += 1;
             line.chars().for_each(|c| {
-                if yes_group_tracker.contains_key(&c) {
-                    *yes_group_tracker.get_mut(&c).unwrap() += 1;
-                } else {
-                    yes_group_tracker.insert(c, 1);
-                }
-                ()
+                (*yes_group_tracker.entry(c).or_insert(1)) += 1;
             });
         }
     });
