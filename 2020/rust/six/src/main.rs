@@ -51,9 +51,15 @@ fn part_two(file_contents: &str) -> u32 {
             yes_group_tracker = HashMap::new();
         } else {
             group_count += 1;
-            line.chars().for_each(|c| {
-                (*yes_group_tracker.entry(c).or_insert(1)) += 1;
-            });
+            line.chars()
+                .for_each(|c| match yes_group_tracker.get_mut(&c) {
+                    Some(val) => {
+                        *val += 1;
+                    }
+                    None => {
+                        yes_group_tracker.insert(c, 1);
+                    }
+                });
         }
     });
     yes_tracker.iter().sum()
