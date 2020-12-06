@@ -2,12 +2,13 @@ const REQUIRED_FIELDS: [&str; 7] = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "p
 
 fn main() {
     let file_contents = include_str!("../../../input/4.txt");
+    let file_contents = format!("{}\n", file_contents);
 
-    let ans_one = part_one(file_contents);
+    let ans_one = part_one(file_contents.as_str());
     println!("Part one answer: {}", ans_one);
     assert_eq!(ans_one, 216);
 
-    let ans_two = part_two(file_contents);
+    let ans_two = part_two(file_contents.as_str());
     println!("Part two answer: {}", ans_two);
     assert_eq!(ans_two, 150);
 }
@@ -26,7 +27,6 @@ fn create_passports(file_contents: &str) -> Vec<String> {
             temp_passport_container.push_str(" ");
         }
     }
-    passports.push(temp_passport_container.trim_end().to_owned());
     passports
 }
 
