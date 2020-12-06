@@ -5,8 +5,7 @@ async function getInput () {
   return getDayInputAsLines(6)
 }
 
-async function partOne () {
-  const input = await getInput()
+function partOne (input) {
   input.push('')
 
   let groupAnswers = new Set()
@@ -20,14 +19,10 @@ async function partOne () {
       line.split('').forEach(item => groupAnswers.add(item))
     }
   })
-  const sum = groupAnswerCount.reduce((a, b) => a + b)
-
-  console.log('part 1 answer:', sum)
-  assert.equal(sum, 6534)
+  return groupAnswerCount.reduce((a, b) => a + b)
 }
 
-async function partTwo () {
-  const input = await getInput()
+function partTwo (input) {
   input.push('')
 
   let groupAnswers = {}
@@ -56,13 +51,20 @@ async function partTwo () {
       })
     }
   })
-  const sum = groupAnswerCount.reduce((a, b) => a + b)
-
-  console.log('part 2 answer:', sum)
-  assert.equal(sum, 3402)
+  return groupAnswerCount.reduce((a, b) => a + b)
 }
 
 (async function run () {
-  await partOne()
-  await partTwo()
+  const input = await getInput()
+  console.time('part 1 duration')
+  const answerOne = partOne(input)
+  console.timeEnd('part 1 duration')
+  console.log('part 1 answers. expected: 6534, actual:', answerOne)
+  assert.equal(answerOne, 6534)
+
+  console.time('part 2 duration')
+  const answerTwo = partTwo(input)
+  console.timeEnd('part 2 duration')
+  console.log('part 2 answers. expected: 3402, actual:', answerTwo)
+  assert.equal(answerTwo, 3402)
 }())
