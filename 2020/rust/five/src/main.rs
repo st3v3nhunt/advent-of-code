@@ -41,7 +41,7 @@ fn part_one(file_contents: &str) -> u32 {
 
 fn part_two(file_contents: &str) -> u32 {
     let mut passes = boarding_passes(file_contents);
-    passes.sort();
+    passes.sort_unstable();
     let mut seat_id = 0;
     let mut i = 1;
     while i < passes.len() - 1 {
