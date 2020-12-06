@@ -18,7 +18,7 @@ language solutions.
 | [3](https://adventofcode.com/2020/day/3)   | 282 (JS, Rust)     | 958815792 (JS, Rust) |
 | [4](https://adventofcode.com/2020/day/4)   | 212 (JS, Rust)     | 150 (JS, Rust)       |
 | [5](https://adventofcode.com/2020/day/5)   | 828 (JS, Rust)     | 525 (JS, Rust)       |
-| [6](https://adventofcode.com/2020/day/6)   |                    |                      |
+| [6](https://adventofcode.com/2020/day/6)   | 6534 (JS)          | 3402 (JS)            |
 | [7](https://adventofcode.com/2020/day/7)   |                    |                      |
 | [8](https://adventofcode.com/2020/day/8)   |                    |                      |
 | [9](https://adventofcode.com/2020/day/9)   |                    |                      |
