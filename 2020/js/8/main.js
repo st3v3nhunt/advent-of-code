@@ -2,7 +2,7 @@ const assert = require('assert')
 const { getDayInputAsLines } = require('../lib/utils')
 
 async function getInput () {
-  return getDayInputAsLines(0)
+  return getDayInputAsLines(8)
 }
 
 function partOne (input) {
