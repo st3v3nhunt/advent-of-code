@@ -9,19 +9,17 @@ function cleanContent (item) {
   return item.slice(0, item.indexOf(' bag')).trim()
 }
 
-function partOne (input) {
+function createColorBagMap (input) {
   const map = {}
   input.forEach((line) => {
     const split = line.split(' bags contain ')
     const [container, rawContents] = [split[0], split[1].split(',').map(cleanContent)]
 
     rawContents.forEach((content) => {
-      if (content === 'no other') {
-        // ignore
-      } else {
+      if (content !== 'no other') {
         const cLessSplit = content.split(' ')
         const key = `${cLessSplit[1]} ${cLessSplit[2]}`
-        if (map.hasOwnProperty(key)) {
+        if (map[key]) {
           map[key].add(container)
         } else {
           const set = new Set()
@@ -31,27 +29,52 @@ function partOne (input) {
       }
     })
   })
-  // console.log(map)
-
-  const bagSet = countBags('shiny gold', map, new Set())
-  console.log('END:', bagSet)
-
-  return bagSet.size
+  return map
 }
 
-function countBags (bagName, map, set) {
+function createBagMap (input) {
+  const map = {}
+  input.forEach((line) => {
+    const split = line.split(' bags contain ')
+    const [container, rawContents] = [split[0], split[1].split(',').map(cleanContent)]
+
+    map[container] = rawContents
+  })
+  return map
+}
+
+function bagColorCount (bagName, map, set) {
   const bags = map[bagName]
-  if (!bags || bags.size === 0) { return }
+  if (!bags) { return }
 
   for (const bag of bags.keys()) {
     set.add(bag)
-    countBags(bag, map, set)
+    bagColorCount(bag, map, set)
   }
   return set
 }
 
+function bagInCount (bagName, map, count, multiplyer) {
+  const bags = map[bagName]
+  for (const bag of bags) {
+    if (bag === 'no other') { return count }
+    const index = bag.indexOf(' ')
+    const num = Number(bag.slice(0, index)) * multiplyer
+    const newBagName = bag.slice(index + 1)
+    count += bagInCount(newBagName, map, num, num)
+  }
+  return count
+}
+
+function partOne (input) {
+  const map = createColorBagMap(input)
+
+  return bagColorCount('shiny gold', map, new Set()).size
+}
+
 function partTwo (input) {
-  return input.length
+  const map = createBagMap(input)
+  return bagInCount('shiny gold', map, 0, 1)
 }
 
 (async function run () {
@@ -59,12 +82,12 @@ function partTwo (input) {
   console.time('part 1 duration')
   const answerOne = partOne(input)
   console.timeEnd('part 1 duration')
-  console.log('part 1 answers. expected: TBC, actual:', answerOne)
-  assert.equal(input.length, 0)
+  console.log('part 1 answers. expected: 246, actual:', answerOne)
+  assert.equal(answerOne, 246)
 
   console.time('part 2 duration')
   const answerTwo = partTwo(input)
   console.timeEnd('part 2 duration')
-  console.log('part 2 answers. expected: TBC, actual:', answerTwo)
-  assert.equal(input.length, 0)
+  console.log('part 2 answers. expected: 2976, actual:', answerTwo)
+  assert.equal(answerTwo, 2976)
 }())

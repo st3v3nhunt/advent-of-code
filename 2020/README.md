@@ -19,7 +19,7 @@ language solutions.
 | [4](https://adventofcode.com/2020/day/4)   | 212     | JS, Rust  | 150       | JS, Rust  |
 | [5](https://adventofcode.com/2020/day/5)   | 828     | JS, Rust  | 525       | JS, Rust  |
 | [6](https://adventofcode.com/2020/day/6)   | 6534    | JS, Rust  | 3402      | JS, Rust  |
-| [7](https://adventofcode.com/2020/day/7)   |         |           |           |           |
+| [7](https://adventofcode.com/2020/day/7)   | 246     | JS        | 2976      | JS        |
 | [8](https://adventofcode.com/2020/day/8)   |         |           |           |           |
 | [9](https://adventofcode.com/2020/day/9)   |         |           |           |           |
 | [10](https://adventofcode.com/2020/day/10) |         |           |           |           |
