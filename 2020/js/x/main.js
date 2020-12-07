@@ -25,6 +25,5 @@ function partTwo (input) {
   const answerTwo = partTwo(input)
   console.timeEnd('part 2 duration')
   console.log('part 2 answers. expected: TBC, actual:', answerTwo)
-  console.log('part 2 answers. expected: TBC, actual:', answerTwo)
   assert.equal(answerTwo, 0)
 }())
