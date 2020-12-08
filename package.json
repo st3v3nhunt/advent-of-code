@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/st3v3nhunt/advent-of-code#readme",
   "devDependencies": {
+    "@types/node": "^14.14.10",
     "nodemon": "^2.0.6",
     "standard": "^16.0.3"
-  }
+  },
+  "dependencies": {}
 }
