@@ -12,7 +12,7 @@ language solutions.
 ## Answers
 
 | Day                                        | Part 1  | Languages | Part 2    | Languages |
-| ---                                        | ------  | --------- | ------    | --------- |
+| ------------------------------------------ | ------- | --------- | --------- | --------- |
 | [1](https://adventofcode.com/2020/day/1)   | 1013211 | JS, Rust  | 13891280  | JS, Rust  |
 | [2](https://adventofcode.com/2020/day/2)   | 454     | JS, Rust  | 649       | JS, Rust  |
 | [3](https://adventofcode.com/2020/day/3)   | 282     | JS, Rust  | 958815792 | JS, Rust  |
@@ -20,7 +20,7 @@ language solutions.
 | [5](https://adventofcode.com/2020/day/5)   | 828     | JS, Rust  | 525       | JS, Rust  |
 | [6](https://adventofcode.com/2020/day/6)   | 6534    | JS, Rust  | 3402      | JS, Rust  |
 | [7](https://adventofcode.com/2020/day/7)   | 246     | JS        | 2976      | JS        |
-| [8](https://adventofcode.com/2020/day/8)   | 1134    | JS        |           |           |
+| [8](https://adventofcode.com/2020/day/8)   | 1134    | JS        | 1205      | JS        |
 | [9](https://adventofcode.com/2020/day/9)   |         |           |           |           |
 | [10](https://adventofcode.com/2020/day/10) |         |           |           |           |
 | [11](https://adventofcode.com/2020/day/11) |         |           |           |           |

@@ -14,7 +14,7 @@ function partOne (input) {
     const ins = input[offset]
     const key = `${offset}-${ins}`
     if (monitor.has(key)) {
-      console.log('Infinite loop detected, exiting...')
+      // console.log('Infinite loop detected, exiting...')
       break
     } else {
       monitor.add(key)
@@ -38,9 +38,6 @@ function partOne (input) {
     }
   }
   return acc
-}
-
-function runInstruction (ins, input) {
 }
 
 function partTwo (input) {
