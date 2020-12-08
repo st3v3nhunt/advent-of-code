@@ -2,7 +2,7 @@ const assert = require('assert')
 const { getDayInputAsLines } = require('../lib/utils')
 
 async function getInput () {
-  return getDayInputAsLines(0)
+  return getDayInputAsLines(x)
 }
 
 function partOne (input) {
@@ -18,12 +18,14 @@ function partTwo (input) {
   console.time('part 1 duration')
   const answerOne = partOne(input)
   console.timeEnd('part 1 duration')
-  console.log('part 1 answers. expected: TBC, actual:', answerOne)
-  assert.equal(answerOne, 0)
+  const expectedOne = 0
+  console.log(`part 1 answers. expected: ${expectedOne}, actual: ${answerOne}.`)
+  assert.equal(answerOne, expectedOne)
 
   console.time('part 2 duration')
   const answerTwo = partTwo(input)
   console.timeEnd('part 2 duration')
-  console.log('part 2 answers. expected: TBC, actual:', answerTwo)
-  assert.equal(answerTwo, 0)
+  const expectedTwo = 0
+  console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
+  assert.equal(answerTwo, expectedTwo)
 }())
