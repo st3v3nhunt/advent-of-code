@@ -68,7 +68,6 @@ function bagInCount (bagName, map, count, multiplyer) {
 
 function partOne (input) {
   const map = createColorBagMap(input)
-
   return bagColorCount('shiny gold', map, new Set()).size
 }
 
