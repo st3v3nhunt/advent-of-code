@@ -23,7 +23,7 @@ language solutions.
 | [8](https://adventofcode.com/2020/day/8)   | 1134      | JS        | 1205           | JS        |
 | [9](https://adventofcode.com/2020/day/9)   | 217430975 | JS        | 28509180       | JS        |
 | [10](https://adventofcode.com/2020/day/10) | 2176      | JS        | 18512297918464 | JS        |
-| [11](https://adventofcode.com/2020/day/11) | 2164      | JS        |                |           |
+| [11](https://adventofcode.com/2020/day/11) | 2164      | JS        | 1974           | JS        |
 | [12](https://adventofcode.com/2020/day/12) |           |           |                |           |
 | [13](https://adventofcode.com/2020/day/13) |           |           |                |           |
 | [14](https://adventofcode.com/2020/day/14) |           |           |                |           |
