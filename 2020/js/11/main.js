@@ -7,16 +7,16 @@ async function getInput () {
 
 function partOne (input) {
   const len = input.length
-  let loop = true
 
   // initially all seats are filled?!?!?
   let layout = input.map(line => line.replace(/L/g, '#'))
-  console.log(layout)
-  let count = 1
+  // console.log(layout)
+  let iteration = 1
   let curSeatCount = 0
+  let prevSeatCount = -1
   const rowLen = layout[0].length
 
-  while (loop) {
+  while (curSeatCount !== prevSeatCount) {
     const mutatingLayout = [...layout]
     for (let i = 0; i < len; i++) {
       for (let j = 0; j < rowLen; j++) {
@@ -30,38 +30,33 @@ function partOne (input) {
         const belowSeats = i < len - 1 ? layout[i + 1].slice(j > 0 ? j - 1 : 0, j < rowLen - 1 ? j + 2 : rowLen) : ''
         const leftSeat = j > 0 ? layout[i][j - 1] : ''
         const rightSeat = j < rowLen ? layout[i][j + 1] : ''
-        const occSeatCount = (`${aboveSeats}${belowSeats}${leftSeat}${rightSeat}`.match(/#/g) ?? []).length
+        const occSeatCount = ((aboveSeats + belowSeats + leftSeat + rightSeat).match(/#/g) ?? []).length
 
-        // MUTATE SEATS
         mutatingLayout[i] = mutateSeats(mutatingLayout[i], j, occSeatCount, 3)
       }
     }
-    const prevSeatCount = curSeatCount
+    prevSeatCount = curSeatCount
     curSeatCount = countOccuSeats(mutatingLayout)
-    count++
-    if (curSeatCount === prevSeatCount) {
-      loop = false
-    }
     layout = [...mutatingLayout]
+    iteration++
   }
-  console.log('iteration: ', count)
+  console.log('iteration:', iteration)
 
   return curSeatCount
 }
 
 function partTwo (input) {
   const len = input.length
-  let loop = true
 
   // initially all seats are filled?!?!?
   let layout = input.map(line => line.replace(/L/g, '#'))
-  console.log(layout)
-  let count = 1
+  let iteration = 1
+  let prevSeatCount = -1
   let curSeatCount = 0
   const rowLen = layout[0].length
 
-  while (loop) {
-    console.log(layout)
+  while (curSeatCount !== prevSeatCount) {
+    // console.log(layout)
     const mutatingLayout = [...layout]
     for (let i = 0; i < len; i++) {
       for (let j = 0; j < rowLen; j++) {
@@ -73,112 +68,104 @@ function partTwo (input) {
         let seats = ''
         // COUNT SEATS
         if (i > 0) { // only count seats above when not on the top row
-          // const topRow = layout[i - 1]
           if (j > 0) { // only count when not at left edge
-            let itl = i - 1
-            let jtl = j - 1
-            let topLeft = layout[itl][jtl]
-            while (jtl > 0 && itl > 0 && topLeft === '.') {
+            let itl = i
+            let jtl = j
+            let topLeft
+            do {
               itl--
               jtl--
               topLeft = layout[itl][jtl]
-            }
+            } while (jtl > 0 && itl > 0 && topLeft === '.')
             seats += topLeft
           }
-          let it = i - 1
-          let top = layout[it][j]
-          while (it > 0 && top === '.') {
+
+          let it = i
+          let top
+          do {
             it--
             top = layout[it][j]
-          }
+          } while (it > 0 && top === '.')
           seats += top
+
           if (j < rowLen) {
-            let itr = i - 1
-            let jtr = j + 1
-            let topRight = layout[itr][jtr]
-            while (itr > 0 && jtr < rowLen && topRight === '.') {
+            let itr = i
+            let jtr = j
+            let topRight
+            do {
               itr--
               jtr++
               topRight = layout[itr][jtr]
-            }
+            } while (itr > 0 && jtr < rowLen && topRight === '.')
             seats += topRight
           }
         }
 
         const currentRow = layout[i]
         if (j > 0) { // left seat
-          let jl = j - 1
-          let left = currentRow[jl]
-          while (jl > 0 && left === '.') {
+          let jl = j
+          let left
+          do {
             jl--
             left = currentRow[jl]
-          }
+          } while (jl > 0 && left === '.')
           seats += left
         }
+
         if (j < rowLen) { // right seat
-          let jr = j + 1
-          let right = currentRow[jr]
-          while (jr < rowLen && right === '.') {
+          let jr = j
+          let right
+          do {
             jr++
             right = currentRow[jr]
-          }
-          // const right = currentRow[j + 1]
-          // if right is floor (.) move until not floor or end of row
+          } while (jr < rowLen && right === '.')
           seats += right
         }
 
         if (i < len - 1) { // bottom row only when available
           if (j > 0) { // only count when not at right edge
-            let ibl = i + 1
-            let jbl = j - 1
-            let bottomLeft = layout[ibl][jbl]
-            while (ibl < len - 1 && jbl > 0 && bottomLeft === '.') {
+            let ibl = i
+            let jbl = j
+            let bottomLeft
+            do {
               ibl++
               jbl--
               bottomLeft = layout[ibl][jbl]
-            }
+            } while (ibl < len - 1 && jbl > 0 && bottomLeft === '.')
             seats += bottomLeft
           }
-          let ib = i + 1
-          let bottom = layout[ib][j]
-          while (ib < len - 1 && bottom === '.') {
+
+          let ib = i
+          let bottom
+          do {
             ib++
             bottom = layout[ib][j]
-          }
+          } while (ib < len - 1 && bottom === '.')
           seats += bottom
+
           if (j < rowLen) {
-            let ibr = i + 1
-            let jbr = j + 1
-            let bottomRight = layout[ibr][jbr]
-            while (ibr < len - 1 && jbr < rowLen && bottomRight === '.') {
+            let ibr = i
+            let jbr = j
+            let bottomRight
+            do {
               ibr++
               jbr++
               bottomRight = layout[ibr][jbr]
-            }
+            } while (ibr < len - 1 && jbr < rowLen && bottomRight === '.')
             seats += bottomRight
           }
         }
         const occSeatCount = (seats.match(/#/g) ?? []).length
 
-        // const aboveSeats = i > 0 ? layout[i - 1].slice(j > 0 ? j - 1 : 0, j < rowLen - 1 ? j + 2 : rowLen) : ''
-        // const belowSeats = i < len - 1 ? layout[i + 1].slice(j > 0 ? j - 1 : 0, j < rowLen - 1 ? j + 2 : rowLen) : ''
-        // const leftSeat = j > 0 ? layout[i][j - 1] : ''
-        // const rightSeat = j < rowLen ? layout[i][j + 1] : ''
-        // const occSeatCount = (`${aboveSeats}${belowSeats}${leftSeat}${rightSeat}`.match(/#/g) ?? []).length
-
-        // MUTATE SEATS
         mutatingLayout[i] = mutateSeats(mutatingLayout[i], j, occSeatCount, 4)
       }
     }
-    const prevSeatCount = curSeatCount
+    prevSeatCount = curSeatCount
     curSeatCount = countOccuSeats(mutatingLayout)
-    count++
-    if (curSeatCount === prevSeatCount) {
-      loop = false
-    }
     layout = [...mutatingLayout]
+    iteration++
   }
-  console.log('iteration: ', count)
+  console.log('iteration:', iteration)
 
   return curSeatCount
 }
@@ -205,12 +192,12 @@ function countOccuSeats (arr) {
 
 (async function run () {
   const input = await getInput()
-  // console.time('part 1 duration')
-  // const answerOne = partOne(input)
-  // console.timeEnd('part 1 duration')
-  // const expectedOne = 2164
-  // console.log(`part 1 answers. expected: ${expectedOne}, actual: ${answerOne}.`)
-  // assert.equal(answerOne, expectedOne)
+  console.time('part 1 duration')
+  const answerOne = partOne(input)
+  console.timeEnd('part 1 duration')
+  const expectedOne = 2164
+  console.log(`part 1 answers. expected: ${expectedOne}, actual: ${answerOne}.`)
+  assert.equal(answerOne, expectedOne)
 
   console.time('part 2 duration')
   const answerTwo = partTwo(input)
