@@ -1,12 +1,12 @@
 use std::time::Instant;
 
 fn main() {
-    let file_contents = include_str!("../../../input/x.txt");
+    let file_contents = include_str!("../../../input/9.txt");
 
     let start = Instant::now();
     let ans_one = part_one(file_contents);
     let duration = start.elapsed();
-    let expected_one = 0;
+    let expected_one = 217430975;
     println!(
         "Part one answer: {}, expected {}. Completed in: {:?}",
         ans_one, expected_one, duration
@@ -16,7 +16,7 @@ fn main() {
     let start = Instant::now();
     let ans_two = part_two(file_contents);
     let duration = start.elapsed();
-    let expected_two = 0;
+    let expected_two = 28509180;
     println!(
         "Part two answer: {}, expected {}. Completed in: {:?}",
         ans_two, expected_one, duration
