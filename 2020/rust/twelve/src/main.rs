@@ -36,29 +36,22 @@ fn part_one(file_contents: &str) -> i32 {
 
     file_contents.lines().for_each(|ins| {
         let action = ins.chars().next().unwrap();
-        let val: i32 = ins.chars().skip(1).collect::<String>().parse().unwrap();
+        let val = ins
+            .chars()
+            .skip(1)
+            .collect::<String>()
+            .parse::<i32>()
+            .unwrap();
         // println!("{:?} {}", pos, deg);
         // println!("{} {}", action, val);
 
         match action {
-            'N' => {
-                pos.y += val;
-            }
-            'S' => {
-                pos.y -= val;
-            }
-            'E' => {
-                pos.x += val;
-            }
-            'W' => {
-                pos.x -= val;
-            }
-            'L' => {
-                deg -= val;
-            }
-            'R' => {
-                deg += val;
-            }
+            'N' => pos.y += val,
+            'S' => pos.y -= val,
+            'E' => pos.x += val,
+            'W' => pos.x -= val,
+            'L' => deg -= val,
+            'R' => deg += val,
             'F' => {
                 let dir = deg % 360;
                 match dir {
@@ -66,14 +59,13 @@ fn part_one(file_contents: &str) -> i32 {
                     -90 | 270 => pos.x -= val,
                     180 | -180 => pos.y -= val,
                     0 => pos.y += val,
-                    _ => println!("Unknown direction."),
+                    _ => panic!("Unknown direction."),
                 }
             }
-            _ => println!("{}", action),
+            _ => panic!("Unknown action: {}", action),
         }
     });
 
-    println!("{:?}", pos);
     pos.x.abs() + pos.y.abs()
 }
 
