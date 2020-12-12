@@ -101,18 +101,9 @@ fn part_two(file_contents: &str) -> i32 {
 fn rotate_left(wp: &Coord, val: i32) -> Coord {
     let dir = val % 360;
     match dir {
-        90 | -270 => Coord {
-            x: wp.y * -1,
-            y: wp.x,
-        },
-        -90 | 270 => Coord {
-            x: wp.y,
-            y: wp.x * -1,
-        },
-        180 | -180 => Coord {
-            x: wp.x * -1,
-            y: wp.y * -1,
-        },
+        90 | -270 => Coord { x: -wp.y, y: wp.x },
+        -90 | 270 => Coord { x: wp.y, y: -wp.x },
+        180 | -180 => Coord { x: -wp.x, y: -wp.y },
         _ => panic!("Unknown dir for rotating left."),
     }
 }
@@ -120,18 +111,9 @@ fn rotate_left(wp: &Coord, val: i32) -> Coord {
 fn rotate_right(wp: &Coord, val: i32) -> Coord {
     let dir = val % 360;
     match dir {
-        90 | -270 => Coord {
-            x: wp.y,
-            y: wp.x * -1,
-        },
-        -90 | 270 => Coord {
-            x: wp.y * -1,
-            y: wp.x,
-        },
-        180 | -180 => Coord {
-            x: wp.x * -1,
-            y: wp.y * -1,
-        },
+        90 | -270 => Coord { x: wp.y, y: -wp.x },
+        -90 | 270 => Coord { x: -wp.y, y: wp.x },
+        180 | -180 => Coord { x: -wp.x, y: -wp.y },
         _ => panic!("Unknown dir for rotating right."),
     }
 }
