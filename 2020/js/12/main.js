@@ -102,11 +102,11 @@ function rotateLeft (wp, val) {
   const dir = val % 360
 
   if (dir === 90 || dir === -270) {
-    return [wp[1] * -1, wp[0]]
+    return [-wp[1], wp[0]]
   } else if (dir === -90 || dir === 270) {
-    return [wp[1], wp[0] * -1]
+    return [wp[1], -wp[0]]
   } else if (dir === 180 || dir === -180) {
-    return [wp[0] * -1, wp[1] * -1]
+    return [-wp[0], -wp[1]]
   }
   Error('Unable to rotateLeft')
 }
@@ -115,11 +115,11 @@ function rotateRight (wp, val) {
   const dir = val % 360
 
   if (dir === 90 || dir === -270) {
-    return [wp[1], wp[0] * -1]
+    return [wp[1], -wp[0]]
   } else if (dir === -90 || dir === 270) {
-    return [wp[1] * -1, wp[0]]
+    return [-wp[1], wp[0]]
   } else if (dir === 180 || dir === -180) {
-    return [wp[0] * -1, wp[1] * -1]
+    return [-wp[0], -wp[1]]
   }
   Error('Unable to rotateRight')
 }
