@@ -24,10 +24,10 @@ fn main() {
     assert_eq!(ans_two, expected_two);
 }
 
-fn part_one(file_contents: &str) -> u32 {
-    file_contents.len() as u32
+fn part_one(file_contents: &str) -> i32 {
+    file_contents.len()
 }
 
-fn part_two(file_contents: &str) -> u32 {
-    file_contents.len() as u32
+fn part_two(file_contents: &str) -> i32 {
+    file_contents.len()
 }
