@@ -5,14 +5,6 @@ async function getInput () {
   return getDayInputAsLines(x)
 }
 
-function partOne (input) {
-  return input.length
-}
-
-function partTwo (input) {
-  return input.length
-}
-
 (async function run () {
   const input = await getInput()
   console.time('part 1 duration')
@@ -29,3 +21,11 @@ function partTwo (input) {
   console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
   assert.equal(answerTwo, expectedTwo)
 }())
+
+function partOne (input) {
+  return input.length
+}
+
+function partTwo (input) {
+  return input.length
+}
