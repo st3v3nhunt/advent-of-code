@@ -45,11 +45,11 @@ function partOne (input) {
       // apply mask
       const mem = [...initMem]
       for (let j = 1; j <= memLength; j++) {
-        const maskIndex = mask.length - j
-        if (mask[maskIndex] === 'X') {
+        const maskValue = mask[mask.length - j]
+        if (maskValue === 'X') {
           mem[memLength - j] = numToApply[memLength - j]
         } else {
-          mem[memLength - j] = mask[maskIndex]
+          mem[memLength - j] = maskValue
         }
       }
       register[loc] = mem
