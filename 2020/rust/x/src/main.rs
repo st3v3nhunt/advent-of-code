@@ -19,7 +19,7 @@ fn main() {
     let expected_two = 0;
     println!(
         "Part two answer: {}, expected {}. Completed in: {:?}",
-        ans_two, expected_one, duration
+        ans_two, expected_two, duration
     );
     assert_eq!(ans_two, expected_two);
 }
