@@ -17,17 +17,10 @@ async function getInput () {
   console.time('part 2 duration')
   const answerTwo = partTwo(input)
   console.timeEnd('part 2 duration')
-  const expectedTwo = 0
+  const expectedTwo = 8546398
   console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
   assert.equal(answerTwo, expectedTwo)
 }())
-
-function partOne (input) {
-  const length = 2020
-  const nums = calc(input, length)
-  console.log(nums)
-  return nums
-}
 
 function calc (input, length) {
   const nums = input[0].split(',').map(Number)
@@ -51,8 +44,12 @@ function calc (input, length) {
   return last
 }
 
+function partOne (input) {
+  const length = 2020
+  return calc(input, length)
+}
+
 function partTwo (input) {
   const length = 30000000
-  const nums = calc(input, length)
-  return nums[length - 1]
+  return calc(input, length)
 }
