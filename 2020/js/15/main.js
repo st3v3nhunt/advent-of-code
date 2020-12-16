@@ -25,16 +25,16 @@ async function getInput () {
 function calc (input, length) {
   const nums = input[0].split(',').map(Number)
   const initialLen = nums.length - 1
-  const memo = {}
+  const memo = new Map()
   for (let i = 0; i < initialLen; i++) {
     const num = nums[i]
-    memo[num] = i
+    memo.set(num, i)
   }
 
   let last = nums[initialLen]
   for (let i = initialLen; i < length - 1; i++) {
-    const lastPos = memo[last]
-    memo[last] = i
+    const lastPos = memo.get(last)
+    memo.set(last, i)
     if (lastPos !== undefined) {
       last = i - lastPos
     } else {
