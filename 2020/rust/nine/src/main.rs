@@ -19,7 +19,7 @@ fn main() {
     let expected_two = 28509180;
     println!(
         "Part two answer: {}, expected {}. Completed in: {:?}",
-        ans_two, expected_one, duration
+        ans_two, expected_two, duration
     );
     assert_eq!(ans_two, expected_two);
 }
@@ -45,8 +45,9 @@ fn part_one(file_contents: &str) -> i32 {
 }
 
 fn valid(arr: &[i32], x: i32) -> bool {
-    for i in 0..arr.len() {
-        for j in 0..arr.len() {
+    let len = arr.len();
+    for i in 0..len {
+        for j in 0..len {
             if i != j && arr[i] + arr[j] == x {
                 return true;
             }
@@ -55,6 +56,40 @@ fn valid(arr: &[i32], x: i32) -> bool {
     false
 }
 
-fn part_two(file_contents: &str) -> i32 {
-    file_contents.len() as i32
+fn part_two(file_contents: &str) -> i64 {
+    let target = 28509180;
+    let len = file_contents.lines().count();
+    let input = file_contents
+        .lines()
+        .map(|x| x.parse::<i64>().unwrap())
+        .collect::<Vec<i64>>();
+
+    for i in 0..len {
+        let mut acc = 0;
+        let mut nums = vec![];
+        // nums = vec![];
+        for j in i..len {
+            let num = input[j];
+            acc += num;
+            println!("{}", acc);
+            if acc == target {
+                println!("nums: {:?}", nums);
+                return nums.iter().max().unwrap() + nums.iter().min().unwrap();
+            // return nums;
+            // break 'outer;
+            } else if acc > target {
+                break;
+            }
+            nums.push(num);
+        }
+    }
+
+    // println!("{:?}", nums);
+    // println!(
+    //     "{} {}",
+    //     nums.iter().max().unwrap(),
+    //     nums.iter().min().unwrap()
+    // );
+    // nums.iter().max().unwrap() + nums.iter().min().unwrap()
+    0
 }
