@@ -28,7 +28,7 @@ language solutions.
 | [13](https://adventofcode.com/2020/day/13) | 171           | JS        | 539746751134958 | JS        |
 | [14](https://adventofcode.com/2020/day/14) | 9879607673316 | JS        |                 |           |
 | [15](https://adventofcode.com/2020/day/15) | 257           | JS, Rust  | 8546398         | JS, Rust  |
-| [16](https://adventofcode.com/2020/day/16) |               |           |                 |           |
+| [16](https://adventofcode.com/2020/day/16) | 23044         | JS        | 3765150732757   | JS        |
 | [17](https://adventofcode.com/2020/day/17) |               |           |                 |           |
 | [18](https://adventofcode.com/2020/day/18) |               |           |                 |           |
 | [19](https://adventofcode.com/2020/day/19) |               |           |                 |           |
