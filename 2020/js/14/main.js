@@ -17,15 +17,13 @@ async function getInput () {
   console.time('part 2 duration')
   const answerTwo = partTwo(input)
   console.timeEnd('part 2 duration')
-  const expectedTwo = 0
+  const expectedTwo = 3435342392262
   console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
   assert.equal(answerTwo, expectedTwo)
 }())
 
 function partOne (input) {
-  const register = {}
-  const memLength = 36
-  const initMem = '0'.repeat(memLength).split('')
+  const register = new Map()
   let mask = ''
 
   for (let i = 0; i < input.length; i++) {
@@ -35,34 +33,84 @@ function partOne (input) {
     } else {
       const start = ins.indexOf('[') + 1
       const end = ins.indexOf(']')
-      const loc = ins.substr(start, end - start)
-      const numToApply = [...initMem]
-      const num = Number(val).toString(2).split('')
-      for (let j = 1; j <= num.length; j++) {
-        numToApply[memLength - j] = num[num.length - j]
-      }
+      const addr = ins.substr(start, end - start)
+      const binVal = decToPaddedBinary(val, mask.length)
+      const binValAfterMaskApply = applyMask(mask, binVal, 'X')
 
-      // apply mask
-      const mem = [...initMem]
-      for (let j = 1; j <= memLength; j++) {
-        const maskValue = mask[mask.length - j]
-        if (maskValue === 'X') {
-          mem[memLength - j] = numToApply[memLength - j]
-        } else {
-          mem[memLength - j] = maskValue
-        }
-      }
-      register[loc] = mem
+      register.set(addr, binValAfterMaskApply)
     }
   }
 
   let ans = 0
-  for (const val of Object.values(register)) {
+  for (const val of register.values()) {
     ans += parseInt(val.join(''), 2)
   }
   return ans
 }
 
 function partTwo (input) {
-  return input.length
+  const register = new Map()
+  let mask = ''
+
+  for (let i = 0; i < input.length; i++) {
+    const [ins, val] = input[i].split(' = ')
+    if (ins === 'mask') {
+      mask = val
+    } else { // mem[addr] = val
+      const start = ins.indexOf('[') + 1
+      const end = ins.indexOf(']')
+      const decAddr = ins.substr(start, end - start)
+      const binAddr = decToPaddedBinary(decAddr, mask.length)
+
+      const result = applyMask(mask, binAddr, '0')
+      const floatingBitCount = result.reduce((acc, cur) => cur === 'X' ? acc + 1 : acc, 0)
+      const perms = getPermutations(floatingBitCount)
+
+      // calc mem addresses to write to
+      const addrs = perms.map((p, i) => {
+        return result.map(r => {
+          if (r === 'X') {
+            return p.shift()
+          }
+          return r
+        })
+      })
+
+      addrs.forEach(x => {
+        register.set(x.join(''), Number(val))
+      })
+    }
+  }
+
+  let ans = 0
+  for (const x of register.values()) {
+    ans += x
+  }
+  return ans
+}
+
+function getPermutations (n) {
+  const perms = []
+  const pCount = 2 ** n
+  for (let i = 0; i < pCount; i++) {
+    perms.push(Number(i).toString(2).padStart(n, '0').split(''))
+  }
+  return perms
+}
+
+function applyMask (mask, target, c) {
+  const result = []
+  for (let i = 0; i < mask.length; i++) {
+    const maskValue = mask[i]
+    if (maskValue === c) {
+      result.push(target[i])
+    } else {
+      result.push(maskValue)
+    }
+  }
+  return result
+}
+
+function decToPaddedBinary (dec, length) {
+  return Number(dec).toString(2).padStart(length, '0')
 }
