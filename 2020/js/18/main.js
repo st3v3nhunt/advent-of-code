@@ -14,27 +14,25 @@ async function getInput () {
   console.log(`part 1 answers. expected: ${expectedOne}, actual: ${answerOne}.`)
   assert.equal(answerOne, expectedOne)
 
-  console.time('part 2 duration')
-  const answerTwo = partTwo(input)
-  console.timeEnd('part 2 duration')
-  const expectedTwo = 0
-  console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
-  assert.equal(answerTwo, expectedTwo)
+  // console.time('part 2 duration')
+  // const answerTwo = partTwo(input)
+  // console.timeEnd('part 2 duration')
+  // const expectedTwo = 0
+  // console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
+  // assert.equal(answerTwo, expectedTwo)
 }())
 
 function partOne (input) {
   const rowResults = []
   for (let i = 0; i < input.length; i++) {
     const row = input[i]
-    console.log(row)
+    console.log('expression:', row)
     const chars = row.split('')
-    // const nums = []
-    // const operators = []
-    // const parens = []
     const calcResults = []
-    calcResults.push(calc(chars)[0])
+    calcResults.push(p1Calc(chars)[0])
 
-    console.log('calcResults:', calcResults)
+    console.log('result:    ', calcResults[0])
+    console.log('-'.repeat(20))
     rowResults.push(calcResults.pop())
   }
   const ans = rowResults.reduce((acc, cur) => acc + cur, 0)
@@ -42,68 +40,58 @@ function partOne (input) {
   return ans
 }
 
-function calc (chars) {
+function partTwo (input) {
+  const rowResults = []
+  for (let i = 0; i < input.length; i++) {
+    const row = input[i]
+    console.log('expression:', row)
+    const chars = row.split('')
+    const calcResults = []
+    calcResults.push(p2Calc(chars)[0])
+
+    console.log('result:    ', calcResults[0])
+    console.log('-'.repeat(20))
+    rowResults.push(calcResults.pop())
+  }
+  const ans = rowResults.reduce((acc, cur) => acc + cur, 0)
+  console.log('results:', ans)
+  return ans
+}
+
+function p1Calc (chars) {
   const nums = []
   const operators = []
-  // const parens = []
   const calcResults = []
   let j = 0
 
   for (; j < chars.length; j++) {
     const c = chars[j]
-    // console.log(c)
-    if (/\(/.test(c)) {
-      // parens.push(c)
-      // call function with rest of string
-      // transfer the num to the calcResults so it will be included
-      if (nums.length > 0) {
+    if (/\(/.test(c)) { // start of block
+      if (nums.length > 0) { // transfer num to calcResults so it will be included
         calcResults.push(nums.pop())
       }
-      const [out, skip] = calc(chars.slice(j + 1))
-      if (operators.length > 0) {
-        const exp = `${calcResults.pop()} ${operators.pop()} ${out}`
-        const result = eval(exp)
-        calcResults.push(result)
-      } else {
-        calcResults.push(out)
-      }
+      const [res, skip] = p1Calc(chars.slice(j + 1))
       j += skip
-    } else if (/\)/.test(c)) {
-      // parens.pop()
-      return [calcResults.pop(), j + 1] // possibly + 1
-      // return with result
-    } else if (/\d/.test(c)) { // number
-      // if (parens.length > 0) {
-      // }
-      // if (parens.length > 0) { // need to skip the last result
-      //   if (calcResults.length > 0) { // recursion
-      //     const calc = `${nums.pop()} ${operators.pop()} ${c}`
-      //     console.log('running calc with result:', calc)
-      //     const result = eval(calc)
-      //     calcResults.push(result)
-      //   } else {
-      //     nums.push(c)
-      //   }
-      // } else
-      if (calcResults.length > 0) { // normally a result is available
-        const calc = `${calcResults.pop()} ${operators.pop()} ${c}`
-        // console.log('running calc with result:', calc)
-        const result = eval(calc)
-        calcResults.push(result)
-      } else if (nums.length === 0) { // empty, add num
-        nums.push(Number(c))
-      } else if (nums.length === 1) { // got a num thus _should_ have an operator!
-        const calc = `${nums.pop()} ${operators.pop()} ${c}`
-        // console.log('running calc:', calc)
-        const result = eval(calc)
-        calcResults.push(result)
+      if (operators.length > 0) {
+        calcResults.push(eval(`${calcResults.pop()} ${operators.pop()} ${res}`))
+      } else {
+        calcResults.push(res)
       }
-    } else if (/\+/.test(c)) { // addition - could combine with multiply
-      operators.push(c)
-    } else if (/\*/.test(c)) { // multiply
+    } else if (/\)/.test(c)) { // end of block
+      return [calcResults.pop(), j + 1]
+    } else if (/\d/.test(c)) { // number
+      if (calcResults.length > 0) {
+        calcResults.push(eval(`${calcResults.pop()} ${operators.pop()} ${c}`))
+      } else {
+        if (nums.length === 0) { // empty, add num
+          nums.push(Number(c))
+        } else { // got a num thus _should_ have an operator!
+          calcResults.push(eval(`${nums.pop()} ${operators.pop()} ${c}`))
+        }
+      }
+    } else if (/(\+|\*)/.test(c)) { // operators
       operators.push(c)
     } else if (/ /.test(c)) { // space
-      // console.log('space')
     } else {
       Error(`Unhandled char: ${c}`)
     }
@@ -111,6 +99,46 @@ function calc (chars) {
   return [calcResults.reduce((acc, cur) => acc + cur, 0), j + 1]
 }
 
-function partTwo (input) {
-  return input.length
+function p2Calc (chars) {
+  const nums = []
+  const operators = []
+  // const mop = []
+  const calcResults = []
+  let j = 0
+
+  for (; j < chars.length; j++) {
+    const c = chars[j]
+    if (/\(/.test(c)) { // start of block
+      if (nums.length > 0) { // transfer num to calcResults so it will be included
+        calcResults.push(nums.pop())
+      }
+      const [res, skip] = p1Calc(chars.slice(j + 1))
+      j += skip
+      if (operators.length > 0) {
+        calcResults.push(`${calcResults.pop()} ${operators.pop()} ${res}`)
+      } else {
+        calcResults.push(res)
+      }
+    } else if (/\)/.test(c)) { // end of block
+      return [calcResults.pop(), j + 1]
+    } else if (/\d/.test(c)) { // number
+      if (calcResults.length > 0) {
+        calcResults.push(eval(`${calcResults.pop()} ${operators.pop()} ${c}`))
+      } else {
+        if (nums.length === 0) { // empty, add num
+          nums.push(Number(c))
+        } else { // got a num thus _should_ have an operator!
+          calcResults.push(eval(`${nums.pop()} ${operators.pop()} ${c}`))
+        }
+      }
+    } else if (/\+/.test(c)) { // addition
+      operators.push(c)
+    } else if (/\*/.test(c)) { // multiply
+      operators.push(c)
+    } else if (/ /.test(c)) { // space
+    } else {
+      Error(`Unhandled char: ${c}`)
+    }
+  }
+  return [calcResults.reduce((acc, cur) => acc + cur, 0), j + 1]
 }
