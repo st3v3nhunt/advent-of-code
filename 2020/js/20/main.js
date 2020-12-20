@@ -23,58 +23,41 @@ async function getInput () {
 }())
 
 function partOne (input) {
-  // each tile needs to be rotated and flipped to cover all translations
+  const tilesAndEdges = processInputIntoTiles(input)
+  const corners = getCorners(tilesAndEdges)
+  return corners.reduce((acc, cur) => acc * cur, 1)
+}
+
+function partTwo (input) {
+  return input.length
+}
+
+function processInputIntoTiles (input) {
+  const inputTiles = transformInputToTiles(input)
+  const tileTranslations = createTranslations(inputTiles)
+  const borders = getBorders(tileTranslations)
+  return getTilesAndEdges(borders)
+}
+
+function transformInputToTiles (input) {
   const inputTiles = new Map()
-  let num
+  let tileId
   let tile = []
   for (let i = 0; i < input.length; i++) {
     const line = input[i]
     if (line === '') {
       continue
     } else if (line.startsWith('Tile')) {
-      num = Number(line.split(' ')[1].split(':')[0])
+      tileId = Number(line.split(' ')[1].split(':')[0])
     } else { // tile input
       tile.push(line)
       if ((i - (inputTiles.size * 2)) % 10 === 0) {
-        inputTiles.set(num, tile)
+        inputTiles.set(tileId, tile)
         tile = []
       }
     }
   }
-  // console.log(inputTiles)
-  console.log('inputTiles.size:', inputTiles.size)
-  // do the translations. 8 in total. rotate and then either h flip or v flip
-  const tts = createTranslations(inputTiles)
-  console.log(tts)
-  console.log('inputTiles.size:', tts.size)
-
-  const borders = getBorders(tts)
-  console.log('borders:', borders)
-  console.log('borders.size:', borders.size)
-  // figure out which borders match other tiles.
-  // every tile has 4 borders, there are 8 tiles so 32 possible borders
-  // create map with borders as the key, value is the tile number
-  // go through all borders and add value if a match. With that map, take the
-  // entries with there should be 4 that have a length of 2. These are the corners?!?!?
-
-  const tilesAndEdges = getTilesAndEdges(borders)
-  console.log('tilesAndEdges', tilesAndEdges)
-  const corners = getCorners(tilesAndEdges)
-  console.log('corners', corners)
-  const ans = corners.reduce((acc, cur) => acc * cur, 1)
-  // find a tile that has 2 borders wi
-  // find arrangement
-  return ans
-}
-
-function getCorners (tilesAndEdges) {
-  const cornerTileIds = []
-  tilesAndEdges.forEach((v, k) => {
-    if (v.size === 2) {
-      cornerTileIds.push(k)
-    }
-  })
-  return cornerTileIds
+  return inputTiles
 }
 
 function getTilesAndEdges (borders) {
@@ -92,9 +75,9 @@ function getTilesAndEdges (borders) {
           corners.set(k, new Set([val]))
         }
       }
-      console.log(tileIds)
     }
   })
+  console.log('tiles in image:', corners.size)
   return corners
 }
 
@@ -104,13 +87,10 @@ function getBorders (inputTiles) {
   inputTiles.forEach((tileTranslationMap, tileMapId) => {
     tileTranslationMap.forEach((tileTranslation, tileId) => {
       const tileBorders = []
-      // console.log(tile.length, tileId, tiles.length, tile, tile[0])
       const len = tileTranslation.length - 1
       tileBorders.push('h' + tileTranslation[0])
       tileBorders.push('h' + tileTranslation[len])
 
-      // tileBorders.set(tileTranslation[0], tileId)
-      // tileBorders.set(tileTranslation[len], tileId)
       const left = []
       const right = []
       for (let i = 0; i <= len; i++) {
@@ -119,8 +99,7 @@ function getBorders (inputTiles) {
       }
       tileBorders.push('v' + left.join(''))
       tileBorders.push('v' + right.join(''))
-      // tileBorders.set(left.join(''), tileId)
-      // tileBorders.set(right.join(''), tileId)
+
       tileBorders.forEach(x => {
         if (borders.has(x)) {
           borders.get(x).add(tileMapId)
@@ -128,17 +107,14 @@ function getBorders (inputTiles) {
           borders.set(x, new Set([tileMapId]))
         }
       })
-      // console.log(tileBorders)
     })
-    // borders.set(tileId, tileBorders)
   })
   return borders
 }
 
 function createTranslations (tiles) {
-  const tts = new Map() // tile translations
+  const tileTranslations = new Map()
   tiles.forEach((tile0, tileId) => {
-    // TODO: push into array rather than having the intermeditate var
     const translations = new Map()
     translations.set(`${tileId}.0`, tile0)
     const tile0Flip = flipHorizontal(tile0)
@@ -155,9 +131,19 @@ function createTranslations (tiles) {
     translations.set(`${tileId}.6`, tile270)
     const tile270Flip = rotateRight(tile270)
     translations.set(`${tileId}.7`, tile270Flip)
-    tts.set(tileId, translations)
+    tileTranslations.set(tileId, translations)
   })
-  return tts
+  return tileTranslations
+}
+
+function getCorners (tilesAndEdges) {
+  const cornerTileIds = []
+  tilesAndEdges.forEach((v, k) => {
+    if (v.size === 2) {
+      cornerTileIds.push(k)
+    }
+  })
+  return cornerTileIds
 }
 
 // returns a new array with the contents translated by 90 degrees right
@@ -174,7 +160,6 @@ function rotateRight (tile) {
   for (let i = 0; i < temp.length; i++) {
     out[i] = temp[i].join('')
   }
-
   return out
 }
 
@@ -189,10 +174,5 @@ function flipHorizontal (tile) {
     }
     out[i] = temp[i].join('')
   }
-
   return out
-}
-
-function partTwo (input) {
-  return input.length
 }
