@@ -22,10 +22,9 @@ async function getInput () {
   assert.equal(answerTwo, expectedTwo)
 }())
 
-function partOne (input) {
-  const alegIngMap = new Map()
-  const allAlegs = new Set()
-  const allIngs = new Map()
+function processInput (input) {
+  const alergenIngredientMap = new Map()
+  const ingredientCounts = new Map()
 
   for (let i = 0; i < input.length; i++) {
     const line = input[i]
@@ -36,149 +35,82 @@ function partOne (input) {
 
     ings.forEach(x => {
       let ingCount = 0
-      if (allIngs.has(x)) {
-        ingCount = allIngs.get(x)
+      if (ingredientCounts.has(x)) {
+        ingCount = ingredientCounts.get(x)
       }
       ingCount += 1
-      allIngs.set(x, ingCount)
+      ingredientCounts.set(x, ingCount)
     })
 
     for (let j = 0; j < alegs.length; j++) {
       const aleg = alegs[j]
-      allAlegs.add(aleg)
-      if (alegIngMap.has(aleg)) {
-        const alegIngs = alegIngMap.get(aleg)
+      if (alergenIngredientMap.has(aleg)) {
+        const alegIngs = alergenIngredientMap.get(aleg)
         const intersection = new Set([...ings].filter(x => alegIngs.has(x)))
         if (intersection.size === 0) {
-          alegIngMap.set(aleg, new Set([[...ings], [...alegIngs]]))
+          alergenIngredientMap.set(aleg, new Set([[...ings], [...alegIngs]]))
         } else if (intersection.size > 0) {
-          alegIngMap.set(aleg, intersection)
+          alergenIngredientMap.set(aleg, intersection)
         }
       } else {
-        alegIngMap.set(aleg, ings) // add ingres to map and remove from noAls list
+        alergenIngredientMap.set(aleg, ings)
       }
     }
   }
-  const ingsWithAlegs = new Set()
-  alegIngMap.forEach((v, k) => v.forEach(x => ingsWithAlegs.add(x)))
+  return [alergenIngredientMap, ingredientCounts]
+}
 
-  console.log('confirmed', ingsWithAlegs)
-  console.log('alegIngMap:', alegIngMap)
-  console.log('allAlegs:', allAlegs)
-  console.log('allIngs:', allIngs)
+function partOne (input) {
+  const [alergenIngredientMap, ingredientCounts] = processInput(input)
+
+  // get ingredients with alergens
+  const ingredientsWithAlergens = new Set()
+  alergenIngredientMap.forEach((v, k) => v.forEach(x => ingredientsWithAlergens.add(x)))
+
+  // get ingredients with NO alergens and count how many times they appear
   const ingsNoAlegs = new Set()
   let ingCount = 0
-  allIngs.forEach((v, k) => {
-    if (!ingsWithAlegs.has(k)) {
+  ingredientCounts.forEach((v, k) => {
+    if (!ingredientsWithAlergens.has(k)) {
       ingsNoAlegs.add(k)
       ingCount += v
     }
   })
-  console.log('ings with no alegs', ingsNoAlegs)
 
   return ingCount
 }
 
 function partTwo (input) {
-  const alegIngMap = new Map()
-  const allAlegs = new Set()
-  const allIngs = new Map()
+  const [alergenToIngredients] = processInput(input)
 
-  for (let i = 0; i < input.length; i++) {
-    const line = input[i]
-    const lSplit = line.split(' (contains ')
-    const [tempIngs, tempAlegs] = [lSplit[0], lSplit[1]]
-    const ings = new Set(tempIngs.split(' '))
-    const alegs = tempAlegs.split(' ').map(x => x.slice(0, -1))
-
-    ings.forEach(x => {
-      let ingCount = 0
-      if (allIngs.has(x)) {
-        ingCount = allIngs.get(x)
-      }
-      ingCount += 1
-      allIngs.set(x, ingCount)
-    })
-
-    for (let j = 0; j < alegs.length; j++) {
-      const aleg = alegs[j]
-      allAlegs.add(aleg)
-      if (alegIngMap.has(aleg)) {
-        const alegIngs = alegIngMap.get(aleg)
-        const intersection = new Set([...ings].filter(x => alegIngs.has(x)))
-        if (intersection.size === 0) {
-          alegIngMap.set(aleg, new Set([[...ings], [...alegIngs]]))
-        } else if (intersection.size > 0) {
-          alegIngMap.set(aleg, intersection)
-        }
-      } else {
-        alegIngMap.set(aleg, ings) // add ingres to map and remove from noAls list
-      }
-    }
-  }
-  const ingsWithAlegs = new Set()
-  alegIngMap.forEach((v, k) => v.forEach(x => ingsWithAlegs.add(x)))
-
-  console.log('confirmed', ingsWithAlegs)
-  console.log('alegIngMap:', alegIngMap)
-  console.log('allAlegs:', allAlegs)
-  console.log('allIngs:', allIngs)
-  const ingsNoAlegs = new Set()
-  let ingCount = 0
-  allIngs.forEach((v, k) => {
-    if (!ingsWithAlegs.has(k)) {
-      ingsNoAlegs.add(k)
-      ingCount += v
-    }
-  })
-  console.log('ings with no alegs', ingsNoAlegs)
-
-  console.log('alegIngMap:', alegIngMap)
-  // figure out which ing causes which aleg
-  // find the aleg with a count of 1
-
-  let alegToProcess = []
-  // let aAlegCount = 0
-  const finalMap = new Map()
-  alegIngMap.forEach((v, k) => {
+  let alergensToProcess = []
+  const alergenToIngredient = new Map()
+  alergenToIngredients.forEach((v, k) => {
     if (v.size === 1) {
-      alegToProcess.push([...v][0])
-      finalMap.set(k, [...v][0])
-      alegIngMap.delete(k)
-      // aAlegCount++
+      const ingredient = [...v][0]
+      alergensToProcess.push(ingredient)
+      alergenToIngredient.set(k, ingredient)
+      alergenToIngredients.delete(k)
     }
   })
-  // if (aAlegCount > 1) {
-  //   Error('More than one aleg found with a single ing')
-  // }
-  console.log(alegToProcess)
-  // const processed = []
-  // processed.push(1)
-  while (alegIngMap.size > 0) { // TODO: sort this condition out
-    const tempProcessingPot = []
-    alegIngMap.forEach((v, k) => {
-      for (let i = 0; i < alegToProcess.length; i++) {
-        const alegProcessing = alegToProcess[i]
-        if (v.has(alegProcessing)) {
-          // remove it from set
-          v.delete(alegProcessing)
+
+  while (alergenToIngredients.size > 0) {
+    const newAlergensToProcess = []
+    alergenToIngredients.forEach((v, k) => {
+      for (let i = 0; i < alergensToProcess.length; i++) {
+        if (v.delete(alergensToProcess[i])) {
           if (v.size === 1) {
-            tempProcessingPot.push([...v][0])
-            alegIngMap.delete(k)
-            finalMap.set(k, [...v][0])
-          // } else {
-          //   alegIngMap.delete(k)
+            const ingredient = [...v][0]
+            newAlergensToProcess.push(ingredient)
+            alergenToIngredient.set(k, ingredient)
+            alergenToIngredients.delete(k)
           }
         }
       }
     })
-    alegToProcess = tempProcessingPot
+    alergensToProcess = newAlergensToProcess
   }
 
-  console.log('FINAL:', finalMap)
-  // alphabetise by keys (aleg) and join ings for answer
-  const sortedMap = new Map([...finalMap.entries()].sort())
-  const ans = [...sortedMap.values()].join(',')
-  console.log(sortedMap)
-  return ans
+  const sortedMap = new Map([...alergenToIngredient.entries()].sort())
+  return [...sortedMap.values()].join(',')
 }
