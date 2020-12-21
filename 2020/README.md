@@ -33,7 +33,7 @@ language solutions.
 | [18](https://adventofcode.com/2020/day/18) | 3348222486398  | JS        |                 |           |
 | [19](https://adventofcode.com/2020/day/19) |                |           |                 |           |
 | [20](https://adventofcode.com/2020/day/20) | 17148689442341 | JS        |                 |           |
-| [21](https://adventofcode.com/2020/day/21) |                |           |                 |           |
+| [21](https://adventofcode.com/2020/day/21) | 2211           | JS        |                 |           |
 | [22](https://adventofcode.com/2020/day/22) |                |           |                 |           |
 | [23](https://adventofcode.com/2020/day/23) |                |           |                 |           |
 | [24](https://adventofcode.com/2020/day/24) |                |           |                 |           |
