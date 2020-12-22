@@ -34,7 +34,7 @@ language solutions.
 | [19](https://adventofcode.com/2020/day/19) |                |           |                                                   |           |
 | [20](https://adventofcode.com/2020/day/20) | 17148689442341 | JS        |                                                   |           |
 | [21](https://adventofcode.com/2020/day/21) | 2211           | JS        | vv,nlxsmb,rnbhjk,bvnkk,ttxvphb,qmkz,trmzkcfg,jpvz | JS        |
-| [22](https://adventofcode.com/2020/day/22) |                |           |                                                   |           |
+| [22](https://adventofcode.com/2020/day/22) | 32401          | JS        |                                                   |           |
 | [23](https://adventofcode.com/2020/day/23) |                |           |                                                   |           |
 | [24](https://adventofcode.com/2020/day/24) |                |           |                                                   |           |
 | [25](https://adventofcode.com/2020/day/25) |                |           |                                                   |           |
