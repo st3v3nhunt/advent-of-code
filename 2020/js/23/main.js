@@ -8,113 +8,57 @@ function run () {
   console.log(`part 1 answers. expected: ${expectedOne}, actual: ${answerOne}.`)
   assert.equal(answerOne, expectedOne)
 
-  // console.time('part 2 duration')
-  // const answerTwo = partTwo()
-  // console.timeEnd('part 2 duration')
-  // const expectedTwo = 0
-  // console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
-  // assert.equal(answerTwo, expectedTwo)
+  console.time('part 2 duration')
+  const answerTwo = partTwo()
+  console.timeEnd('part 2 duration')
+  const expectedTwo = '166298218695'
+  console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
+  assert.equal(answerTwo, expectedTwo)
 }
 run()
 
 function partOne () {
   const input = '284573961'
-  let cur = Number(input[0])
+  const cur = Number(input[0])
 
-  const cupMap = new Map()
+  const startCups = new Map()
   for (let i = 0; i < input.length; i++) {
     const val = Number(input[i])
     const next = i === input.length - 1 ? input[0] : input[i + 1]
-    cupMap.set(val, Number(next))
+    startCups.set(val, Number(next))
   }
   const moves = 100
-  let i = 0
-  const takeSize = 3
-  const lowestCup = 1 // cupMap.reduce((acc, cur) => acc < cur ? acc : cur, Number(input))
-  const highestCup = cupMap.size // cupMap.reduce((acc, cur) => acc > cur ? acc : cur, 0)
 
-  while (i < moves) {
-    console.log('move', i + 1, 'cups', cupMap, 'cur', cur)
-    // take cups
-    const takenCups = []
-    let curTemp = cur
-    for (let i = 0; i < takeSize; i++) {
-      const cup = cupMap.get(curTemp)
-      takenCups.push(cup)
-      curTemp = cup
-    }
-    // update cur to point to next available i.e. after taken cups
-    cupMap.set(cur, cupMap.get(takenCups[takeSize - 1]))
-
-    console.log('taken', takenCups.join(','))
-    // add to destination
-    let destLabel = cur - 1
-    let destFound = false
-    while (!destFound) {
-      if (destLabel < lowestCup) {
-        destLabel = highestCup
-      }
-      if (takenCups.includes(destLabel)) {
-        destLabel--
-      } else {
-        destFound = true
-      }
-    }
-
-    // place cups
-    const destNext = cupMap.get(destLabel)
-    console.log('destlabel', destLabel, 'destNext', destNext)
-    cupMap.set(takenCups[takeSize - 1], destNext)
-    cupMap.set(destLabel, takenCups[0])
-
-    // new cur
-    cur = cupMap.get(cur)
-    console.log('cur', cur)
-
-    // next move
-    i++
-  }
+  const endCups = play(startCups, moves, cur)
 
   // collect cups
-  let acc = cupMap.get(1)
+  let acc = endCups.get(1)
   const order = []
   while (acc !== 1) {
     const next = acc
     order.push(next)
-    acc = cupMap.get(next)
+    acc = endCups.get(next)
   }
-  const ans = order.join('')
-  console.log(ans)
-
-  return ans
+  return order.join('')
 }
 
-function partTwo () {
-  // const input = '284573961'
-  const input = '389125467'
-  const initialCups = input.split('').map(Number)
-  const cups = genAllCups(initialCups)
-  let cur = initialCups[0]
-  const moves = 10000000
-  const cupCount = cups.length
-  let i = 0
+function play (cups, moves, cur) {
   const takeSize = 3
   const lowestCup = 1
-  const highestCup = 1000000
+  const highestCup = cups.size
+  let i = 0
 
   while (i < moves) {
-    // console.log('move', i + 1, 'cups', cups.join(','), 'cur', cur)
     // take cups
     const takenCups = []
-    let ccIndex = cups.indexOf(cur)
-    if (ccIndex + takeSize < cupCount) { // enough cups available for a take)
-      takenCups.push(...cups.splice(ccIndex + 1, 3))
-    } else { // need to wrap to start
-      const availableCupCount = (cupCount - 1) - ccIndex
-      takenCups.push(...cups.splice(ccIndex + 1, availableCupCount))
-      takenCups.push(...cups.splice(0, takeSize - availableCupCount))
+    let next = cur
+    for (let i = 0; i < takeSize; i++) {
+      const nextTemp = cups.get(next)
+      takenCups.push(nextTemp)
+      next = nextTemp
     }
-    // console.log('taken', takenCups.join(','))
+    // update cur to point to next available i.e. after taken cups
+    cups.set(cur, cups.get(takenCups[takeSize - 1]))
 
     // add to destination
     let dest = cur - 1
@@ -130,32 +74,49 @@ function partTwo () {
       }
     }
 
-    // add cups
-    const dcIndex = cups.indexOf(dest)
-    cups.splice(dcIndex + 1, 0, ...takenCups)
+    // place cups
+    const destNext = cups.get(dest)
+    cups.set(takenCups[takeSize - 1], destNext)
+    cups.set(dest, takenCups[0])
 
     // new cur
-    ccIndex = cups.indexOf(cur)
-    if (ccIndex + 1 === cupCount) { // cur at end
-      cur = cups[0]
-    } else {
-      cur = cups[ccIndex + 1]
-    }
+    cur = cups.get(cur)
+
     i++
   }
-
-  // collect cups
-  const oneIndex = cups.indexOf(1)
-  const finalCups = cups.splice(oneIndex + 1, 2)
-  console.log(finalCups)
-  const ans = finalCups[0] * finalCups[1]
-
-  return ans
+  return cups
 }
 
-function genAllCups (initialCups) {
-  const cups = [...Array(1000001).keys()]
-  cups.shift()
-  cups.splice(0, initialCups.length, ...initialCups)
+function partTwo () {
+  const input = '284573961'
+  const cur = Number(input[0])
+
+  const startCups = genAllCups(input)
+  const moves = 10000000
+
+  const endCups = play(startCups, moves, cur)
+
+  // collect cups
+  const first = endCups.get(1)
+  const second = endCups.get(first)
+  console.log('cup 1', first)
+  console.log('cup 2', second)
+
+  return first * second
+}
+
+function genAllCups (input) {
+  const cSize = 1000000
+  const cups = new Map()
+  const head = Number(input[0])
+  for (let i = 0; i < input.length; i++) {
+    const val = Number(input[i])
+    const next = i === input.length - 1 ? input.length + 1 : input[i + 1]
+    cups.set(val, Number(next))
+  }
+  for (let i = input.length + 1; i <= cSize; i++) {
+    const next = i === cSize ? head : i + 1
+    cups.set(i, next)
+  }
   return cups
 }
