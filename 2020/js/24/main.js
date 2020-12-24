@@ -76,14 +76,14 @@ function move (directions) {
   return tiles
 }
 
-function countBlackTiles (tiles) {
-  let blackTileCount = 0
+function countActiveTiles (tiles) {
+  let activeTileCount = 0
   tiles.forEach((v, k) => {
     if (v) {
-      blackTileCount++
+      activeTileCount++
     }
   })
-  return blackTileCount
+  return activeTileCount
 }
 
 function partOne (input) {
@@ -91,33 +91,34 @@ function partOne (input) {
 
   const tiles = move(directions)
 
-  return countBlackTiles(tiles)
+  return countActiveTiles(tiles)
+}
+
+function getAdjKeys (k) {
+  const coord = k.split(',').map(Number)
+
+  const adj = []
+  adj.push([coord[0] + 1, coord[1]].join(','))
+  adj.push([coord[0] - 1, coord[1]].join(','))
+  adj.push([coord[0], coord[1] - 1].join(','))
+  adj.push([coord[0] - 1, coord[1] - 1].join(','))
+  adj.push([coord[0], coord[1] + 1].join(','))
+  adj.push([coord[0] + 1, coord[1] + 1].join(','))
+  return adj
 }
 
 function getUpdates (tiles) {
   const tileUpdates = new Map()
 
   tiles.forEach((v, k) => {
-    // convert key to coord
-    const coord = k.split(',').map(Number)
+    let activeTileCount = 0
+    getAdjKeys(k).forEach(adj => {
+      activeTileCount += tiles.get(adj) ? 1 : 0
+    })
 
-    const ekey = [coord[0] + 1, coord[1]].join(',')
-    const wkey = [coord[0] - 1, coord[1]].join(',')
-    const sekey = [coord[0], coord[1] - 1].join(',')
-    const swkey = [coord[0] - 1, coord[1] - 1].join(',')
-    const nwkey = [coord[0], coord[1] + 1].join(',')
-    const nekey = [coord[0] + 1, coord[1] + 1].join(',')
-    let blackTileCount = 0
-    blackTileCount += tiles.get(ekey) ? 1 : 0
-    blackTileCount += tiles.get(wkey) ? 1 : 0
-    blackTileCount += tiles.get(sekey) ? 1 : 0
-    blackTileCount += tiles.get(swkey) ? 1 : 0
-    blackTileCount += tiles.get(nwkey) ? 1 : 0
-    blackTileCount += tiles.get(nekey) ? 1 : 0
-
-    if (v && (blackTileCount === 0 || blackTileCount > 2)) {
+    if (v && (activeTileCount === 0 || activeTileCount > 2)) {
       tileUpdates.set(k, false)
-    } else if (!v && blackTileCount === 2) {
+    } else if (!v && activeTileCount === 2) {
       tileUpdates.set(k, true)
     }
   })
@@ -128,8 +129,8 @@ function partTwo (input) {
   const directions = getDirections(input)
 
   const tiles = move(directions)
-  // add white tiles to make it easier
-  const size = 100
+  // init inactive tiles for ease of adjacent calcs
+  const size = 70 // lowest size required for 100 iterations to grow into
   for (let i = -size; i < size; i++) {
     for (let j = -size; j < size; j++) {
       const coord = `${i},${j}`
@@ -144,7 +145,7 @@ function partTwo (input) {
     tileUpdates.forEach((v, k) => {
       tiles.set(k, v)
     })
-    console.log(`Day ${i + 1}: ${countBlackTiles(tiles)}`)
+    console.log(`Day ${i + 1}: ${countActiveTiles(tiles)}`)
   }
-  return countBlackTiles(tiles)
+  return countActiveTiles(tiles)
 }
