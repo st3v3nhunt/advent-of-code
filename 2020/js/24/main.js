@@ -17,7 +17,7 @@ async function getInput () {
   console.time('part 2 duration')
   const answerTwo = partTwo(input)
   console.timeEnd('part 2 duration')
-  const expectedTwo = 0
+  const expectedTwo = 4200
   console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
   assert.equal(answerTwo, expectedTwo)
 }())
@@ -67,10 +67,10 @@ function move (directions) {
     }
     const key = coords.join(',')
     const color = tiles.get(key)
-    if (color === undefined || color === false) {
-      tiles.set(key, true)
-    } else {
+    if (color) {
       tiles.set(key, false)
+    } else {
+      tiles.set(key, true)
     }
   }
   return tiles
@@ -79,7 +79,7 @@ function move (directions) {
 function countBlackTiles (tiles) {
   let blackTileCount = 0
   tiles.forEach((v, k) => {
-    if (v === true) {
+    if (v) {
       blackTileCount++
     }
   })
@@ -94,6 +94,57 @@ function partOne (input) {
   return countBlackTiles(tiles)
 }
 
+function getUpdates (tiles) {
+  const tileUpdates = new Map()
+
+  tiles.forEach((v, k) => {
+    // convert key to coord
+    const coord = k.split(',').map(Number)
+
+    const ekey = [coord[0] + 1, coord[1]].join(',')
+    const wkey = [coord[0] - 1, coord[1]].join(',')
+    const sekey = [coord[0], coord[1] - 1].join(',')
+    const swkey = [coord[0] - 1, coord[1] - 1].join(',')
+    const nwkey = [coord[0], coord[1] + 1].join(',')
+    const nekey = [coord[0] + 1, coord[1] + 1].join(',')
+    let blackTileCount = 0
+    blackTileCount += tiles.get(ekey) ? 1 : 0
+    blackTileCount += tiles.get(wkey) ? 1 : 0
+    blackTileCount += tiles.get(sekey) ? 1 : 0
+    blackTileCount += tiles.get(swkey) ? 1 : 0
+    blackTileCount += tiles.get(nwkey) ? 1 : 0
+    blackTileCount += tiles.get(nekey) ? 1 : 0
+
+    if (v && (blackTileCount === 0 || blackTileCount > 2)) {
+      tileUpdates.set(k, false)
+    } else if (!v && blackTileCount === 2) {
+      tileUpdates.set(k, true)
+    }
+  })
+  return tileUpdates
+}
+
 function partTwo (input) {
-  return input.length
+  const directions = getDirections(input)
+
+  const tiles = move(directions)
+  // add white tiles to make it easier
+  const size = 100
+  for (let i = -size; i < size; i++) {
+    for (let j = -size; j < size; j++) {
+      const coord = `${i},${j}`
+      if (!tiles.has(coord)) {
+        tiles.set(coord, false)
+      }
+    }
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const tileUpdates = getUpdates(tiles)
+    tileUpdates.forEach((v, k) => {
+      tiles.set(k, v)
+    })
+    console.log(`Day ${i + 1}: ${countBlackTiles(tiles)}`)
+  }
+  return countBlackTiles(tiles)
 }
