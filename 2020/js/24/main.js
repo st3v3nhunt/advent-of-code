@@ -22,12 +22,7 @@ async function getInput () {
   assert.equal(answerTwo, expectedTwo)
 }())
 
-function partOne (input) {
-  // figure out the movements
-  // TODO: delete
-  // input = []
-  // input.push('esenee')
-  // input.push('nwwswee')
+function getDirections (input) {
   const directions = []
   for (let i = 0; i < input.length; i++) {
     const line = input[i]
@@ -35,7 +30,6 @@ function partOne (input) {
     for (let j = 0; j < line.length; j++) {
       const d = line.slice(j, j + 2)
 
-      console.log('d', d)
       if (/(se|sw|nw|ne)/.test(d)) {
         lds.push(d)
         j++
@@ -45,9 +39,11 @@ function partOne (input) {
     }
     directions.push(lds)
   }
+  return directions
+}
 
+function move (directions) {
   const tiles = new Map() // loc, color : string, bool
-  // move each tile
   for (let i = 0; i < directions.length; i++) {
     const moves = directions[i]
     const coords = [0, 0]
@@ -58,13 +54,11 @@ function partOne (input) {
       } else if (move === 'w') {
         coords[0] -= 1
       } else if (move === 'se') {
-        // coords[0] += 1
         coords[1] -= 1
       } else if (move === 'sw') {
         coords[0] -= 1
         coords[1] -= 1
       } else if (move === 'nw') {
-        // coords[0] -= 1
         coords[1] += 1
       } else if (move === 'ne') {
         coords[0] += 1
@@ -79,17 +73,25 @@ function partOne (input) {
       tiles.set(key, false)
     }
   }
-  directions.forEach(d => console.log(d.join('')))
-  directions.forEach(d => console.log(d))
-  let count = 0
+  return tiles
+}
+
+function countBlackTiles (tiles) {
+  let blackTileCount = 0
   tiles.forEach((v, k) => {
-    console.log(k, v)
     if (v === true) {
-      count++
+      blackTileCount++
     }
   })
-  console.log('black tiles', count)
-  return input.length
+  return blackTileCount
+}
+
+function partOne (input) {
+  const directions = getDirections(input)
+
+  const tiles = move(directions)
+
+  return countBlackTiles(tiles)
 }
 
 function partTwo (input) {
