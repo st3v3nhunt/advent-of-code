@@ -37,4 +37,4 @@ language solutions.
 | [22](https://adventofcode.com/2020/day/22) | 32401          | JS        | 33446                                               | JS        |
 | [23](https://adventofcode.com/2020/day/23) | '284573961'    | JS        | 166298218695                                        | JS        |
 | [24](https://adventofcode.com/2020/day/24) | 528            | JS        | 4200                                                | JS        |
-| [25](https://adventofcode.com/2020/day/25) |                |           |                                                     |           |
+| [25](https://adventofcode.com/2020/day/25) | 15217943       | JS        |                                                     |           |
