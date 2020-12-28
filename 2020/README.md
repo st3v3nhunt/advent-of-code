@@ -31,7 +31,7 @@ language solutions.
 | [16](https://adventofcode.com/2020/day/16) | 23044          | JS        | 3765150732757                                       | JS        |
 | [17](https://adventofcode.com/2020/day/17) | 401            | JS        | 2224                                                | JS        |
 | [18](https://adventofcode.com/2020/day/18) | 3348222486398  | JS        | 43423343619505                                      | JS        |
-| [19](https://adventofcode.com/2020/day/19) |                |           |                                                     |           |
+| [19](https://adventofcode.com/2020/day/19) | 136            | JS        |                                                     |           |
 | [20](https://adventofcode.com/2020/day/20) | 17148689442341 | JS        |                                                     |           |
 | [21](https://adventofcode.com/2020/day/21) | 2211           | JS        | 'vv,nlxsmb,rnbhjk,bvnkk,ttxvphb,qmkz,trmzkcfg,jpvz' | JS        |
 | [22](https://adventofcode.com/2020/day/22) | 32401          | JS        | 33446                                               | JS        |
