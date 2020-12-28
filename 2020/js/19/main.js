@@ -56,10 +56,10 @@ function partOne (input) {
 
   // Test each message to see if it is in the values from rule '0'
   let msgCount = 0
-  const ruleZeroResolved = pr.get('0')
+  const ruleZeroSet = new Set(pr.get('0'))
 
   const ruleLens = new Map()
-  ruleZeroResolved.forEach(m => {
+  ruleZeroSet.forEach(m => {
     const a = m.length
     const cur = ruleLens.get(a)
     if (cur !== undefined) {
@@ -74,7 +74,7 @@ function partOne (input) {
     if (!ruleLens.has(msgs[i].length)) {
       continue
     }
-    if (ruleZeroResolved.includes(msgs[i])) {
+    if (ruleZeroSet.has(msgs[i])) {
       msgCount++
       continue
     }
@@ -106,10 +106,10 @@ function process (prules, uprules) {
 
     if (isProcessable) { // expand - add an array of rules
       const resolvedRules = []
-      const orRules = rule.split(' | ')
+      const rules = rule.split(' | ')
 
-      for (let i = 0; i < orRules.length; i++) {
-        const singleRule = orRules[i].split(' ')
+      for (let i = 0; i < rules.length; i++) {
+        const singleRule = rules[i].split(' ')
         const ruleOneRules = prules.get(singleRule[0])
         const ruleTwoRules = prules.get(singleRule[1])
         if (singleRule.length === 2 && Array.isArray(ruleOneRules) && Array.isArray(ruleTwoRules)) {
