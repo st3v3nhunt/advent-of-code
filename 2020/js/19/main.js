@@ -14,15 +14,15 @@ async function getInput () {
   console.log(`part 1 answers. expected: ${expectedOne}, actual: ${answerOne}.`)
   assert.equal(answerOne, expectedOne)
 
-  // console.time('part 2 duration')
-  // const answerTwo = partTwo(input)
-  // console.timeEnd('part 2 duration')
-  // const expectedTwo = 0
-  // console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
-  // assert.equal(answerTwo, expectedTwo)
+  console.time('part 2 duration')
+  const answerTwo = partTwo(input)
+  console.timeEnd('part 2 duration')
+  const expectedTwo = 256
+  console.log(`part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`)
+  assert.equal(answerTwo, expectedTwo)
 }())
 
-function partOne (input) {
+function processInput (input) {
   const uprules = new Map()
   const prules = new Map()
   const msgs = []
@@ -42,10 +42,13 @@ function partOne (input) {
       msgs.push(line)
     }
   }
+  return { msgs, prules, uprules }
+}
 
+function processRules (prules, uprules) {
   while (uprules.size > 0) {
-    uprules.forEach((v, ruleId) => {
-      const rulesToProcess = new Set(v.replace('| ', '').split(' '))
+    uprules.forEach((rule, ruleId) => {
+      const rulesToProcess = new Set(rule.replace('| ', '').split(' '))
       let isProcessable = true
       for (const rule of rulesToProcess.values()) {
         if (!prules.has(rule)) {
@@ -54,34 +57,41 @@ function partOne (input) {
         }
       }
       if (isProcessable) {
-        // console.log('processing', ruleId)
-        let ruleForProcessing = v.padStart(v.length + 2, '( ').padEnd(v.length + 4, ' )').replace(/ /g, '  ')
-        // console.log(temp)
+        let ruleForProcessing = rule.padStart(rule.length + 2, '( ').padEnd(rule.length + 4, ' )').replace(/ /g, '  ')
         for (const k of rulesToProcess.keys()) {
           const val = prules.get(k)
           ruleForProcessing = ruleForProcessing.replace(new RegExp(` ${k} `, 'g'), ` ${val} `)
         }
-        // console.log(temp.replace(/ /g, ''))
         prules.set(ruleId, ruleForProcessing.replace(/ /g, ''))
         uprules.delete(ruleId)
       }
     })
   }
-  // console.log(uprules)
-  // console.log(prules)
-  let msgCount = 0
-  const rz = prules.get('0')
+  return { prules, uprules }
+}
+
+function partOne (input) {
+  const { msgs, prules, uprules } = processInput(input)
+  const { prules: pr } = processRules(prules, uprules)
+
+  const rz = pr.get('0')
   const re = new RegExp(`^${rz}$`)
 
-  for (let i = 0; i < msgs.length; i++) {
-    if (re.test(msgs[i])) {
-      msgCount++
-      continue
-    }
-  }
-  return msgCount
+  return msgs.reduce((acc, cur) => re.test(cur) ? acc + 1 : acc, 0)
 }
 
 function partTwo (input) {
-  return input.length
+  const { msgs, prules, uprules } = processInput(input)
+  const { prules: pr } = processRules(prules, uprules)
+
+  const rule42 = pr.get('42')
+  const rule31 = pr.get('31')
+
+  const matchCounts = []
+  for (let i = 1; i < 5; i++) {
+    const re5 = new RegExp(`^${rule42}+${rule42}{${i}}${rule31}{${i}}$`)
+    matchCounts.push(msgs.reduce((acc, cur) => re5.test(cur) ? acc + 1 : acc, 0))
+  }
+
+  return matchCounts.reduce((acc, cur) => acc + cur, 0)
 }
