@@ -1,11 +1,8 @@
-const fs = require('fs')
-const util = require('util')
-
-const readFile = util.promisify(fs.readFile)
+const fs = require('fs/promises')
+const path = require('path')
 
 async function getDayInputAsLines (day) {
-  const contents = await readFile(`../../input/${day}.txt`, 'utf8')
-  return contents.trim().split('\n')
+  return (await fs.readFile(path.join(__dirname, `/../../input/${day}.txt`), 'utf8')).trim().split('\n')
 }
 
 module.exports = {
