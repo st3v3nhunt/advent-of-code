@@ -14,5 +14,8 @@ package name in `Cargo.toml` to match the name of the day.
 
 [cargo-watch](https://crates.io/crates/cargo-watch) is used to help with
 running the solutions. See the link for additional information on installing
-and detailed usage. Basic use is achieved with `cargo watch -x run` in the
-directory of the day being worked on.
+and detailed usage.
+
+Basic use is achieved with `cargo watch -x run` in the directory of the day
+being worked on. Alternatively the following command can be run from the `rust`
+directory and the day to run updated - `cargo watch -x run --workdir one`.
