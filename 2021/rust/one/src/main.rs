@@ -1,8 +1,7 @@
 use std::time::Instant;
 
 fn main() {
-    // TODO: Update the location of the input file.
-    let file_contents = include_str!("../../../input/x.txt");
+    let file_contents = include_str!("../../../input/one.txt");
 
     let start = Instant::now();
     let ans_one = part_one(file_contents);
