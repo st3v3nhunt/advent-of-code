@@ -13,7 +13,7 @@ language solutions.
 
 | Day                                        | Part 1  | Languages | Part 2  | Languages |
 | ---                                        | ------- | --------- | ------- | --------- |
-| [1](https://adventofcode.com/2021/day/1)   |         |           |         |           |
+| [1](https://adventofcode.com/2021/day/1)   | 1316    | JS, Rust  | 1344    | JS, Rust  |
 | [2](https://adventofcode.com/2021/day/2)   |         |           |         |           |
 | [3](https://adventofcode.com/2021/day/3)   |         |           |         |           |
 | [4](https://adventofcode.com/2021/day/4)   |         |           |         |           |
