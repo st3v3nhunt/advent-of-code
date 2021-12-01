@@ -2,10 +2,10 @@ use std::time::Instant;
 
 fn main() {
     // TODO: Update the location of the input file.
-    let file_contents = include_str!("../../../input/x.txt");
+    let lines = include_str!("../../../input/x.txt").lines();
 
     let start = Instant::now();
-    let ans_one = part_one(file_contents);
+    let ans_one = part_one(lines.clone());
     let duration = start.elapsed();
     // TODO: Update the expected answer (once known).
     let expected_one = 0;
@@ -16,7 +16,7 @@ fn main() {
     assert_eq!(ans_one, expected_one);
 
     let start = Instant::now();
-    let ans_two = part_two(file_contents);
+    let ans_two = part_two(lines);
     let duration = start.elapsed();
     // TODO: Update the expected answer (once known).
     let expected_two = 0;
@@ -27,10 +27,10 @@ fn main() {
     assert_eq!(ans_two, expected_two);
 }
 
-fn part_one(file_contents: &str) -> i32 {
-    file_contents.len() as i32
+fn part_one(lines: std::str::Lines) -> i32 {
+    1
 }
 
-fn part_two(file_contents: &str) -> i32 {
-    file_contents.len() as i32
+fn part_two(lines: std::str::Lines) -> i32 {
+    2
 }
