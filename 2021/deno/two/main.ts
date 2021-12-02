@@ -1,5 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.116.0/testing/asserts.ts";
 import { getDayInputAsLines } from "../lib/utils.ts";
+import { Direction, getInstruction } from "./instruction.ts";
 
 async function getInput(): Promise<Array<string>> {
   return await getDayInputAsLines("two");
@@ -19,7 +20,7 @@ async function run() {
   console.time("part 2 duration");
   const answerTwo = partTwo(input);
   console.timeEnd("part 2 duration");
-  const expectedTwo = 1942068080
+  const expectedTwo = 1942068080;
   console.log(
     `part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`
   );
@@ -30,20 +31,19 @@ function partOne(input: Array<string>): number {
   let horizontal = 0;
   let depth = 0;
   input.forEach((val) => {
-    const [direction, rawValue] = val.split(" ");
-    const value = parseInt(rawValue, 10);
-    switch (direction) {
-      case "forward":
-        horizontal += value;
+    const ins = getInstruction(val);
+    switch (ins.direction) {
+      case Direction.Forward:
+        horizontal += ins.value;
         break;
-      case "down":
-        depth += value;
+      case Direction.Down:
+        depth += ins.value;
         break;
-      case "up":
-        depth -= value;
+      case Direction.Up:
+        depth -= ins.value;
         break;
       default:
-        console.error("unknown directtion", direction);
+        console.error("Unknown direction", ins.direction);
     }
   });
   return horizontal * depth;
@@ -57,18 +57,18 @@ function partTwo(input: Array<string>): number {
     const [direction, rawValue] = val.split(" ");
     const value = parseInt(rawValue, 10);
     switch (direction) {
-      case "forward":
+      case Direction.Forward:
         horizontal += value;
-        depth += aim*value
+        depth += aim * value;
         break;
-      case "down":
+      case Direction.Down:
         aim += value;
         break;
-      case "up":
+      case Direction.Up:
         aim -= value;
         break;
       default:
-        console.error("unknown directtion", direction);
+        console.error("Unknown direction", direction);
     }
   });
   return horizontal * depth;
