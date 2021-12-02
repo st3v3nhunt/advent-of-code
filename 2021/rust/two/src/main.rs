@@ -1,4 +1,7 @@
+use instruction::instruction::Direction;
+use instruction::instruction::Instruction;
 use std::time::Instant;
+mod instruction;
 
 fn main() {
     let lines = include_str!("../../../input/two.txt").lines();
@@ -22,31 +25,6 @@ fn main() {
         ans_two, expected_two, duration
     );
     assert_eq!(ans_two, expected_two);
-}
-enum Direction {
-    Down,
-    Forward,
-    Up,
-}
-
-struct Instruction {
-    direction: Direction,
-    value: i32,
-}
-
-impl Instruction {
-    fn new(input: &str) -> Instruction {
-        let instruction = input.split_whitespace().collect::<Vec<_>>();
-        Instruction {
-            direction: match instruction[0] {
-                "forward" => Direction::Forward,
-                "down" => Direction::Down,
-                "up" => Direction::Up,
-                _ => panic!("bust"),
-            },
-            value: instruction[1].parse::<i32>().unwrap(),
-        }
-    }
 }
 
 fn part_one(lines: std::str::Lines) -> i32 {
