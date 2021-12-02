@@ -1,5 +1,5 @@
-use instruction::instruction::Direction;
-use instruction::instruction::Instruction;
+use instruction::Direction;
+use instruction::Instruction;
 use std::time::Instant;
 mod instruction;
 
