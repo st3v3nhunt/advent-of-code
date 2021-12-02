@@ -23,19 +23,42 @@ fn main() {
     );
     assert_eq!(ans_two, expected_two);
 }
+enum Direction {
+    Down,
+    Forward,
+    Up,
+}
+
+struct Instruction {
+    direction: Direction,
+    value: i32,
+}
+
+impl Instruction {
+    fn new(input: &str) -> Instruction {
+        let instruction = input.split_whitespace().collect::<Vec<_>>();
+        Instruction {
+            direction: match instruction[0] {
+                "forward" => Direction::Forward,
+                "down" => Direction::Down,
+                "up" => Direction::Up,
+                _ => panic!("bust"),
+            },
+            value: instruction[1].parse::<i32>().unwrap(),
+        }
+    }
+}
 
 fn part_one(lines: std::str::Lines) -> i32 {
     let mut depth = 0;
     let mut horizontal = 0;
 
     for line in lines {
-        let instruction = line.split_whitespace().collect::<Vec<_>>();
-        let value = instruction[1].parse::<i32>().unwrap();
-        match instruction[0] {
-            "forward" => horizontal = horizontal + value,
-            "down" => depth = depth + value,
-            "up" => depth = depth - value,
-            _ => eprintln!("Unknown direction."),
+        let instruction = Instruction::new(line);
+        match instruction.direction {
+            Direction::Forward => horizontal = horizontal + instruction.value,
+            Direction::Down => depth = depth + instruction.value,
+            Direction::Up => depth = depth - instruction.value,
         }
     }
     depth * horizontal
@@ -47,16 +70,14 @@ fn part_two(lines: std::str::Lines) -> i32 {
     let mut horizontal = 0;
 
     for line in lines {
-        let instruction = line.split_whitespace().collect::<Vec<_>>();
-        let value = instruction[1].parse::<i32>().unwrap();
-        match instruction[0] {
-            "forward" => {
-                horizontal = horizontal + value;
-                depth = depth + aim * value;
+        let instruction = Instruction::new(line);
+        match instruction.direction {
+            Direction::Forward => {
+                horizontal = horizontal + instruction.value;
+                depth = depth + aim * instruction.value;
             }
-            "down" => aim = aim + value,
-            "up" => aim = aim - value,
-            _ => eprintln!("Unknown direction."),
+            Direction::Down => aim = aim + instruction.value,
+            Direction::Up => aim = aim - instruction.value,
         }
     }
     depth * horizontal
