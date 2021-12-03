@@ -1,8 +1,8 @@
 import { assertEquals } from "https://deno.land/std@0.116.0/testing/asserts.ts";
-import { getDayInputAsLines } from "../lib/utils.ts";
+import { getInputAsLines } from "../lib/utils.ts";
 
 async function getInput(): Promise<Array<string>> {
-  return await getDayInputAsLines("three");
+  return await getInputAsLines("three");
 }
 
 async function run() {
