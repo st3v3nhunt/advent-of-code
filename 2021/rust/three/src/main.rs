@@ -29,26 +29,26 @@ fn main() {
     solve_part(&part_two, 7863147);
 }
 
-fn get_int_from_binary_vec(bits: &Vec<u8>) -> i32 {
+fn get_int_from_binary_vec(bits: &[u8]) -> i32 {
     isize::from_str_radix(&bits.iter().map(|x| x.to_string()).collect::<String>(), 2).unwrap()
         as i32
 }
 
-fn count_bits_at_position(bit_lines: &Vec<Vec<u8>>, bit_position: usize) -> (i32, i32) {
+fn count_bits_at_position(bit_lines: &[Vec<u8>], bit_position: usize) -> (i32, i32) {
     let mut ones = 0;
     let mut zeros = 0;
     for bits in bit_lines {
         if bits[bit_position] == 1 {
-            ones = ones + 1;
+            ones += 1;
         } else {
-            zeros = zeros + 1;
+            zeros += 1;
         }
     }
     (zeros, ones)
 }
 
-fn get_rating(bit_lines: &Vec<Vec<u8>>, bit_precedence: (u8, u8)) -> i32 {
-    let mut ratings = bit_lines.clone();
+fn get_rating(bit_lines: &[Vec<u8>], bit_precedence: (u8, u8)) -> i32 {
+    let mut ratings = bit_lines.to_owned();
     let mut i = 0;
 
     while ratings.len() > 1 {
@@ -60,16 +60,14 @@ fn get_rating(bit_lines: &Vec<Vec<u8>>, bit_precedence: (u8, u8)) -> i32 {
                 if bit == bit_precedence.0 {
                     candidate_ratings.push(rating);
                 }
-            } else {
-                if bit == bit_precedence.1 {
-                    candidate_ratings.push(rating);
-                }
+            } else if bit == bit_precedence.1 {
+                candidate_ratings.push(rating);
             }
         }
         ratings = candidate_ratings;
-        i = i + 1;
+        i += 1;
     }
-    get_int_from_binary_vec(ratings.iter().next().unwrap())
+    get_int_from_binary_vec(ratings.get(0).unwrap())
 }
 
 fn part_one(lines: std::str::Lines) -> i32 {
@@ -93,7 +91,7 @@ fn part_one(lines: std::str::Lines) -> i32 {
             gamma_bits.push(0);
             epsilon_bits.push(1);
         }
-        i = i + 1;
+        i += 1;
     }
     let gamma_rate = get_int_from_binary_vec(&gamma_bits);
     let epsilon_rate = get_int_from_binary_vec(&epsilon_bits);
