@@ -1,30 +1,12 @@
-import { assertEquals } from "https://deno.land/std@0.116.0/testing/asserts.ts";
-import { getInputAsLines } from "../lib/utils.ts";
 import { Direction, getInstruction } from "./instruction.ts";
-
-async function getInput(): Promise<Array<string>> {
-  return await getInputAsLines("two");
-}
+import { solve, test } from "../lib/utils.ts";
 
 async function run() {
-  const input = await getInput();
-  console.time("part 1 duration");
-  const answerOne = partOne(input);
-  console.timeEnd("part 1 duration");
-  const expectedOne = 2039912;
-  console.log(
-    `part 1 answers. expected: ${expectedOne}, actual: ${answerOne}.`
-  );
-  assertEquals(answerOne, expectedOne);
-
-  console.time("part 2 duration");
-  const answerTwo = partTwo(input);
-  console.timeEnd("part 2 duration");
-  const expectedTwo = 1942068080;
-  console.log(
-    `part 2 answers. expected: ${expectedTwo}, actual: ${answerTwo}.`
-  );
-  assertEquals(answerTwo, expectedTwo);
+  const day = "two";
+  await test(day, 1, partOne, 150);
+  await solve(day, 1, partOne, 2039912);
+  await test(day, 2, partTwo, 900);
+  await solve(day, 2, partTwo, 1942068080);
 }
 
 function partOne(input: Array<string>): number {
