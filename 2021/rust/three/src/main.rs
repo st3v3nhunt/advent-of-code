@@ -29,16 +29,59 @@ fn main() {
     solve_part(&part_two, 7863147);
 }
 
+fn get_int_from_binary_vec(bits: &Vec<u8>) -> i32 {
+    isize::from_str_radix(&bits.iter().map(|x| x.to_string()).collect::<String>(), 2).unwrap()
+        as i32
+}
+
+fn count_bits_at_position(bit_lines: &Vec<Vec<u8>>, bit_position: usize) -> (i32, i32) {
+    let mut ones = 0;
+    let mut zeros = 0;
+    for bits in bit_lines {
+        if bits[bit_position] == 1 {
+            ones = ones + 1;
+        } else {
+            zeros = zeros + 1;
+        }
+    }
+    (zeros, ones)
+}
+
+fn get_rating(bit_lines: &Vec<Vec<u8>>, bit_precedence: (u8, u8)) -> i32 {
+    let mut ratings = bit_lines.clone();
+    let mut i = 0;
+
+    while ratings.len() > 1 {
+        let (zeros, ones) = count_bits_at_position(&ratings, i);
+        let mut candidate_ratings: Vec<Vec<u8>> = vec![];
+        for rating in ratings {
+            let bit = rating[i];
+            if ones >= zeros {
+                if bit == bit_precedence.0 {
+                    candidate_ratings.push(rating);
+                }
+            } else {
+                if bit == bit_precedence.1 {
+                    candidate_ratings.push(rating);
+                }
+            }
+        }
+        ratings = candidate_ratings;
+        i = i + 1;
+    }
+    get_int_from_binary_vec(ratings.iter().next().unwrap())
+}
+
 fn part_one(lines: std::str::Lines) -> i32 {
     let bit_lines = lines
         .map(|x| {
             x.chars()
-                .map(|c| c.to_digit(2).unwrap())
-                .collect::<Vec<_>>()
+                .map(|c| c.to_digit(2).unwrap() as u8)
+                .collect::<Vec<u8>>()
         })
         .collect::<Vec<_>>();
-    let mut gamma_bits: Vec<_> = vec![];
-    let mut epsilon_bits: Vec<_> = vec![];
+    let mut gamma_bits: Vec<u8> = vec![];
+    let mut epsilon_bits: Vec<u8> = vec![];
     let bit_positions = bit_lines[0].len();
     let mut i = 0;
     while i < bit_positions {
@@ -52,35 +95,20 @@ fn part_one(lines: std::str::Lines) -> i32 {
         }
         i = i + 1;
     }
-    let gamma_rate = isize::from_str_radix(
-        &gamma_bits.iter().map(|x| x.to_string()).collect::<String>(),
-        2,
-    )
-    .unwrap();
-    let epsilon_rate = isize::from_str_radix(
-        &epsilon_bits
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<String>(),
-        2,
-    )
-    .unwrap();
-    (epsilon_rate * gamma_rate) as i32
-}
-
-fn count_bits_at_position(bit_lines: &Vec<Vec<u32>>, bit_position: usize) -> (i32, i32) {
-    let mut ones = 0;
-    let mut zeros = 0;
-    for bits in bit_lines {
-        if bits[bit_position] == 1 {
-            ones = ones + 1;
-        } else {
-            zeros = zeros + 1;
-        }
-    }
-    (zeros, ones)
+    let gamma_rate = get_int_from_binary_vec(&gamma_bits);
+    let epsilon_rate = get_int_from_binary_vec(&epsilon_bits);
+    epsilon_rate * gamma_rate
 }
 
 fn part_two(lines: std::str::Lines) -> i32 {
-    2
+    let bit_lines = lines
+        .map(|x| {
+            x.chars()
+                .map(|c| c.to_digit(2).unwrap() as u8)
+                .collect::<Vec<u8>>()
+        })
+        .collect::<Vec<_>>();
+    let o2_rating = get_rating(&bit_lines, (1, 0));
+    let co2_rating = get_rating(&bit_lines, (0, 1));
+    o2_rating * co2_rating
 }
