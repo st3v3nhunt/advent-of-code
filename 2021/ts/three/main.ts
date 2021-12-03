@@ -32,11 +32,11 @@ function partOne(inputRaw: Array<string>): number {
   for (let i = 0; i < bitPositions; i++) {
     const [zeros, ones] = countBitsAtPosition(input, i);
     if (ones >= zeros) {
-      gammaBits.push(0);
-      epsilonBits.push(1);
-    } else {
       gammaBits.push(1);
       epsilonBits.push(0);
+    } else {
+      gammaBits.push(0);
+      epsilonBits.push(1);
     }
   }
 
