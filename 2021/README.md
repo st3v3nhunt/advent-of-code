@@ -15,7 +15,7 @@ language solutions.
 | ---                                        | ------- | --------- | -------    | --------- |
 | [1](https://adventofcode.com/2021/day/1)   | 1316    | TS, Rust  | 1344       | TS, Rust  |
 | [2](https://adventofcode.com/2021/day/2)   | 2039912 | TS, Rust  | 1942068080 | TS, Rust  |
-| [3](https://adventofcode.com/2021/day/3)   |         |           |            |           |
+| [3](https://adventofcode.com/2021/day/3)   | 1131506 | TS        | 7863147    | TS        |
 | [4](https://adventofcode.com/2021/day/4)   |         |           |            |           |
 | [5](https://adventofcode.com/2021/day/5)   |         |           |            |           |
 | [6](https://adventofcode.com/2021/day/6)   |         |           |            |           |
