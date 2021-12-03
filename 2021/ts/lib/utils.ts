@@ -12,7 +12,7 @@ export async function getTestInputAsLines(day: string): Promise<Array<string>> {
   return await getDayInputAsLines(day, 'input/test')
 }
 
-export async function solve(day: string, part: number, solver: Function, expected: number) {
+export async function solve(day: string, part: number, solver: (input: Array<string>) => number, expected: number) {
   const input = await getInputAsLines(day);
   console.time(`part ${part} duration`);
   const answerTwo = solver(input);
@@ -23,7 +23,7 @@ export async function solve(day: string, part: number, solver: Function, expecte
   assertEquals(answerTwo, expected);
 }
 
-export async function test(day: string, part: number, solver: Function, expected: number) {
+export async function test(day: string, part: number, solver: (input: Array<string>) => number, expected: number) {
   const input = await getTestInputAsLines(day);
   console.time(`part ${part} test duration`);
   const answerTwo = solver(input);
