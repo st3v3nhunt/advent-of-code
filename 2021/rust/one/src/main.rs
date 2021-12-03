@@ -33,9 +33,9 @@ fn part_one(lines: std::str::Lines) -> i32 {
     let mut i = 1;
     while i < numbers.len() {
         if numbers[i] > numbers[i - 1] {
-            increment = increment + 1;
+            increment += 1;
         }
-        i = i + 1;
+        i += 1;
     }
     increment
 }
@@ -51,9 +51,9 @@ fn part_two(lines: std::str::Lines) -> i32 {
         let prev = numbers[i - 1] + numbers[i - 2] + numbers[i - 3];
         let curr = numbers[i] + numbers[i - 1] + numbers[i - 2];
         if curr > prev {
-            increment = increment + 1;
+            increment += 1;
         }
-        i = i + 1;
+        i += 1;
     }
     increment
 }

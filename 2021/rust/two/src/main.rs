@@ -34,9 +34,9 @@ fn part_one(lines: std::str::Lines) -> i32 {
     for line in lines {
         let instruction = Instruction::new(line);
         match instruction.direction {
-            Direction::Forward => horizontal = horizontal + instruction.value,
-            Direction::Down => depth = depth + instruction.value,
-            Direction::Up => depth = depth - instruction.value,
+            Direction::Forward => horizontal += instruction.value,
+            Direction::Down => depth += instruction.value,
+            Direction::Up => depth -= instruction.value,
         }
     }
     depth * horizontal
@@ -51,11 +51,11 @@ fn part_two(lines: std::str::Lines) -> i32 {
         let instruction = Instruction::new(line);
         match instruction.direction {
             Direction::Forward => {
-                horizontal = horizontal + instruction.value;
-                depth = depth + aim * instruction.value;
+                horizontal += instruction.value;
+                depth += aim * instruction.value;
             }
-            Direction::Down => aim = aim + instruction.value,
-            Direction::Up => aim = aim - instruction.value,
+            Direction::Down => aim += instruction.value,
+            Direction::Up => aim -= instruction.value,
         }
     }
     depth * horizontal
