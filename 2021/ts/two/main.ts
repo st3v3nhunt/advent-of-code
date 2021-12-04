@@ -3,10 +3,10 @@ import { solve, test } from "../lib/utils.ts";
 
 async function run() {
   const day = "two";
-  await test(day, 1, partOne, 150);
-  await solve(day, 1, partOne, 2039912);
-  await test(day, 2, partTwo, 900);
-  await solve(day, 2, partTwo, 1942068080);
+  await test(day, partOne, 150);
+  await solve(day, partOne, 2039912);
+  await test(day, partTwo, 900);
+  await solve(day, partTwo, 1942068080);
 }
 
 function partOne(input: Array<string>): number {

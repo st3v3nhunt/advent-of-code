@@ -12,24 +12,24 @@ export async function getTestInputAsLines(day: string): Promise<Array<string>> {
   return await getDayInputAsLines(day, 'input/test')
 }
 
-export async function solve(day: string, part: number, solver: (input: Array<string>) => number, expected: number) {
+export async function solve(day: string, solver: (input: Array<string>) => number, expected: number) {
   const input = await getInputAsLines(day);
-  console.time(`part ${part} duration`);
+  console.time(`part ${day} duration`);
   const answerTwo = solver(input);
-  console.timeEnd(`part ${part} duration`);
+  console.timeEnd(`part ${day} duration`);
   console.log(
-    `part ${part} answers. expected: ${expected}, actual: ${answerTwo}.`
+    `part ${day} answers. expected: ${expected}, actual: ${answerTwo}.`
   );
   assertEquals(answerTwo, expected);
 }
 
-export async function test(day: string, part: number, solver: (input: Array<string>) => number, expected: number) {
+export async function test(day: string, solver: (input: Array<string>) => number, expected: number) {
   const input = await getTestInputAsLines(day);
-  console.time(`part ${part} test duration`);
+  console.time(`part ${day} test duration`);
   const answerTwo = solver(input);
-  console.timeEnd(`part ${part} test duration`);
+  console.timeEnd(`part ${day} test duration`);
   console.log(
-    `part ${part} answers. expected: ${expected}, actual: ${answerTwo}.`
+    `part ${day} answers. expected: ${expected}, actual: ${answerTwo}.`
   );
   assertEquals(answerTwo, expected);
 }

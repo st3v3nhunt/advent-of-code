@@ -2,10 +2,10 @@ import { solve, test } from "../lib/utils.ts";
 
 async function run() {
   const day = "one";
-  await test(day, 1, partOne, 7);
-  await solve(day, 1, partOne, 1316);
-  await test(day, 2, partTwo, 5);
-  await solve(day, 2, partTwo, 1344);
+  await test(day, partOne, 7);
+  await solve(day, partOne, 1316);
+  await test(day, partTwo, 5);
+  await solve(day, partTwo, 1344);
 }
 
 function partOne(input: Array<string>): number {
