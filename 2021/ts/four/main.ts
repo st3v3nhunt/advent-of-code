@@ -8,14 +8,16 @@ async function run() {
   await solve(day, partTwo, 23042);
 }
 
-function createBoards(
-  input: Array<string>
-): Array<Array<Array<[number, number]>>> {
+type BoardItem = [number, number];
+type BoardRow = Array<BoardItem>;
+type Board = Array<BoardRow>;
+
+function createBoards(input: Array<string>): Array<Board> {
   const boards = [];
-  let board: Array<Array<[number, number]>> = [];
+  let board: Board = [];
   for (let i = 2; i < input.length; i++) {
     if (input[i]) {
-      const row: Array<[number, number]> = [];
+      const row: BoardRow = [];
       for (let j = 0; j < input[i].length; j += 3) {
         const item = parseInt(input[i].slice(j, j + 3), 10);
         row.push([item, 0]);
@@ -30,10 +32,7 @@ function createBoards(
   return boards;
 }
 
-function markBoards(
-  boards: Array<Array<Array<[number, number]>>>,
-  ball: number
-) {
+function markBoards(boards: Array<Board>, ball: number) {
   boards.forEach((board) => {
     board.forEach((row) => {
       row.forEach((item) => {
@@ -45,7 +44,7 @@ function markBoards(
   });
 }
 
-function doesBoardWin(board: Array<Array<[number, number]>>): boolean {
+function doesBoardWin(board: Board): boolean {
   const columnScores: Array<number> = new Array(5).fill(0);
   const rowScores: Array<number> = [];
   for (let i = 0; i < board.length; i++) {
@@ -60,9 +59,7 @@ function doesBoardWin(board: Array<Array<[number, number]>>): boolean {
   return winningColumn || winningRow;
 }
 
-function calculateUnmarkedNumberSum(
-  board: Array<Array<[number, number]>>
-): number {
+function calculateUnmarkedNumberSum(board: Board): number {
   let unmarkedNumberSum = 0;
   board.forEach((row) => {
     row.forEach((item) => {
@@ -76,12 +73,11 @@ function calculateUnmarkedNumberSum(
 
 function partOne(input: Array<string>): number {
   const draw = input[0].split(",").map((x) => parseInt(x, 10));
-
   const boards = createBoards(input);
 
-  let unmarkedNumberSum = 0;
-  let ball = 0;
   // play to win!
+  let ball = 0;
+  let unmarkedNumberSum = 0;
   drawloop: for (let i = 0; i < draw.length; i++) {
     ball = draw[i];
     markBoards(boards, ball);
@@ -104,14 +100,13 @@ function partOne(input: Array<string>): number {
 
 function partTwo(input: Array<string>): number {
   const draw = input[0].split(",").map((x) => parseInt(x, 10));
-
   let boards = createBoards(input);
 
-  let ball = 0;
   // play to lose!
   let i = 0;
+  let ball = 0;
   while (boards.length > 1) {
-    const tempBoards: Array<Array<Array<[number, number]>>> = [];
+    const tempBoards: Array<Board> = [];
     ball = draw[i];
     markBoards(boards, ball);
 
@@ -142,7 +137,7 @@ function partTwo(input: Array<string>): number {
       break;
     }
   }
-  return ball * unmarkedNumberSum
+  return ball * unmarkedNumberSum;
 }
 
 await run();
