@@ -27,6 +27,9 @@ local.settings.json
 node_modules
 dist
 
+# MacOS
+.DS_Store
+
 # Local python packages
 .python_packages/
 
