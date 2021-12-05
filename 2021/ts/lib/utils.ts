@@ -14,22 +14,22 @@ export async function getTestInputAsLines(day: string): Promise<Array<string>> {
 
 export async function solve(day: string, part: number, solver: (input: Array<string>) => number, expected: number) {
   const input = await getInputAsLines(day);
-  console.time(`part ${day} duration`);
+  console.time(`Day ${day}, part ${part} duration`);
   const answerTwo = solver(input);
-  console.timeEnd(`part ${day} duration`);
+  console.timeEnd(`Day ${day}, part ${part} duration`);
   console.log(
-    `Day ${day}, part ${part} answers. expected: ${expected}, actual: ${answerTwo}.`
+    `Day ${day}, part ${part} answers. Expected: ${expected}. Got: ${answerTwo}.`
   );
   assertEquals(answerTwo, expected);
 }
 
 export async function test(day: string, part: number, solver: (input: Array<string>) => number, expected: number) {
   const input = await getTestInputAsLines(day);
-  console.time(`part ${day} test duration`);
+  console.time(`[TEST] Day ${day}, part ${part} duration`);
   const answerTwo = solver(input);
-  console.timeEnd(`part ${day} test duration`);
+  console.timeEnd(`[TEST] Day ${day}, part ${part} duration`);
   console.log(
-    `Day ${day}, part ${part} answers. expected: ${expected}, actual: ${answerTwo}.`
+    `[TEST] Day ${day}, part ${part} answers. Expected: ${expected}. Got: ${answerTwo}.`
   );
   assertEquals(answerTwo, expected);
 }
