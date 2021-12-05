@@ -2,10 +2,10 @@ import { solve, test } from "../lib/utils.ts";
 
 async function run() {
   const day = "five";
-  await test(day, partOneSolver, 5);
-  await solve(day, partOneSolver, 8111);
-  await test(day, partTwoSolver, 12);
-  await solve(day, partTwoSolver, 22088);
+  await test(day, 1, partOneSolver, 5);
+  await solve(day, 1, partOneSolver, 8111);
+  await test(day, 2, partTwoSolver, 12);
+  await solve(day, 2, partTwoSolver, 22088);
 }
 
 type Lines = [Line];
