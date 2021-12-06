@@ -8,23 +8,6 @@ async function run() {
   await solve(day, 2, partTwo, 1740449478328);
 }
 
-// Naive
-// function countFish(fish: Array<number>, duration: number): number {
-//   for (let day = 0; day < duration; day++) {
-//     const newFish = [];
-//     for (let i = 0; i < fish.length; i++) {
-//       if (fish[i] === 0) {
-//         fish[i] = 6;
-//         newFish.push(8);
-//       } else {
-//         fish[i]--;
-//       }
-//     }
-//     fish = fish.concat(newFish);
-//   }
-//   return fish.length;
-// }
-
 function runSimulation(fish: Array<number>, duration: number): Map<number, number> {
   let fishAges = new Map<number, number>();
   fish.forEach((x) => {
