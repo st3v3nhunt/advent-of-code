@@ -9,7 +9,7 @@ async function run() {
 }
 
 // Naive
-// function calculateFishAfterDays(fish: Array<number>, duration: number): number {
+// function countFish(fish: Array<number>, duration: number): number {
 //   for (let day = 0; day < duration; day++) {
 //     const newFish = [];
 //     for (let i = 0; i < fish.length; i++) {
@@ -25,19 +25,15 @@ async function run() {
 //   return fish.length;
 // }
 
-function calculateFishAfterDays(fish: Array<number>, duration: number): number {
-  let fishAges = new Map();
+function runSimulation(fish: Array<number>, duration: number): Map<number, number> {
+  let fishAges = new Map<number, number>();
   fish.forEach((x) => {
-    const age = fishAges.get(x);
-    if (age >= 0) {
+    const age = fishAges.get(x) ?? 0;
       fishAges.set(x, age + 1);
-    } else {
-      fishAges.set(x, 1);
-    }
   });
 
   for (let day = 0; day < duration; day++) {
-    const tempFishAges = new Map();
+    const tempFishAges = new Map<number, number>();
     let newFish = 0;
     fishAges.forEach((count, age) => {
       if (age === 0) {
@@ -56,19 +52,25 @@ function calculateFishAfterDays(fish: Array<number>, duration: number): number {
     }
     fishAges = tempFishAges;
   }
+  return fishAges
+}
+
+function countFish(fishAges: Map<number, number>): number {
   let sum = 0;
   fishAges.forEach((v) => (sum += v));
   return sum;
 }
 
 function partOne(input: Array<string>): number {
-  const fish = input[0].split(",").map((x) => parseInt(x, 10));
-  return calculateFishAfterDays(fish, 80);
+  const initialPopulation = input[0].split(",").map((x) => parseInt(x, 10));
+  const fishAges = runSimulation(initialPopulation, 80);
+  return countFish(fishAges)
 }
 
 function partTwo(input: Array<string>): number {
-  const fish = input[0].split(",").map((x) => parseInt(x, 10));
-  return calculateFishAfterDays(fish, 256);
+  const initialPopulation = input[0].split(",").map((x) => parseInt(x, 10));
+  const fishAges = runSimulation(initialPopulation, 256);
+  return countFish(fishAges)
 }
 
 await run();
