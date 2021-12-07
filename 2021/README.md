@@ -19,7 +19,7 @@ language solutions.
 | [4](https://adventofcode.com/2021/day/4)   | 31424   | TS        | 23042         | TS        |
 | [5](https://adventofcode.com/2021/day/5)   | 8111    | TS        | 22088         | TS        |
 | [6](https://adventofcode.com/2021/day/6)   | 388419  | TS, Rust  | 1740449478328 | TS, Rust  |
-| [7](https://adventofcode.com/2021/day/7)   |         |           |               |           |
+| [7](https://adventofcode.com/2021/day/7)   | 353800  | TS        | 98119739      | TS        |
 | [8](https://adventofcode.com/2021/day/8)   |         |           |               |           |
 | [9](https://adventofcode.com/2021/day/9)   |         |           |               |           |
 | [10](https://adventofcode.com/2021/day/10) |         |           |               |           |
