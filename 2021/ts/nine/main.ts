@@ -34,24 +34,20 @@ function getLowPoints(map: Array<Array<number>>): Array<LowPoint> {
   for (let y = 0; y < dimensions.y; y++) {
     for (let x = 0; x < dimensions.x; x++) {
       const adjPoints = [];
-      const value = map[y][x];
       if (x > 0) {
-        const leftPoint = map[y][x - 1];
-        adjPoints.push(leftPoint);
+        adjPoints.push(map[y][x - 1]);
       }
       if (x < dimensions.x - 1) {
-        const rightPoint = map[y][x + 1];
-        adjPoints.push(rightPoint);
+        adjPoints.push(map[y][x + 1]);
       }
       if (y > 0) {
-        const upPoint = map[y - 1][x];
-        adjPoints.push(upPoint);
+        adjPoints.push(map[y - 1][x]);
       }
       if (y < dimensions.y - 1) {
-        const downPoint = map[y + 1][x];
-        adjPoints.push(downPoint);
+        adjPoints.push(map[y + 1][x]);
       }
 
+      const value = map[y][x];
       const pointsLower = adjPoints.filter((x) => value < x);
       if (pointsLower.length === adjPoints.length) {
         lowPoints.push({ coords: { y, x }, value });
@@ -105,38 +101,28 @@ function partTwo(input: Array<string>): number {
   const lowPoints = getLowPoints(map);
   const dimensions: Dimensions = { x: map[0].length, y: map.length };
 
-  function checkVisitedPoints(visitedPoints: Array<Point>, called = 0): number {
+  function checkPoints(points: Array<Point>): number {
     let recurse = false;
-    visitedPoints.forEach(({ x, y }) => {
-      let adjPoints = getAdjacentPoints({ y, x }, dimensions);
-      adjPoints = adjPoints.filter(
-        (adj) => !isPointIncluded(visitedPoints, adj) && map[adj.y][adj.x] < 9
-      );
-      if (adjPoints.length > 0) {
+    points.forEach((point) => {
+      const adjPoints = getAdjacentPoints(point, dimensions);
+      const basinPoints = adjPoints.filter((adj) => !isPointIncluded(points, adj) && map[adj.y][adj.x] < 9);
+      if (basinPoints.length > 0) {
         recurse = true;
-        visitedPoints.push(...adjPoints);
+        points.push(...basinPoints);
       }
     });
 
-    return recurse
-      ? checkVisitedPoints(visitedPoints, called + 1)
-      : visitedPoints.length;
+    return recurse ? checkPoints(points) : points.length;
   }
 
-  const basins: Array<number> = [];
+  const basinSizes: Array<number> = [];
   lowPoints.forEach((lowPoint) => {
     const point = lowPoint.coords;
-    const adjPoints = getAdjacentPoints(point, dimensions);
-
-    if (adjPoints.find((adj) => map[adj.y][adj.x] <= map[point.y][point.x])) {
-      return;
-    }
-
-    basins.push(checkVisitedPoints([point]));
+    basinSizes.push(checkPoints([point]));
   });
 
-  basins.sort((a, b) => b - a);
-  return basins[0] * basins[1] * basins[2];
+  basinSizes.sort((a, b) => b - a);
+  return basinSizes[0] * basinSizes[1] * basinSizes[2];
 }
 
 await run();
