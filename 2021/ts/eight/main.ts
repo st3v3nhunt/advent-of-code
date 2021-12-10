@@ -3,8 +3,8 @@ import { solve, test } from "../lib/utils.ts";
 async function run() {
   const day = "eight";
   await test(day, 1, partOne, 26);
-  await solve(day, 1, partOne, 369);
-  await test(day, 2, partTwo, 61229);
+  await solve(day, 2, partOne, 369);
+  await test(day, 1, partTwo, 61229);
   await solve(day, 2, partTwo, 1031553);
 }
 
