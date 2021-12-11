@@ -3,7 +3,7 @@
 cd 2021/ts || exit
 
 # Lint
-find . -name main.ts -exec deno lint {} \;
+find . -name main.ts -exec deno lint {} +
 
 # Run scripts
-find . -name main.ts -exec deno run --allow-read {} \;
+find . -name main.ts -exec deno run --allow-read {} +
