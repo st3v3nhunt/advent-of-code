@@ -23,7 +23,7 @@ language solutions.
 | [8](https://adventofcode.com/2021/day/8)   | 369     | TS        | 1031553       | TS        |
 | [9](https://adventofcode.com/2021/day/9)   | 479     | TS        | 1327014       | TS        |
 | [10](https://adventofcode.com/2021/day/10) | 311895  | TS        | 2904180541    | TS        |
-| [11](https://adventofcode.com/2021/day/11) |         |           |               |           |
+| [11](https://adventofcode.com/2021/day/11) | 1588    | TS        | 517           | TS        |
 | [12](https://adventofcode.com/2021/day/12) |         |           |               |           |
 | [13](https://adventofcode.com/2021/day/13) |         |           |               |           |
 | [14](https://adventofcode.com/2021/day/14) |         |           |               |           |
