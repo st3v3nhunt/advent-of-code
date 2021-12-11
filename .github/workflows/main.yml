@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  commitlint:
+    name: Commitlint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+
+    - name: Run lint and test
+      run: ./2021/ts/lint-and-run.sh
