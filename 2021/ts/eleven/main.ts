@@ -1,5 +1,5 @@
 import { solve, test } from "../lib/runner.ts";
-import { Point, Dimensions } from "../lib/types.ts";
+import { Dimensions, Point } from "../lib/types.ts";
 import { getAdjacentPoints } from "../lib/utils.ts";
 
 async function run() {
@@ -15,11 +15,13 @@ interface Octopus {
   flashed: boolean;
 }
 
-function incrementByOne(octopi: Array<Array<Octopus>>) {
+type Octopi = Array<Array<Octopus>>;
+
+function incrementByOne(octopi: Octopi) {
   octopi.forEach((line) => line.forEach((_, i) => line[i].val++));
 }
 
-function resetFlashedOctopi(octopi: Array<Array<Octopus>>): number {
+function resetFlashedOctopi(octopi: Octopi): number {
   let flashCount = 0;
   octopi.forEach((line) =>
     line.forEach((_, i) => {
@@ -35,27 +37,20 @@ function resetFlashedOctopi(octopi: Array<Array<Octopus>>): number {
   return flashCount;
 }
 
-function flash(
-  octopi: Array<Array<Octopus>>,
-  octoPoint: Point,
-  dimensions: Dimensions
-) {
-  octopi[octoPoint.y][octoPoint.x].flashed = true;
+function flash(octopi: Octopi, location: Point) {
+  octopi[location.y][location.x].flashed = true;
 
-  const adj = getAdjacentPoints(octoPoint, dimensions);
-  adj.forEach((adjPoint) => {
+  const dimensions = { x: octopi[0].length, y: octopi.length };
+  getAdjacentPoints(location, dimensions).forEach((adjPoint) => {
     octopi[adjPoint.y][adjPoint.x].val++;
-    if (
-      octopi[adjPoint.y][adjPoint.x].val > 9 &&
-      !octopi[adjPoint.y][adjPoint.x].flashed
-    ) {
+    if (shouldFlash(octopi[adjPoint.y][adjPoint.x])) {
       octopi[adjPoint.y][adjPoint.x].flashed = true;
-      flash(octopi, adjPoint, dimensions);
+      flash(octopi, adjPoint);
     }
   });
 }
 
-function initOctopi(input: Array<string>): Array<Array<Octopus>> {
+function initOctopi(input: Array<string>): Octopi {
   return input.map((line) =>
     line.split("").map((c) => {
       return { val: parseInt(c, 10), flashed: false };
@@ -63,45 +58,42 @@ function initOctopi(input: Array<string>): Array<Array<Octopus>> {
   );
 }
 
-function partOne(input: Array<string>): number {
-  const octopi = initOctopi(input)
+function shouldFlash(octopus: Octopus): boolean {
+  return octopus.val > 9 && !octopus.flashed;
+}
 
-  let flashCount = 0;
-  const stepCount = 100;
-  const dimensions: Dimensions = { x: octopi[0].length, y: octopi.length };
-  for (let i = 0; i < stepCount; i++) {
-    incrementByOne(octopi);
-    for (let y = 0; y < dimensions.y; y++) {
-      for (let x = 0; x < dimensions.x; x++) {
-        if (octopi[y][x].val > 9 && !octopi[y][x].flashed) {
-          flash(octopi, { x, y }, dimensions);
-        }
+function checkForFlashes(octopi: Octopi, dimensions: Dimensions) {
+  for (let y = 0; y < dimensions.y; y++) {
+    for (let x = 0; x < dimensions.x; x++) {
+      if (shouldFlash(octopi[y][x])) {
+        flash(octopi, { x, y });
       }
     }
-    const flashes = resetFlashedOctopi(octopi);
-    flashCount += flashes;
+  }
+}
+
+function partOne(input: Array<string>): number {
+  const octopi = initOctopi(input);
+  const dimensions = { x: octopi[0].length, y: octopi.length };
+
+  let flashCount = 0;
+  for (let i = 0; i < 100; i++) {
+    incrementByOne(octopi);
+    checkForFlashes(octopi, dimensions);
+    flashCount += resetFlashedOctopi(octopi);
   }
   return flashCount;
 }
 
 function partTwo(input: Array<string>): number {
-  const octopi = input.map((line) =>
-    line.split("").map((c) => {
-      return { val: parseInt(c, 10), flashed: false };
-    })
-  );
+  const octopi = initOctopi(input);
+  const dimensions = { x: octopi[0].length, y: octopi.length };
+
   let flashes = 0;
-  const dimensions: Dimensions = { x: octopi[0].length, y: octopi.length };
   let stepCount = 0;
   while (flashes !== dimensions.x * dimensions.y) {
     incrementByOne(octopi);
-    for (let y = 0; y < dimensions.y; y++) {
-      for (let x = 0; x < dimensions.x; x++) {
-        if (octopi[y][x].val > 9 && !octopi[y][x].flashed) {
-          flash(octopi, { x, y }, dimensions);
-        }
-      }
-    }
+    checkForFlashes(octopi, dimensions);
     flashes = resetFlashedOctopi(octopi);
     stepCount++;
   }
