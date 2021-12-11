@@ -1,5 +1,5 @@
 import { Direction, getInstruction } from "./instruction.ts";
-import { solve, test } from "../lib/utils.ts";
+import { solve, test } from "../lib/runner.ts";
 
 async function run() {
   const day = "two";
