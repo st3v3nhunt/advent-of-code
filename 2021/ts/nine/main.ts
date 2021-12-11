@@ -1,4 +1,6 @@
 import { solve, test } from "../lib/runner.ts";
+import { Point, Dimensions } from "../lib/types.ts";
+import { getAdjacentPoints } from "../lib/utils.ts";
 
 async function run() {
   const day = "nine";
@@ -12,19 +14,9 @@ function createInputMap(input: Array<string>): Array<Array<number>> {
   return input.map((line) => line.split("").map((c) => parseInt(c, 10)));
 }
 
-interface Point {
-  x: number;
-  y: number;
-}
-
 interface LowPoint {
   coords: Point;
   value: number;
-}
-
-interface Dimensions {
-  x: number;
-  y: number;
 }
 
 function getLowPoints(map: Array<Array<number>>): Array<LowPoint> {
@@ -65,32 +57,6 @@ function isPointIncluded(points: Array<Point>, point: Point): boolean {
   return !!points.find((x) => doPointsMatch(x, point));
 }
 
-function getAdjacentPoints(
-  { x: px, y: py }: Point,
-  dimensions: Dimensions
-): Array<Point> {
-  const adjacentPoints: Array<Point> = [];
-  for (let y = py - 1; y < py + 2; y++) {
-    for (let x = px - 1; x < px + 2; x++) {
-      if (y === py && x === px) {
-        continue;
-      }
-      if (y < 0 || x < 0) {
-        continue;
-      }
-      if (y >= dimensions.y || x >= dimensions.x) {
-        continue;
-      }
-      if (Math.abs(y - py) === 1 && Math.abs(x - px) === 1) {
-        continue;
-      }
-
-      adjacentPoints.push({ y, x });
-    }
-  }
-  return adjacentPoints;
-}
-
 function partOne(input: Array<string>): number {
   const map = createInputMap(input);
   return getLowPoints(map).reduce((p, c) => p + c.value + 1, 0);
@@ -104,7 +70,7 @@ function partTwo(input: Array<string>): number {
   function checkPoints(points: Array<Point>): number {
     let recurse = false;
     points.forEach((point) => {
-      const adjPoints = getAdjacentPoints(point, dimensions);
+      const adjPoints = getAdjacentPoints(point, dimensions, true);
       const basinPoints = adjPoints.filter((adj) => !isPointIncluded(points, adj) && map[adj.y][adj.x] < 9);
       if (basinPoints.length > 0) {
         recurse = true;

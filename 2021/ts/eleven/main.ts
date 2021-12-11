@@ -1,4 +1,6 @@
 import { solve, test } from "../lib/runner.ts";
+import { Point, Dimensions } from "../lib/types.ts";
+import { getAdjacentPoints } from "../lib/utils.ts";
 
 async function run() {
   const day = "eleven";
@@ -11,39 +13,6 @@ async function run() {
 interface Octopus {
   val: number;
   flashed: boolean;
-}
-
-interface Point {
-  x: number;
-  y: number;
-}
-
-interface Dimensions {
-  x: number;
-  y: number;
-}
-
-function getAdjacentPoints(
-  { x: px, y: py }: Point,
-  dimensions: Dimensions
-): Array<Point> {
-  const adjacentPoints: Array<Point> = [];
-  for (let y = py - 1; y < py + 2; y++) {
-    for (let x = px - 1; x < px + 2; x++) {
-      if (y === py && x === px) {
-        continue;
-      }
-      if (y < 0 || x < 0) {
-        continue;
-      }
-      if (y >= dimensions.y || x >= dimensions.x) {
-        continue;
-      }
-
-      adjacentPoints.push({ y, x });
-    }
-  }
-  return adjacentPoints;
 }
 
 function incrementByOne(octopi: Array<Array<Octopus>>) {
