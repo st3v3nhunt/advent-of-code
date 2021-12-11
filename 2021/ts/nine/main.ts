@@ -25,22 +25,10 @@ function getLowPoints(map: Array<Array<number>>): Array<LowPoint> {
   const lowPoints: Array<LowPoint> = [];
   for (let y = 0; y < dimensions.y; y++) {
     for (let x = 0; x < dimensions.x; x++) {
-      const adjPoints = [];
-      if (x > 0) {
-        adjPoints.push(map[y][x - 1]);
-      }
-      if (x < dimensions.x - 1) {
-        adjPoints.push(map[y][x + 1]);
-      }
-      if (y > 0) {
-        adjPoints.push(map[y - 1][x]);
-      }
-      if (y < dimensions.y - 1) {
-        adjPoints.push(map[y + 1][x]);
-      }
+      const adjPoints = getAdjacentPoints({ x, y }, dimensions, true);
 
       const value = map[y][x];
-      const pointsLower = adjPoints.filter((x) => value < x);
+      const pointsLower = adjPoints.filter((adj) => value < map[adj.y][adj.x]);
       if (pointsLower.length === adjPoints.length) {
         lowPoints.push({ coords: { y, x }, value });
       }
@@ -71,7 +59,9 @@ function partTwo(input: Array<string>): number {
     let recurse = false;
     points.forEach((point) => {
       const adjPoints = getAdjacentPoints(point, dimensions, true);
-      const basinPoints = adjPoints.filter((adj) => !isPointIncluded(points, adj) && map[adj.y][adj.x] < 9);
+      const basinPoints = adjPoints.filter(
+        (adj) => !isPointIncluded(points, adj) && map[adj.y][adj.x] < 9
+      );
       if (basinPoints.length > 0) {
         recurse = true;
         points.push(...basinPoints);
