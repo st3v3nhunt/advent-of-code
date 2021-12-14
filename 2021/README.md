@@ -25,7 +25,7 @@ language solutions.
 | [10](https://adventofcode.com/2021/day/10) | 311895  | TS        | 2904180541    | TS        |
 | [11](https://adventofcode.com/2021/day/11) | 1588    | TS        | 517           | TS        |
 | [12](https://adventofcode.com/2021/day/12) |         |           |               |           |
-| [13](https://adventofcode.com/2021/day/13) |         |           |               |           |
+| [13](https://adventofcode.com/2021/day/13) | 763     | TS        | RHALRCRA      | TS        |
 | [14](https://adventofcode.com/2021/day/14) |         |           |               |           |
 | [15](https://adventofcode.com/2021/day/15) |         |           |               |           |
 | [16](https://adventofcode.com/2021/day/16) |         |           |               |           |
