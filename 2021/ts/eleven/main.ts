@@ -5,8 +5,8 @@ import { getAdjacentPoints } from "../lib/utils.ts";
 async function run() {
   const day = "eleven";
   await test(day, 1, partOne, 1656);
-  await solve(day, 2, partOne, 1588);
-  await test(day, 1, partTwo, 195);
+  await solve(day, 1, partOne, 1588);
+  await test(day, 2, partTwo, 195);
   await solve(day, 2, partTwo, 517);
 }
 
