@@ -1,6 +1,5 @@
 import { solve, test } from "../lib/runner.ts";
-import { Point, Dimensions } from "../lib/types.ts";
-import { getAdjacentPoints } from "../lib/utils.ts";
+import { getAdjacentPoints, Point, Dimensions  } from "../lib/utils.ts";
 
 async function run() {
   const day = "nine";

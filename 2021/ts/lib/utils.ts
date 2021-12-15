@@ -1,4 +1,5 @@
 import { Point, Dimensions } from "./types.ts";
+export type { Point, Dimensions } from "./types.ts";
 
 export function getAdjacentPoints(
   { x: px, y: py }: Point,
