@@ -13,8 +13,13 @@ language solutions.
 
 | Day                                        | Part 1  | Languages | Part 2  | Languages |
 | ---                                        | ------- | --------- | ------- | --------- |
+<<<<<<< HEAD
 | [1](https://adventofcode.com/2022/day/1)   | 69177   | JS        | 207456  | JS        |
 | [2](https://adventofcode.com/2022/day/2)   |         |           |         |           |
+=======
+| [1](https://adventofcode.com/2022/day/1)   | 69177   | JS        | 207456  | JS, TS    |
+| [2](https://adventofcode.com/2022/day/2)   | 12772   | TS        | 11618   | TS        |
+>>>>>>> temp
 | [3](https://adventofcode.com/2022/day/3)   |         |           |         |           |
 | [4](https://adventofcode.com/2022/day/4)   |         |           |         |           |
 | [5](https://adventofcode.com/2022/day/5)   |         |           |         |           |
