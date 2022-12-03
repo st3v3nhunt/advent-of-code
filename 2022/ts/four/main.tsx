@@ -1,7 +1,7 @@
 import { solve, test } from "../lib/runner.ts";
 
 async function run() {
-  const day = "x";
+  const day = "four";
   await test(day, 1, partOne, 0);
   await solve(day, 1, partOne, 0);
   await test(day, 2, partTwo, 0);

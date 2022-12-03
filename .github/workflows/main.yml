@@ -20,8 +20,14 @@ jobs:
       with:
         deno-version: v1.x
 
-    - name: Run lint
+    - name: Run TS lint 2021
       run: cd ./2021/ts && ./lint.sh
 
-    - name: Run tests
+    - name: Run TS tests 2021
       run: cd ./2021/ts && ./test.sh
+
+    - name: Run TS lint 2022
+      run: cd ./2022/ts && ./lint.sh
+
+    - name: Run TS tests 2022
+      run: cd ./2022/ts && ./test.sh
