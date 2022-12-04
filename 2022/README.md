@@ -16,7 +16,7 @@ language solutions.
 | [1](https://adventofcode.com/2022/day/1)   | 69177   | JS        | 207456  | JS, TS    |
 | [2](https://adventofcode.com/2022/day/2)   | 12772   | TS        | 11618   | TS        |
 | [3](https://adventofcode.com/2022/day/3)   | 8202    | TS        | 2864    | TS        |
-| [4](https://adventofcode.com/2022/day/4)   |         |           |         |           |
+| [4](https://adventofcode.com/2022/day/4)   | 651     | TS        | 956     | TS        |
 | [5](https://adventofcode.com/2022/day/5)   |         |           |         |           |
 | [6](https://adventofcode.com/2022/day/6)   |         |           |         |           |
 | [7](https://adventofcode.com/2022/day/7)   |         |           |         |           |
