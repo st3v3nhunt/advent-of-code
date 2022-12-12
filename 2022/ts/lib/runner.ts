@@ -27,8 +27,8 @@ export async function getTestInputAsLines(
 export async function solve(
   day: string,
   part: number,
-  solver: (input: Array<string>) => number | string,
-  expected: number | string,
+  solver: (input: Array<string>) => number | string | Array<string>,
+  expected: number | string | Array<string>,
   trim?: boolean
 ) {
   const input = await getInputAsLines(day, trim);
@@ -44,8 +44,8 @@ export async function solve(
 export async function test(
   day: string,
   part: number,
-  solver: (input: Array<string>) => number | string,
-  expected: number | string,
+  solver: (input: Array<string>) => number | string | Array<string>,
+  expected: number | string | Array<string>,
   trim?: boolean
 ) {
   const input = await getTestInputAsLines(day, trim);
